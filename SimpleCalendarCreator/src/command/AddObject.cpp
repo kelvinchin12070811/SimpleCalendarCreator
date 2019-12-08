@@ -4,25 +4,29 @@
 * file, You can obtain one at http ://mozilla.org/MPL/2.0/.
 ************************************************************************************************************/
 #include "AddObject.hpp"
+#include "../window/ObjectCreator.hpp"
 
 namespace command
 {
-	AddObject::AddObject(QListWidget& list) :
-		list(&list)
+	AddObject::AddObject(QListWidget* list) :
+		list(list)
 	{
-		static int idx{ 0 };
-		item = new QListWidgetItem{ "dummy obj " + QString::number(idx) };
-		idx++;
+		auto creator = std::make_unique<ObjectCreator>();
+		creator->exec();
+		if (!creator->isAccepted()) return;
+		item = new CustomListWidgetItem{ creator->getObjectName(), creator->createElement() };
 	}
 
 	AddObject::~AddObject()
 	{
-		if (item->listWidget() == nullptr)
+		if (item != nullptr && item->listWidget() == nullptr)
 			delete item;
 	}
 
 	bool AddObject::execute()
 	{
+		if (item == nullptr) return false;
+
 		list->addItem(item);
 		return true;
 	}

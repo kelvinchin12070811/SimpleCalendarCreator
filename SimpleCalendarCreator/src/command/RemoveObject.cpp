@@ -11,8 +11,8 @@
 
 namespace command
 {
-	RemoveObject::RemoveObject(QListWidget& list):
-		list(&list), index(this->list->currentIndex())
+	RemoveObject::RemoveObject(QListWidget* list):
+		list(list), index(this->list->currentIndex())
 	{
 	}
 

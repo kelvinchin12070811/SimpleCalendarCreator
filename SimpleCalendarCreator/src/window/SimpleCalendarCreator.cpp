@@ -48,14 +48,14 @@ void SimpleCalendarCreator::onActionUndo()
 
 void SimpleCalendarCreator::onAddObject()
 {
-	auto act = std::make_unique<command::AddObject>(*ui->objectList);
+	auto act = std::make_unique<command::AddObject>(ui->objectList);
 	if (!act->execute()) return;
 	undoStack.push(std::move(act));
 }
 
 void SimpleCalendarCreator::onRemoveObject()
 {
-	auto act = std::make_unique<command::RemoveObject>(*ui->objectList);
+	auto act = std::make_unique<command::RemoveObject>(ui->objectList);
 	if (!act->execute()) return;
 	undoStack.push(std::move(act));
 }

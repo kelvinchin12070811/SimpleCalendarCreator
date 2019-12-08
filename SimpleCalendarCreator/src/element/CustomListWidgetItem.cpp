@@ -3,24 +3,19 @@
 * License, v. 2.0.If a copy of the MPL was not distributed with this
 * file, You can obtain one at http ://mozilla.org/MPL/2.0/.
 ************************************************************************************************************/
-#pragma once
-#include <memory>
-#include <qlistwidget.h>
-#include "Command.hpp"
+#include "CustomListWidgetItem.hpp"
 
-namespace command
+CustomListWidgetItem::CustomListWidgetItem(const QString& label, std::unique_ptr<element::Element> element):
+	QListWidgetItem(label), element(std::move(element))
 {
-	class RemoveObject : public Command
-	{
-	public:
-		explicit RemoveObject(QListWidget* list);
-		~RemoveObject() = default;
+}
 
-		bool execute() override;
-		void unexecute() override;
-	private:
-		std::unique_ptr<QListWidgetItem> item{ nullptr };
-		QListWidget* list{ nullptr };
-		QModelIndex index;
-	};
+void CustomListWidgetItem::setElement(std::unique_ptr<element::Element> value)
+{
+	this->element = std::move(value);
+}
+
+const element::Element* CustomListWidgetItem::getElement() const
+{
+	return element.get();
 }

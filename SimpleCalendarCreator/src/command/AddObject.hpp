@@ -6,13 +6,14 @@
 #pragma once
 #include <qlistwidget.h>
 #include "Command.hpp"
+#include "../element/CustomListWidgetItem.hpp"
 
 namespace command
 {
 	class AddObject : public Command
 	{
 	public:
-		explicit AddObject(QListWidget& list);
+		explicit AddObject(QListWidget* list);
 		~AddObject();
 
 		bool execute() override;
@@ -20,6 +21,6 @@ namespace command
 
 	private:
 		QListWidget* list{ nullptr };
-		QListWidgetItem* item{ nullptr };
+		CustomListWidgetItem* item{ nullptr };
 	};
 }

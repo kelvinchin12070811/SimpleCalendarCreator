@@ -1,0 +1,33 @@
+/************************************************************************************************************
+* This Source Code Form is subject to the terms of the Mozilla Public
+* License, v. 2.0.If a copy of the MPL was not distributed with this
+* file, You can obtain one at http ://mozilla.org/MPL/2.0/.
+************************************************************************************************************/
+#pragma once
+#include <memory>
+#include <qdialog.h>
+#include "ui_ObjectCreator.h"
+#include "../element/Element.hpp"
+
+class ObjectCreator : public QDialog
+{
+	Q_OBJECT
+
+public:
+	ObjectCreator(QWidget *parent = Q_NULLPTR);
+	~ObjectCreator() = default;
+
+	bool isAccepted();
+	std::unique_ptr<element::Element> createElement();
+	QString getObjectName();
+
+private:
+	void connectObjects();
+
+private: // slots
+	void onAccepted();
+
+private:
+	bool accepted{ false };
+	std::unique_ptr<Ui::ObjectCreator> ui{ nullptr };
+};

@@ -6,21 +6,14 @@
 #pragma once
 #include <memory>
 #include <qlistwidget.h>
-#include "Command.hpp"
+#include "Element.hpp"
 
-namespace command
+class CustomListWidgetItem : public QListWidgetItem
 {
-	class RemoveObject : public Command
-	{
-	public:
-		explicit RemoveObject(QListWidget* list);
-		~RemoveObject() = default;
-
-		bool execute() override;
-		void unexecute() override;
-	private:
-		std::unique_ptr<QListWidgetItem> item{ nullptr };
-		QListWidget* list{ nullptr };
-		QModelIndex index;
-	};
-}
+public:
+	explicit CustomListWidgetItem(const QString& label, std::unique_ptr<element::Element> element = nullptr);
+	void setElement(std::unique_ptr<element::Element> value);
+	const element::Element* getElement() const;
+private:
+	std::unique_ptr<element::Element> element{ nullptr };
+};

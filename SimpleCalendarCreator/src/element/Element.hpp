@@ -4,23 +4,13 @@
 * file, You can obtain one at http ://mozilla.org/MPL/2.0/.
 ************************************************************************************************************/
 #pragma once
-#include <memory>
-#include <qlistwidget.h>
-#include "Command.hpp"
+#include <qpixmap.h>
 
-namespace command
+namespace element
 {
-	class RemoveObject : public Command
+	struct Element
 	{
-	public:
-		explicit RemoveObject(QListWidget* list);
-		~RemoveObject() = default;
-
-		bool execute() override;
-		void unexecute() override;
-	private:
-		std::unique_ptr<QListWidgetItem> item{ nullptr };
-		QListWidget* list{ nullptr };
-		QModelIndex index;
+		virtual const QPixmap& getRenderedGraphics() = 0;
+		virtual ~Element() = default;
 	};
 }
