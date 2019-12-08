@@ -6,6 +6,8 @@
 #pragma once
 #include <memory>
 #include <QtWidgets/QMainWindow>
+#include <stack>
+#include "../command/Command.hpp"
 #include "ui_SimpleCalendarCreator.h"
 
 class SimpleCalendarCreator : public QMainWindow
@@ -17,8 +19,13 @@ public:
 
 private:
 	void connectObjects();
+
+private: //slots
+	void onActionUndo();
 	void onAddObject();
+	void onRemoveObject();
 
 private:
+	std::stack<std::unique_ptr<command::Command>> undoStack;
 	std::unique_ptr<Ui::SimpleCalendarCreatorClass> ui{ nullptr };
 };

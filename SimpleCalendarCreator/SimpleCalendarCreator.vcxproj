@@ -113,6 +113,8 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\command\AddObject.cpp" />
+    <ClCompile Include="src\command\RemoveObject.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\window\SimpleCalendarCreator.cpp" />
   </ItemGroup>
@@ -124,6 +126,11 @@
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="SimpleCalendarCreator.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\command\AddObject.hpp" />
+    <ClInclude Include="src\command\Command.hpp" />
+    <ClInclude Include="src\command\RemoveObject.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
