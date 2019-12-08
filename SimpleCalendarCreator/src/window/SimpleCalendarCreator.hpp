@@ -16,5 +16,9 @@ public:
 	SimpleCalendarCreator(QWidget *parent = Q_NULLPTR);
 
 private:
+	void connectObjects();
+	void onAddObject();
+
+private:
 	std::unique_ptr<Ui::SimpleCalendarCreatorClass> ui{ nullptr };
 };
