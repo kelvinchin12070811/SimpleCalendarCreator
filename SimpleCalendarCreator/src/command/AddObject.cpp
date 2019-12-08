@@ -7,10 +7,12 @@
 
 namespace command
 {
-	AddObject::AddObject(QListWidget& list, const QString& text) :
+	AddObject::AddObject(QListWidget& list) :
 		list(&list)
 	{
-		item = new QListWidgetItem{ text };
+		static int idx{ 0 };
+		item = new QListWidgetItem{ "dummy obj " + QString::number(idx) };
+		idx++;
 	}
 
 	AddObject::~AddObject()

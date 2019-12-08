@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>557</width>
-    <height>557</height>
+    <height>566</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>SimpleCalendarCreator</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_10">
+   <layout class="QHBoxLayout" name="horizontalLayout_5">
     <item>
      <widget class="QGroupBox" name="gpObject">
       <property name="title">
@@ -35,7 +35,7 @@
      </widget>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_12">
+     <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
        <widget class="QGroupBox" name="gpSize">
         <property name="title">
@@ -103,6 +103,39 @@
              </property>
              <property name="maximum">
               <number>99999</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <widget class="QLabel" name="labYear">
+             <property name="minimumSize">
+              <size>
+               <width>55</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>55</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Year</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spnYear">
+             <property name="minimum">
+              <number>1997</number>
+             </property>
+             <property name="maximum">
+              <number>9999</number>
              </property>
             </widget>
            </item>

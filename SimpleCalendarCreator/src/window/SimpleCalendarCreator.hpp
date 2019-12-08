@@ -19,6 +19,7 @@ public:
 
 private:
 	void connectObjects();
+	void initUi();
 
 private: //slots
 	void onActionUndo();

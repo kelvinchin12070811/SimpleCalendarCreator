@@ -3,6 +3,7 @@
 * License, v. 2.0.If a copy of the MPL was not distributed with this
 * file, You can obtain one at http ://mozilla.org/MPL/2.0/.
 ************************************************************************************************************/
+#include <qdatetime.h>
 #include <qmessagebox.h>
 #include "../command/AddObject.hpp"
 #include "../command/RemoveObject.hpp"
@@ -17,6 +18,7 @@ SimpleCalendarCreator::SimpleCalendarCreator(QWidget *parent)
 {
 	ui->setupUi(this);
 	connectObjects();
+	initUi();
 }
 
 void SimpleCalendarCreator::connectObjects()
@@ -31,6 +33,12 @@ void SimpleCalendarCreator::connectObjects()
 	connect(ui->btnRemoveObject, &QPushButton::clicked, this, &SimpleCalendarCreator::onRemoveObject);
 }
 
+void SimpleCalendarCreator::initUi()
+{
+	QDate today{ QDate::currentDate() };
+	ui->spnYear->setValue(today.year());
+}
+
 void SimpleCalendarCreator::onActionUndo()
 {
 	if (undoStack.empty()) return;
@@ -40,11 +48,9 @@ void SimpleCalendarCreator::onActionUndo()
 
 void SimpleCalendarCreator::onAddObject()
 {
-	static int idx = 0;
-	auto act = std::make_unique<command::AddObject>(*ui->objectList, "dummy object " + QString::number(idx));
+	auto act = std::make_unique<command::AddObject>(*ui->objectList);
 	if (!act->execute()) return;
 	undoStack.push(std::move(act));
-	idx++;
 }
 
 void SimpleCalendarCreator::onRemoveObject()

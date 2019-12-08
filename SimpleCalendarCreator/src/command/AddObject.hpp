@@ -12,7 +12,7 @@ namespace command
 	class AddObject : public Command
 	{
 	public:
-		explicit AddObject(QListWidget& list, const QString& text);
+		explicit AddObject(QListWidget& list);
 		~AddObject();
 
 		bool execute() override;
