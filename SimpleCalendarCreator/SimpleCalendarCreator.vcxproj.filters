@@ -48,6 +48,9 @@
     <ClCompile Include="src\window\ObjectCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\element\Line.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="SimpleCalendarCreator.qrc">
@@ -80,10 +83,13 @@
     <ClInclude Include="src\command\RemoveObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\element\CustomListWidgetItem.hpp">
+    <ClInclude Include="src\element\Line.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\element\Element.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\element\CustomListWidgetItem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

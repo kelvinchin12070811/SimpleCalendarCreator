@@ -8,14 +8,16 @@
 CustomListWidgetItem::CustomListWidgetItem(const QString& label, std::unique_ptr<element::Element> element):
 	QListWidgetItem(label), element(std::move(element))
 {
+	this->element->setParent(this);
 }
 
 void CustomListWidgetItem::setElement(std::unique_ptr<element::Element> value)
 {
 	this->element = std::move(value);
+	this->element->setParent(this);
 }
 
-const element::Element* CustomListWidgetItem::getElement() const
+element::Element* CustomListWidgetItem::getElement()
 {
 	return element.get();
 }

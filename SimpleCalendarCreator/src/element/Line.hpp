@@ -4,17 +4,18 @@
 * file, You can obtain one at http ://mozilla.org/MPL/2.0/.
 ************************************************************************************************************/
 #pragma once
-#include <qpixmap.h>
-
-class CustomListWidgetItem;
+#include "Element.hpp"
 
 namespace element
 {
-	struct Element
+	class Line : public Element
 	{
-		virtual void setParent(CustomListWidgetItem* parent) = 0;
-		virtual const QPixmap& getRenderedGraphics() = 0;
-		virtual void edit() = 0;
-		virtual ~Element() = default;
+	public:
+		void setParent(CustomListWidgetItem* parent) override;
+		const QPixmap& getRenderedGraphics() override;
+		void edit() override;
+	private:
+		QPixmap graphic;
+		CustomListWidgetItem* parent;
 	};
 }

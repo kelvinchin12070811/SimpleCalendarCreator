@@ -30,6 +30,11 @@ void SimpleCalendarCreator::connectObjects()
 	connect(ui->actionQuit, &QAction::triggered, [this]() { this->close(); });
 	connect(ui->actionUndo, &QAction::triggered, this, &SimpleCalendarCreator::onActionUndo);
 	connect(ui->btnAddObject, &QPushButton::clicked, this, &SimpleCalendarCreator::onAddObject);
+	connect(ui->btnEditObject, &QPushButton::clicked, [this]() {
+		auto itm = this->ui->objectList->currentItem();
+		if (itm == nullptr) return;
+		static_cast<CustomListWidgetItem*>(itm)->getElement()->edit();
+	});
 	connect(ui->btnRemoveObject, &QPushButton::clicked, this, &SimpleCalendarCreator::onRemoveObject);
 }
 

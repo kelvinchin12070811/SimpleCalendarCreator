@@ -12,8 +12,9 @@ class CustomListWidgetItem : public QListWidgetItem
 {
 public:
 	explicit CustomListWidgetItem(const QString& label, std::unique_ptr<element::Element> element = nullptr);
+	
 	void setElement(std::unique_ptr<element::Element> value);
-	const element::Element* getElement() const;
+	element::Element* getElement();
 private:
 	std::unique_ptr<element::Element> element{ nullptr };
 };

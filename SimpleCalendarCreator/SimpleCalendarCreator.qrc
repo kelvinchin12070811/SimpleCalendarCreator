@@ -1,4 +1,5 @@
 <RCC>
-    <qresource prefix="SimpleCalendarCreator">
-    </qresource>
+  <qresource prefix="/">
+    <file>resource/ui/edit_line.ui</file>
+  </qresource>
 </RCC>

@@ -4,6 +4,8 @@
 * file, You can obtain one at http ://mozilla.org/MPL/2.0/.
 ************************************************************************************************************/
 #pragma once
+#include <functional>
+#include <map>
 #include <memory>
 #include <qdialog.h>
 #include "ui_ObjectCreator.h"
@@ -23,11 +25,13 @@ public:
 
 private:
 	void connectObjects();
+	void initUi();
 
 private: // slots
 	void onAccepted();
 
 private:
 	bool accepted{ false };
+	std::map<QString, std::function<std::unique_ptr<element::Element>()>> objectFactory;
 	std::unique_ptr<Ui::ObjectCreator> ui{ nullptr };
 };
