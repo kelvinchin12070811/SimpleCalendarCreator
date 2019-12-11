@@ -9,33 +9,33 @@
 
 namespace command
 {
-	AddObject::AddObject(SimpleCalendarCreator* mainWindow, QListWidget* list) :
-		list(list)
-	{
-		auto creator = std::make_unique<ObjectCreator>();
-		creator->exec();
-		if (!creator->isAccepted()) return;
-		item = new CustomListWidgetItem{ mainWindow, creator->getObjectName(), creator->createElement() };
-	}
+    AddObject::AddObject(SimpleCalendarCreator* mainWindow, QListWidget* list) :
+        list(list)
+    {
+        auto creator = std::make_unique<ObjectCreator>();
+        creator->exec();
+        if (!creator->isAccepted()) return;
+        item = new CustomListWidgetItem{ mainWindow, creator->getObjectName(), creator->createElement() };
+    }
 
-	AddObject::~AddObject() noexcept
-	{
-		if (item != nullptr && item->listWidget() == nullptr)
-			delete item;
-	}
+    AddObject::~AddObject() noexcept
+    {
+        if (item != nullptr && item->listWidget() == nullptr)
+            delete item;
+    }
 
-	bool AddObject::execute()
-	{
-		if (item == nullptr) return false;
+    bool AddObject::execute()
+    {
+        if (item == nullptr) return false;
 
-		list->addItem(item);
-		return true;
-	}
+        list->addItem(item);
+        return true;
+    }
 
-	void AddObject::unexecute()
-	{
-		auto idx = list->row(item);
-		if (idx < 0) return;
-		list->takeItem(idx);
-	}
+    void AddObject::unexecute()
+    {
+        auto idx = list->row(item);
+        if (idx < 0) return;
+        list->takeItem(idx);
+    }
 }
