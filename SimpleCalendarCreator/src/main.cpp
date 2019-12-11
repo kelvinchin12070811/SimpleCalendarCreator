@@ -4,11 +4,12 @@
 * file, You can obtain one at http ://mozilla.org/MPL/2.0/.
 ************************************************************************************************************/
 #include <QtWidgets/QApplication>
+
 #include "window/SimpleCalendarCreator.hpp"
 
 int main(int argc, char *argv[])
 {
-	QApplication a(argc, argv);
+	QApplication a{ argc, argv };
 	a.setAttribute(Qt::AA_EnableHighDpiScaling, true);
 
 	SimpleCalendarCreator w;

@@ -7,8 +7,9 @@
 
 namespace command
 {
-	struct Command
+	class Command
 	{
+	public:
 		virtual bool execute() = 0;
 		virtual void unexecute() = 0;
 		virtual ~Command() = default;

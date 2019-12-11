@@ -4,11 +4,14 @@
 * file, You can obtain one at http ://mozilla.org/MPL/2.0/.
 ************************************************************************************************************/
 #pragma once
-#include <memory>
-#include <QtWidgets/QMainWindow>
-#include <stack>
-#include "../command/Command.hpp"
 #include "ui_SimpleCalendarCreator.h"
+
+#include <memory>
+#include <stack>
+
+#include <QtWidgets/QMainWindow>
+
+#include "command/Command.hpp"
 
 class SimpleCalendarCreator : public QMainWindow
 {

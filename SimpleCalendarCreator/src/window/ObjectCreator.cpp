@@ -3,10 +3,12 @@
 * License, v. 2.0.If a copy of the MPL was not distributed with this
 * file, You can obtain one at http ://mozilla.org/MPL/2.0/.
 ************************************************************************************************************/
+#include "window/ObjectCreator.hpp"
+
 #include <qmetaobject.h>
 #include <qstringlist.h>
-#include "ObjectCreator.hpp"
-#include "../element/Line.hpp"
+
+#include "element/Line.hpp"
 
 ObjectCreator::ObjectCreator(QWidget *parent)
 	: QDialog(parent), ui(std::make_unique<Ui::ObjectCreator>())

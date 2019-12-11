@@ -5,8 +5,10 @@
 ************************************************************************************************************/
 #pragma once
 #include <memory>
+
 #include <qlistwidget.h>
-#include "Command.hpp"
+
+#include "command/Command.hpp"
 
 namespace command
 {

@@ -5,9 +5,11 @@
 ************************************************************************************************************/
 #pragma once
 #include <memory>
+
 #include <qlistwidget.h>
 #include <qgraphicsitem.h>
-#include "Element.hpp"
+
+#include "element/Element.hpp"
 
 class CustomListWidgetItem : public QListWidgetItem
 {

@@ -5,9 +5,11 @@
 ************************************************************************************************************/
 #pragma once
 #include <array>
+
 #include <qcolor.h>
 #include <qpoint.h>
-#include "Element.hpp"
+
+#include "element/Element.hpp"
 
 namespace element
 {

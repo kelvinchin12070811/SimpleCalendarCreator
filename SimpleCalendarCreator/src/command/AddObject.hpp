@@ -5,8 +5,9 @@
 ************************************************************************************************************/
 #pragma once
 #include <qlistwidget.h>
-#include "Command.hpp"
-#include "../element/CustomListWidgetItem.hpp"
+
+#include "command/Command.hpp"
+#include "element/CustomListWidgetItem.hpp"
 
 namespace command
 {

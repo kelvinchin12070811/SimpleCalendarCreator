@@ -4,12 +4,15 @@
 * file, You can obtain one at http ://mozilla.org/MPL/2.0/.
 ************************************************************************************************************/
 #pragma once
+#include "element/Element.hpp"
+
 #include <functional>
 #include <map>
 #include <memory>
+
 #include <qdialog.h>
+
 #include "ui_ObjectCreator.h"
-#include "../element/Element.hpp"
 
 class ObjectCreator : public QDialog
 {
