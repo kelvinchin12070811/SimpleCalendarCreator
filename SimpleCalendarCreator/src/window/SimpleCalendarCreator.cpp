@@ -21,6 +21,11 @@ SimpleCalendarCreator::SimpleCalendarCreator(QWidget *parent)
 	initUi();
 }
 
+const Ui::SimpleCalendarCreatorClass* SimpleCalendarCreator::getUi() const
+{
+	return ui.get();
+}
+
 void SimpleCalendarCreator::connectObjects()
 {
 	connect(ui->actionAbout, &QAction::triggered,

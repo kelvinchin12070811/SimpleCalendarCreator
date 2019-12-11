@@ -83,13 +83,13 @@
     <ClInclude Include="src\command\RemoveObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\element\Line.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\element\Element.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\element\CustomListWidgetItem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\element\Line.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

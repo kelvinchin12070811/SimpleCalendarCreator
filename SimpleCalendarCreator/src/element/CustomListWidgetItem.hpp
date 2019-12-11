@@ -6,15 +6,17 @@
 #pragma once
 #include <memory>
 #include <qlistwidget.h>
+#include <qgraphicsitem.h>
 #include "Element.hpp"
 
 class CustomListWidgetItem : public QListWidgetItem
 {
 public:
-	explicit CustomListWidgetItem(const QString& label, std::unique_ptr<element::Element> element = nullptr);
-	
+	explicit CustomListWidgetItem(const QString& label, std::unique_ptr<element::Element> object = nullptr);
 	void setElement(std::unique_ptr<element::Element> value);
 	element::Element* getElement();
+	void renderOutline();
 private:
-	std::unique_ptr<element::Element> element{ nullptr };
+	std::unique_ptr<element::Element> object{ nullptr };
+	QGraphicsPixmapItem* pixmapItem{ nullptr };
 };

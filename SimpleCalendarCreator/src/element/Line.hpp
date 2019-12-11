@@ -4,6 +4,9 @@
 * file, You can obtain one at http ://mozilla.org/MPL/2.0/.
 ************************************************************************************************************/
 #pragma once
+#include <array>
+#include <qcolor.h>
+#include <qpoint.h>
 #include "Element.hpp"
 
 namespace element
@@ -15,7 +18,13 @@ namespace element
 		const QPixmap& getRenderedGraphics() override;
 		void edit() override;
 	private:
-		QPixmap graphic;
+		void drawLine();
+		void onAccepted(QDialog* dialog);
+	private:
 		CustomListWidgetItem* parent;
+		int lineWidth{ 1 };
+		std::array<QPoint, 2> lineNodes;
+		QColor lineColour{ Qt::GlobalColor::black };
+		QPixmap graphic;
 	};
 }

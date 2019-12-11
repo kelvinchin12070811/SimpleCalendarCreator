@@ -16,6 +16,7 @@ class SimpleCalendarCreator : public QMainWindow
 
 public:
 	SimpleCalendarCreator(QWidget *parent = Q_NULLPTR);
+	const Ui::SimpleCalendarCreatorClass* getUi() const;
 
 private:
 	void connectObjects();

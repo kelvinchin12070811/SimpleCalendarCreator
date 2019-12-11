@@ -136,8 +136,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\element\Line.hpp">
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window</IncludePath>
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(QTDIR)\include\QtUiTools</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(QTDIR)\include\QtUiTools</IncludePath>
     </ClInclude>
     <QtMoc Include="src\window\ObjectCreator.hpp">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window</IncludePath>
