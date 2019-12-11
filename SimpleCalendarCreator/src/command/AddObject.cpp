@@ -9,13 +9,13 @@
 
 namespace command
 {
-	AddObject::AddObject(QListWidget* list) :
+	AddObject::AddObject(SimpleCalendarCreator* mainWindow, QListWidget* list) :
 		list(list)
 	{
 		auto creator = std::make_unique<ObjectCreator>();
 		creator->exec();
 		if (!creator->isAccepted()) return;
-		item = new CustomListWidgetItem{ creator->getObjectName(), creator->createElement() };
+		item = new CustomListWidgetItem{ mainWindow, creator->getObjectName(), creator->createElement() };
 	}
 
 	AddObject::~AddObject() noexcept

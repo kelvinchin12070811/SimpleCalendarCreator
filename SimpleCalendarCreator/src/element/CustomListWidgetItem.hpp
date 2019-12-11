@@ -10,6 +10,7 @@
 #include <qgraphicsitem.h>
 
 #include "element/Element.hpp"
+#include "window/SimpleCalendarCreator.hpp"
 
 /**
  * @brief Exteded QListWidgetItem for storing calendar element.
@@ -19,10 +20,12 @@ class CustomListWidgetItem : public QListWidgetItem
 public:
 	/**
 	 * @brief Create ListWidgetItem.
+	 * @param mainWindow Reference to main window for rendering design outline, can't be nullptr.
 	 * @param label Text to show on the item.
 	 * @param object Calendar element that will be hold by the item. nullptr for not holding any element.
 	 */
-	explicit CustomListWidgetItem(const QString& label, std::unique_ptr<element::Element> object = nullptr);
+	explicit CustomListWidgetItem(SimpleCalendarCreator* mainWindow, const QString& label,
+		std::unique_ptr<element::Element> object = nullptr);
 	~CustomListWidgetItem() noexcept;
 
 	void setElement(std::unique_ptr<element::Element> value) noexcept;
@@ -34,6 +37,12 @@ public:
 	 */
 	void renderOutline();
 private:
+	/**
+	 * @internal
+	 * @brief Reference to main window for rendering design outline, can't be nullptr.
+	 */
+	SimpleCalendarCreator* mainWindow{ nullptr };
+
 	/**
 	 * @brief [read, write] Calendar element that hold by the item, nullptr for not holding any of it.
 	 */

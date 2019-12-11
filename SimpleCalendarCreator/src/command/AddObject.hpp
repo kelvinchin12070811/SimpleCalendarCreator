@@ -8,6 +8,7 @@
 
 #include "command/Command.hpp"
 #include "element/CustomListWidgetItem.hpp"
+#include "window/SimpleCalendarCreator.hpp"
 
 namespace command
 {
@@ -20,8 +21,9 @@ namespace command
 		/**
 		 * @brief Construct new command with a parent.
 		 * @param list List that as the target to add new calendar element. Can't be nullptr.
+		 * @param mainWindow Reference to the mainWindow object for rendering outline, can't be nullptr.
 		 */
-		explicit AddObject(QListWidget* list);
+		explicit AddObject(SimpleCalendarCreator* mainWindow, QListWidget* list);
 		~AddObject() noexcept;
 
 		bool execute() override;

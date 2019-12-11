@@ -60,7 +60,7 @@ void SimpleCalendarCreator::onActionUndo()
 
 void SimpleCalendarCreator::onAddObject()
 {
-	auto act = std::make_unique<command::AddObject>(ui->objectList);
+	auto act = std::make_unique<command::AddObject>(this, ui->objectList);
 	if (!act->execute()) return;
 	undoStack.push(std::move(act));
 }

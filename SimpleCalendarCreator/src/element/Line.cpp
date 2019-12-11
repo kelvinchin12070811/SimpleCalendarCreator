@@ -98,6 +98,7 @@ namespace element
 			lineNodes[1].x() - lineNodes[0].x(),
 			lineNodes[1].y() - lineNodes[0].y()
 		};
+		newGraphic.fill(Qt::GlobalColor::transparent);
 		QPainter painter{ &newGraphic };
 		QPen pen = painter.pen();
 		pen.setColor(lineColour);

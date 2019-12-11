@@ -11,8 +11,9 @@
 #include <qdebug.h>
 #endif // _DEBUG
 
-CustomListWidgetItem::CustomListWidgetItem(const QString& label, std::unique_ptr<element::Element> object):
-	QListWidgetItem(label), object(std::move(object))
+CustomListWidgetItem::CustomListWidgetItem(SimpleCalendarCreator* mainWindow, const QString& label,
+	std::unique_ptr<element::Element> object):
+		mainWindow(mainWindow), QListWidgetItem(label), object(std::move(object))
 {
 	this->object->setParent(this);
 }
@@ -43,11 +44,8 @@ void CustomListWidgetItem::renderOutline()
 {
 	if (object == nullptr) return;
 
-	auto parent = dynamic_cast<SimpleCalendarCreator*>(
-		this->listWidget()->parentWidget()->parentWidget()->parentWidget());
-	assert(parent != nullptr);
-	auto winOutline = parent->getUi()->winOutline;
-	auto scene = winOutline->scene();
+	QGraphicsView* winOutline{ mainWindow->getUi()->winOutline };
+	QGraphicsScene* scene{ winOutline->scene() };
 	if (pixmapItem != nullptr)
 	{
 		scene->removeItem(pixmapItem);
