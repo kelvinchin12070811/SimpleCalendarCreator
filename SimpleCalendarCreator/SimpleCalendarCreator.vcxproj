@@ -118,6 +118,8 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\command\ResizeCalendar.cpp" />
+    <ClCompile Include="src\window\CalendarResizer.cpp" />
     <ClCompile Include="src\element\Line.cpp" />
     <ClCompile Include="src\window\ObjectCreator.cpp" />
     <ClCompile Include="src\command\AddObject.cpp" />
@@ -130,6 +132,7 @@
     <QtMoc Include="src\window\SimpleCalendarCreator.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="src\window\CalendarResizer.ui" />
     <QtUic Include="src\window\ObjectCreator.ui" />
     <QtUic Include="src\window\SimpleCalendarCreator.ui" />
   </ItemGroup>
@@ -137,6 +140,11 @@
     <QtRcc Include="SimpleCalendarCreator.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\window\CalendarResizer.hpp">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(QTDIR)\include\QtUiTools;$(ProjectDir)\src</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(QTDIR)\include\QtUiTools;$(ProjectDir)\src</IncludePath>
+    </QtMoc>
+    <ClInclude Include="src\command\ResizeCalendar.hpp" />
     <ClInclude Include="src\element\Line.hpp">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(QTDIR)\include\QtUiTools</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(QTDIR)\include\QtUiTools</IncludePath>

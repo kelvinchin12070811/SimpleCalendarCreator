@@ -19,7 +19,8 @@
 class SimpleCalendarCreator : public QMainWindow
 {
     Q_OBJECT
-
+public:
+    static const QSize* default_calender_size;
 public:
     SimpleCalendarCreator(QWidget *parent = Q_NULLPTR);
     /**
@@ -30,6 +31,11 @@ public:
 private:
     void connectObjects();
     void initUi();
+    /**
+     * @internal
+     * @brief Push a command to the undo stack.
+     */
+    void pushUndoSatck(std::unique_ptr<command::Command> cmd);
 
 private: //slots
     /**
@@ -44,11 +50,26 @@ private: //slots
     void onAddObject();
     /**
      * @internal
+     * @brief Slot when user create new project.
+     */
+    void onNewProject();
+    /**
+     * @internal
      * @brief Slot when a calendar object is being to remove from the design.
      */
     void onRemoveObject();
+    /**
+     * @internal
+     * @brief Slot when user decide to resize their calendar design.
+     */
+    void onResizeCalendar();
 
 private:
+    /**
+     * @internal
+     * @brief Determine if the user have unsave work.
+     */
+    bool unsave{ false };
     /**
      * @internal
      * @brief History tracking stack that holds previous executed command.
@@ -59,4 +80,10 @@ private:
      * @brief Ui elements of the window.
      */
     std::unique_ptr<Ui::SimpleCalendarCreatorClass> ui{ nullptr };
+
+    /**
+     * @internal
+     * @brief Size of calendar.
+     */
+    QSize szCalendar{ *SimpleCalendarCreator::default_calender_size };
 };

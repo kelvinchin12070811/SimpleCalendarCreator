@@ -51,6 +51,12 @@
     <ClCompile Include="src\element\Line.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\window\CalendarResizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\command\ResizeCalendar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="SimpleCalendarCreator.qrc">
@@ -64,12 +70,18 @@
     <QtMoc Include="src\window\ObjectCreator.hpp">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\window\CalendarResizer.hpp">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\window\SimpleCalendarCreator.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\window\ObjectCreator.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\window\CalendarResizer.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -90,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\element\Line.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\command\ResizeCalendar.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
