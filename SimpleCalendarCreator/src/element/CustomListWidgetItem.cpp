@@ -17,7 +17,13 @@ CustomListWidgetItem::CustomListWidgetItem(const QString& label, std::unique_ptr
 	this->object->setParent(this);
 }
 
-void CustomListWidgetItem::setElement(std::unique_ptr<element::Element> value)
+CustomListWidgetItem::~CustomListWidgetItem() noexcept
+{
+	if (pixmapItem != nullptr && pixmapItem->parentWidget() == nullptr)
+		delete pixmapItem;
+}
+
+void CustomListWidgetItem::setElement(std::unique_ptr<element::Element> value) noexcept
 {
 	this->object = std::move(value);
 	this->object->setParent(this);
@@ -25,11 +31,18 @@ void CustomListWidgetItem::setElement(std::unique_ptr<element::Element> value)
 
 element::Element* CustomListWidgetItem::getElement()
 {
+	return const_cast<element::Element*>(static_cast<const CustomListWidgetItem*>(this)->getElement());
+}
+
+const element::Element* CustomListWidgetItem::getElement() const
+{
 	return object.get();
 }
 
 void CustomListWidgetItem::renderOutline()
 {
+	if (object == nullptr) return;
+
 	auto parent = dynamic_cast<SimpleCalendarCreator*>(
 		this->listWidget()->parentWidget()->parentWidget()->parentWidget());
 	assert(parent != nullptr);

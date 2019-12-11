@@ -23,7 +23,7 @@ SimpleCalendarCreator::SimpleCalendarCreator(QWidget *parent)
 	initUi();
 }
 
-const Ui::SimpleCalendarCreatorClass* SimpleCalendarCreator::getUi() const
+const Ui::SimpleCalendarCreatorClass* SimpleCalendarCreator::getUi() const noexcept
 {
 	return ui.get();
 }

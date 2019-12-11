@@ -18,7 +18,7 @@ namespace command
 		item = new CustomListWidgetItem{ creator->getObjectName(), creator->createElement() };
 	}
 
-	AddObject::~AddObject()
+	AddObject::~AddObject() noexcept
 	{
 		if (item != nullptr && item->listWidget() == nullptr)
 			delete item;

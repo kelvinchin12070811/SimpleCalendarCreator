@@ -24,19 +24,26 @@ ObjectCreator::ObjectCreator(QWidget *parent)
 	connectObjects();
 }
 
-bool ObjectCreator::isAccepted()
+bool ObjectCreator::isAccepted() const
 {
 	return accepted;
 }
 
-std::unique_ptr<element::Element> ObjectCreator::createElement()
+std::unique_ptr<element::Element> ObjectCreator::createElement() const
 {
 	if (!isAccepted()) return nullptr;
-
-	return objectFactory[ui->cmbObjectType->currentText()]();
+	try
+	{
+		return objectFactory.at(ui->cmbObjectType->currentText())();
+	}
+	catch (const std::out_of_range & e)
+	{
+		assert(0);  // element not registered in "objectFactory".
+		return nullptr;
+	}
 }
 
-QString ObjectCreator::getObjectName()
+QString ObjectCreator::getObjectName() const noexcept
 {
 	return ui->lneObjectName->text();
 }

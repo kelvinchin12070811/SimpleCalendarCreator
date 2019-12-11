@@ -12,17 +12,37 @@
 
 namespace command
 {
+	/**
+	 * @brief Command that remove selected calendar element from the design.
+	 */
 	class RemoveObject : public Command
 	{
 	public:
+		/**
+		 * @brief Construct new remove object command.
+		 * @param list Targeted list to remove the user selected object, can't be nullptr.
+		 */
 		explicit RemoveObject(QListWidget* list);
-		~RemoveObject() = default;
+		~RemoveObject() noexcept = default;
 
 		bool execute() override;
 		void unexecute() override;
 	private:
+		/**
+		 * @internal
+		 * @brief Temporary holder of item returned from the list.
+		 * Use to restore the item to the list when unexecute() called.
+		 */
 		std::unique_ptr<QListWidgetItem> item{ nullptr };
+		/**
+		 * @internal
+		 * @brief Targeted list to perform removal, can't be nullptr.
+		 */
 		QListWidget* list{ nullptr };
+		/**
+		 * @internal
+		 * @brief Previous index of the removed item, use to reinsert the item to the list when unexeute().
+		 */
 		QModelIndex index;
 	};
 }
