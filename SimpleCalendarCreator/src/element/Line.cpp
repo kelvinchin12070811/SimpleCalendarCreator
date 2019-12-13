@@ -32,7 +32,7 @@ namespace element
     void Line::setParent(CustomListWidgetItem* parent)
     {
         this->parent = parent;
-        graphic = QPixmap{  };
+        graphic = QPixmap{};
     }
 
     void Line::setSize(const QSize& value)
@@ -87,11 +87,22 @@ namespace element
             itr.second(itr.first);
         }
 
+        auto colourPreview = dialog->findChild<QLabel*>("labColourPreview");
+        auto colourHex = dialog->findChild<QLineEdit*>("lnedColourHex");
+        assert(colourPreview != nullptr);
+        assert(colourHex != nullptr);
+
+        colourPreview->setStyleSheet("background-color: " + lineColour.name());
+        colourHex->setText(lineColour.name());
+
         dialog->connect(dialog->findChild<QPushButton*>("btnChooseColour"), &QPushButton::clicked, [=]() {
             auto colour = QColorDialog::getColor(lineColour, dialog);
+            QString hexVal{ colour.name() };
 #ifdef _DEBUG
-            qDebug() << lineColour;
+            qDebug() << hexVal;
 #endif // _DEBUG
+            colourPreview->setStyleSheet("background-color: " + hexVal);
+            colourHex->setText(hexVal);
         });
         dialog->connect(dialog->findChild<QPushButton*>("btnOk"), &QPushButton::clicked, [this, dialog]() {
             onAccepted(dialog);
