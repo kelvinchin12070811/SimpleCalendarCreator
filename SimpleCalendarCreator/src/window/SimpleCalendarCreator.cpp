@@ -12,6 +12,7 @@
 #include "command/AddObject.hpp"
 #include "command/RemoveObject.hpp"
 #include "command/ResizeCalendar.hpp"
+#include "command/UndoHistory.hpp"
 #include "window/CalendarResizer.hpp"
 
 #ifdef _DEBUG
@@ -60,7 +61,7 @@ void SimpleCalendarCreator::connectObjects()
         [this]() { QMessageBox::aboutQt(this, this->windowTitle()); });
     connect(ui->actionNew, &QAction::triggered, this, &SimpleCalendarCreator::onNewProject);
     connect(ui->actionQuit, &QAction::triggered, [this]() { this->close(); });
-    connect(ui->actionUndo, &QAction::triggered, this, &SimpleCalendarCreator::onActionUndo);
+    connect(ui->actionUndo, &QAction::triggered, []() { UndoHistory::getInstance()->pop(); });
     connect(ui->btnAddObject, &QPushButton::clicked, this, &SimpleCalendarCreator::onAddObject);
     connect(ui->btnEditObject, &QPushButton::clicked, [this]() {
         auto itm = this->ui->objectList->currentItem();
@@ -79,30 +80,14 @@ void SimpleCalendarCreator::initUi()
     onNewProject();
 }
 
-void SimpleCalendarCreator::pushUndoSatck(std::unique_ptr<command::Command> cmd)
-{
-    undoStack.push(std::move(cmd));
-    unsave = true;
-}
-
-void SimpleCalendarCreator::onActionUndo()
-{
-    if (undoStack.empty()) return;
-    undoStack.top()->unexecute();
-    undoStack.pop();
-    unsave = false;
-}
-
 void SimpleCalendarCreator::onAddObject()
 {
-    auto act = std::make_unique<command::AddObject>(this, ui->objectList);
-    if (!act->execute()) return;
-    pushUndoSatck(std::move(act));
+    UndoHistory::getInstance()->push(std::make_unique<command::AddObject>(this, ui->objectList));
 }
 
 void SimpleCalendarCreator::onNewProject()
 {
-    if (unsave == true)
+    if (UndoHistory::getInstance()->hasUnsave())
     {
         auto result = QMessageBox::information(this, "Unsaved work", QString{ "Operation will cause" }
             + " unsaved work lost, are your sure to continue?", QMessageBox::Yes | QMessageBox::No);
@@ -144,14 +129,13 @@ void SimpleCalendarCreator::onNewProject()
         this->resize(this->size().width() - 1, this->size().height() - 1);
     }
 
-    unsave = false;
+    UndoHistory::getInstance()->changesSaved();
 }
 
 void SimpleCalendarCreator::onRemoveObject()
 {
-    auto act = std::make_unique<command::RemoveObject>(ui->objectList, ui->winOutline);
-    if (!act->execute()) return;
-    pushUndoSatck(std::move(act));
+    auto undoHistory = UndoHistory::getInstance();
+    undoHistory->push(std::make_unique<command::RemoveObject>(ui->objectList, ui->winOutline));
 }
 
 void SimpleCalendarCreator::onResizeCalendar()
@@ -164,7 +148,6 @@ void SimpleCalendarCreator::onResizeCalendar()
         auto cmd = std::make_unique<command::ResizeCalendar>(dialog->getDecidedSize(),
             ui->szCalendarIndicator, &szCalendar);
 
-        if (!cmd->execute()) return;
-        pushUndoSatck(std::move(cmd));
+        UndoHistory::getInstance()->push(std::move(cmd));
     }
 }

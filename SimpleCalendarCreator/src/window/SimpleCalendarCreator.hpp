@@ -51,18 +51,8 @@ protected:
 private:
     void connectObjects();
     void initUi();
-    /**
-     * @internal
-     * @brief Push a command to the undo stack.
-     */
-    void pushUndoSatck(std::unique_ptr<command::Command> cmd);
 
 private: //slots
-    /**
-     * @internal
-     * @brief Slot when undo action is trigred.
-     */
-    void onActionUndo();
     /**
      * @internal
      * @brief Slot when a calendar object is being to add to the design.
@@ -85,11 +75,6 @@ private: //slots
     void onResizeCalendar();
 
 private:
-    /**
-     * @internal
-     * @brief Determine if the user have unsave work.
-     */
-    bool unsave{ false };
     /**
      * @internal
      * @brief History tracking stack that holds previous executed command.
