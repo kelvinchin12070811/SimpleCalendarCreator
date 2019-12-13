@@ -49,7 +49,7 @@ void SimpleCalendarCreator::resizeEvent(QResizeEvent* ev)
 {
     ui->winOutline->fitInView(0, 0, static_cast<qreal>(szCalendar.width()),
         static_cast<qreal>(szCalendar.height()), Qt::AspectRatioMode::KeepAspectRatio);
-    ui->winOutline->centerOn((szCalendar.width() + 10.0) / 2.0, (szCalendar.height() + 10.0) / 2.0);
+    ui->winOutline->centerOn(szCalendar.width() / 2.0, szCalendar.height() / 2.0);
 }
 
 void SimpleCalendarCreator::connectObjects()
@@ -129,22 +129,11 @@ void SimpleCalendarCreator::onNewProject()
     scene = new QGraphicsScene;
 
     scene->setSceneRect(0, 0,
-        static_cast<qreal>(szCalendar.width() + 10), static_cast<qreal>(szCalendar.height() + 10));
+        static_cast<qreal>(szCalendar.width()), static_cast<qreal>(szCalendar.height()));
     ui->winOutline->setScene(scene);
 
     QPixmap border{ szCalendar };
     border.fill(Qt::GlobalColor::white);
-
-    QPainter painter{ &border };
-    QPen pen{ painter.pen() };
-    pen.setColor(Qt::GlobalColor::black);
-    pen.setWidth(5);
-    painter.setPen(pen);
-
-    painter.drawLine(0, 0, szCalendar.width(), 0);
-    painter.drawLine(0, 0, 0, szCalendar.height());
-    painter.drawLine(0, szCalendar.height(), szCalendar.width(), szCalendar.height());
-    painter.drawLine(szCalendar.width(), 0, szCalendar.width(), szCalendar.height());
 
     QGraphicsPixmapItem* borderItem = new QGraphicsPixmapItem{ border };
     scene->addItem(borderItem);

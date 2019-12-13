@@ -63,8 +63,5 @@ void CustomListWidgetItem::renderOutline()
         delete pixmapItem;
     }
     pixmapItem = new QGraphicsPixmapItem{ object->getRenderedGraphics() };
-    QPointF pos{ pixmapItem->pos() };
-    pos += { 1.0, 1.0 };
-    pixmapItem->setPos(pos);
     scene->addItem(pixmapItem);
 }
