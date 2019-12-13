@@ -20,6 +20,7 @@ namespace element
     {
     public:
         void setParent(CustomListWidgetItem* parent) override;
+        void setSize(const QSize& value) override;
         const QPixmap& getRenderedGraphics() override;
         void edit() override;
     private:

@@ -20,7 +20,14 @@ namespace element
     class Element
     {
     public:
+        /**
+         * @brief Set parent of the element.
+         */
         virtual void setParent(CustomListWidgetItem* parent) = 0;
+        /**
+         * @brief Resize the element.
+         */
+        virtual void setSize(const QSize& value) = 0;
         /**
          * @brief Get the rendered graphics for outline purpose.
          */

@@ -5,6 +5,7 @@
 ************************************************************************************************************/
 #include "element/CustomListWidgetItem.hpp"
 
+#include <algorithm>
 #include <functional>
 #include <map>
 #include <numeric>
@@ -31,6 +32,15 @@ namespace element
     void Line::setParent(CustomListWidgetItem* parent)
     {
         this->parent = parent;
+        graphic = QPixmap{  };
+    }
+
+    void Line::setSize(const QSize& value)
+    {
+        if (graphic.size().isNull())
+            graphic = QPixmap{ value };
+        else
+            graphic.scaled(value, Qt::AspectRatioMode::KeepAspectRatio);
     }
 
     const QPixmap& Line::getRenderedGraphics()
@@ -94,17 +104,13 @@ namespace element
     
     void Line::drawLine()
     {
-        QPixmap newGraphic{
-            lineNodes[1].x() - lineNodes[0].x(),
-            lineNodes[1].y() - lineNodes[0].y()
-        };
-        newGraphic.fill(Qt::GlobalColor::transparent);
-        QPainter painter{ &newGraphic };
+        graphic.fill(Qt::GlobalColor::transparent);
+        QPainter painter{ &graphic };
         QPen pen = painter.pen();
         pen.setColor(lineColour);
+        pen.setWidth(lineWidth);
         painter.setPen(pen);
         painter.drawLine(lineNodes[0], lineNodes[1]);
-        graphic = std::move(newGraphic);
         parent->renderOutline();
     }
 

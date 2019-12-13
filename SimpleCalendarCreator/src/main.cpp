@@ -14,5 +14,8 @@ int main(int argc, char *argv[])
 
     SimpleCalendarCreator w;
     w.show();
+    //Tend to fix scalling problem of outline window via resize entire main window.
+    w.resize(w.size().width() + 1, w.size().height() + 1);
+    w.resize(w.size().width() - 1, w.size().height() - 1);
     return a.exec();
 }

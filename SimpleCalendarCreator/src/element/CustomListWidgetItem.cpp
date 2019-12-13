@@ -16,6 +16,7 @@ CustomListWidgetItem::CustomListWidgetItem(SimpleCalendarCreator* mainWindow, co
         mainWindow(mainWindow), QListWidgetItem(label), object(std::move(object))
 {
     this->object->setParent(this);
+    this->object->setSize(this->mainWindow->getCalendarSize());
 }
 
 CustomListWidgetItem::~CustomListWidgetItem() noexcept
@@ -30,14 +31,24 @@ void CustomListWidgetItem::setElement(std::unique_ptr<element::Element> value) n
     this->object->setParent(this);
 }
 
-element::Element* CustomListWidgetItem::getElement()
+element::Element* CustomListWidgetItem::getElement() noexcept
 {
     return const_cast<element::Element*>(static_cast<const CustomListWidgetItem*>(this)->getElement());
 }
 
-const element::Element* CustomListWidgetItem::getElement() const
+const element::Element* CustomListWidgetItem::getElement() const noexcept
 {
     return object.get();
+}
+
+QGraphicsPixmapItem* CustomListWidgetItem::getPixmapItem() noexcept
+{
+    return const_cast<QGraphicsPixmapItem*>(static_cast<const CustomListWidgetItem*>(this)->getPixmapItem());
+}
+
+const QGraphicsPixmapItem* CustomListWidgetItem::getPixmapItem() const noexcept
+{
+    return pixmapItem;
 }
 
 void CustomListWidgetItem::renderOutline()
@@ -51,11 +62,9 @@ void CustomListWidgetItem::renderOutline()
         scene->removeItem(pixmapItem);
         delete pixmapItem;
     }
-    if (scene == nullptr)
-    {
-        scene = new QGraphicsScene;
-        winOutline->setScene(scene);
-    }
     pixmapItem = new QGraphicsPixmapItem{ object->getRenderedGraphics() };
+    QPointF pos{ pixmapItem->pos() };
+    pos += { 1.0, 1.0 };
+    pixmapItem->setPos(pos);
     scene->addItem(pixmapItem);
 }

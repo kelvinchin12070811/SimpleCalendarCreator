@@ -7,7 +7,7 @@
 #include <qlabel.h>
 #include <qstring.h>
 
-#include <command/Command.hpp>
+#include "command/Command.hpp"
 
 namespace command
 {

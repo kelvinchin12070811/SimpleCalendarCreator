@@ -20,13 +20,33 @@ class SimpleCalendarCreator : public QMainWindow
 {
     Q_OBJECT
 public:
-    static const QSize* default_calender_size;
+    static const QSize* default_calender_size;  /**< @brief default size of the calendar design. */
+    static const QString* window_title;  /**< @brief Window title text. */
 public:
     SimpleCalendarCreator(QWidget *parent = Q_NULLPTR);
     /**
      * @brief Get ui elements of the MainWindow.
      */
     const Ui::SimpleCalendarCreatorClass* getUi() const noexcept;
+
+public: //Getters
+    /**
+     * @brief Get the size of calendar design.
+     */
+    QSize getCalendarSize() const noexcept;
+
+public:  //Setters
+    /**
+     * @brief Set the project name and update the window title.
+     */
+    void setProjectName(const QString& value = "Untitled") noexcept;
+
+protected:
+    /**
+     * @internal
+     * @brief Event handeling function when the window is resized.
+     */
+    void resizeEvent(QResizeEvent* ev) override;
 
 private:
     void connectObjects();
@@ -86,4 +106,9 @@ private:
      * @brief Size of calendar.
      */
     QSize szCalendar{ *SimpleCalendarCreator::default_calender_size };
+    /**
+     * @internal
+     * @brief Name of the project, "Untitled" by default.
+     */
+    QString projectName;
 };

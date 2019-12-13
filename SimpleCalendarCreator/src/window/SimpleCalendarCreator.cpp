@@ -7,6 +7,7 @@
 
 #include <qdatetime.h>
 #include <qmessagebox.h>
+#include <qpainter.h>
 
 #include "command/AddObject.hpp"
 #include "command/RemoveObject.hpp"
@@ -18,6 +19,7 @@
 #endif
 
 const QSize* SimpleCalendarCreator::default_calender_size = new QSize{ 783, 709 };
+const QString* SimpleCalendarCreator::window_title = new QString{ "%1 - Simple Calendar Creator" };
 
 SimpleCalendarCreator::SimpleCalendarCreator(QWidget *parent)
     : QMainWindow(parent), ui(std::make_unique<Ui::SimpleCalendarCreatorClass>())
@@ -30,6 +32,24 @@ SimpleCalendarCreator::SimpleCalendarCreator(QWidget *parent)
 const Ui::SimpleCalendarCreatorClass* SimpleCalendarCreator::getUi() const noexcept
 {
     return ui.get();
+}
+
+QSize SimpleCalendarCreator::getCalendarSize() const noexcept
+{
+    return szCalendar;
+}
+
+void SimpleCalendarCreator::setProjectName(const QString& value) noexcept
+{
+    projectName = value;
+    this->setWindowTitle(window_title->arg(projectName));
+}
+
+void SimpleCalendarCreator::resizeEvent(QResizeEvent* ev)
+{
+    ui->winOutline->fitInView(0, 0, static_cast<qreal>(szCalendar.width()),
+        static_cast<qreal>(szCalendar.height()), Qt::AspectRatioMode::KeepAspectRatio);
+    ui->winOutline->centerOn((szCalendar.width() + 10.0) / 2.0, (szCalendar.height() + 10.0) / 2.0);
 }
 
 void SimpleCalendarCreator::connectObjects()
@@ -56,8 +76,7 @@ void SimpleCalendarCreator::initUi()
     QDate today{ QDate::currentDate() };
     ui->spnYear->setValue(today.year());
 
-    ui->szCalendarIndicator->setText(
-        command::ResizeCalendar::sz_indicator_text->arg(szCalendar.width()).arg(szCalendar.height()));
+    onNewProject();
 }
 
 void SimpleCalendarCreator::pushUndoSatck(std::unique_ptr<command::Command> cmd)
@@ -90,17 +109,58 @@ void SimpleCalendarCreator::onNewProject()
 
         if (result == QMessageBox::No) return;
     }
-    undoStack.swap(decltype(undoStack){});
-    auto tempCmd = std::make_unique<command::ResizeCalendar>(*default_calender_size, ui->szCalendarIndicator,
-        &szCalendar);
+    //Clear history stack.
+    if (!undoStack.empty())
+        undoStack.swap(decltype(undoStack){});
+
+    setProjectName();
+    auto tempCmd = std::make_unique<command::ResizeCalendar>(*default_calender_size,
+        ui->szCalendarIndicator, &szCalendar);
     tempCmd->execute();
+
     ui->objectList->clear();
+    
+    QGraphicsScene* scene{ ui->winOutline->scene() };
+    if (scene != nullptr)  //Delete previous scene if exits
+    {
+        ui->winOutline->setScene(nullptr);
+        delete scene;
+    }
+    scene = new QGraphicsScene;
+
+    scene->setSceneRect(0, 0,
+        static_cast<qreal>(szCalendar.width() + 10), static_cast<qreal>(szCalendar.height() + 10));
+    ui->winOutline->setScene(scene);
+
+    QPixmap border{ szCalendar };
+    border.fill(Qt::GlobalColor::white);
+
+    QPainter painter{ &border };
+    QPen pen{ painter.pen() };
+    pen.setColor(Qt::GlobalColor::black);
+    pen.setWidth(5);
+    painter.setPen(pen);
+
+    painter.drawLine(0, 0, szCalendar.width(), 0);
+    painter.drawLine(0, 0, 0, szCalendar.height());
+    painter.drawLine(0, szCalendar.height(), szCalendar.width(), szCalendar.height());
+    painter.drawLine(szCalendar.width(), 0, szCalendar.width(), szCalendar.height());
+
+    QGraphicsPixmapItem* borderItem = new QGraphicsPixmapItem{ border };
+    scene->addItem(borderItem);
+
+    if (!this->isHidden())
+    {
+        this->resize(this->size().width() + 1, this->size().height() + 1);
+        this->resize(this->size().width() - 1, this->size().height() - 1);
+    }
+
     unsave = false;
 }
 
 void SimpleCalendarCreator::onRemoveObject()
 {
-    auto act = std::make_unique<command::RemoveObject>(ui->objectList);
+    auto act = std::make_unique<command::RemoveObject>(ui->objectList, ui->winOutline);
     if (!act->execute()) return;
     pushUndoSatck(std::move(act));
 }

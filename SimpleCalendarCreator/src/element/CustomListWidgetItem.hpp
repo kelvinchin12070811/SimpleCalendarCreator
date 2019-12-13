@@ -29,8 +29,12 @@ public:
     ~CustomListWidgetItem() noexcept;
 
     void setElement(std::unique_ptr<element::Element> value) noexcept;
-    element::Element* getElement();
-    const element::Element* getElement() const;
+
+    element::Element* getElement() noexcept;
+    const element::Element* getElement() const noexcept;
+
+    QGraphicsPixmapItem* getPixmapItem() noexcept;
+    const QGraphicsPixmapItem* getPixmapItem() const noexcept;
 
     /**
      * @brief Render the outline of this item to the outline window.
@@ -48,8 +52,7 @@ private:
      */
     std::unique_ptr<element::Element> object{ nullptr };
     /**
-     * @internal
-     * @brief Id of PixmapItem that will be drawn on the outline window.
+     * @brief [read] Id of PixmapItem that will be drawn on the outline window.
      * Memory of pixmapItem will be freed at the end if it does not own a parent.
      */
     QGraphicsPixmapItem* pixmapItem{ nullptr };

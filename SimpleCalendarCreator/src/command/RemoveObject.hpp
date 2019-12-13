@@ -7,8 +7,10 @@
 #include <memory>
 
 #include <qlistwidget.h>
+#include <qgraphicsview.h>
 
 #include "command/Command.hpp"
+#include "element/CustomListWidgetItem.hpp"
 
 namespace command
 {
@@ -21,8 +23,9 @@ namespace command
         /**
          * @brief Construct new remove object command.
          * @param list Targeted list to remove the user selected object, can't be nullptr.
+         * @param view Reference to outline window to remove outline. Can't be nullptr.
          */
-        explicit RemoveObject(QListWidget* list);
+        explicit RemoveObject(QListWidget* list, QGraphicsView* view);
         ~RemoveObject() noexcept = default;
 
         bool execute() override;
@@ -33,7 +36,7 @@ namespace command
          * @brief Temporary holder of item returned from the list.
          * Use to restore the item to the list when unexecute() called.
          */
-        std::unique_ptr<QListWidgetItem> item{ nullptr };
+        std::unique_ptr<CustomListWidgetItem> item{ nullptr };
         /**
          * @internal
          * @brief Targeted list to perform removal, can't be nullptr.
@@ -44,5 +47,11 @@ namespace command
          * @brief Previous index of the removed item, use to reinsert the item to the list when unexeute().
          */
         QModelIndex index;
+
+        /**
+         * @internal
+         * @brief Reference to outline window to remove outline from preview. Can't be nullptr.
+         */
+        QGraphicsView* view{ nullptr };
     };
 }
