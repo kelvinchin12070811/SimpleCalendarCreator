@@ -125,6 +125,14 @@ namespace element
         });
         dialog->connect(dialog->findChild<QPushButton*>("btnCancel"), &QPushButton::clicked,
             dialog, &QDialog::close);
+        dialog->connect(dialog->findChild<QLineEdit*>("lnedColourHex"), &QLineEdit::textChanged,
+            [dialog, colourPreview](const QString& value) {
+                if (QColor::isValidColor(value))
+                {
+                    colourPreview->setStyleSheet("background-color: " + value);
+                }
+            }
+        );
         dialog->setAttribute(Qt::WA_DeleteOnClose);
         dialog->show();
     }
