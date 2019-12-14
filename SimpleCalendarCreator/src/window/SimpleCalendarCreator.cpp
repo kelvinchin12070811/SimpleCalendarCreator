@@ -14,6 +14,7 @@
 #include "command/ResizeCalendar.hpp"
 #include "command/UndoHistory.hpp"
 #include "window/CalendarResizer.hpp"
+#include "window/PreviewWindow.hpp"
 
 #ifdef _DEBUG
 #include <qdebug.h>
@@ -70,6 +71,10 @@ void SimpleCalendarCreator::connectObjects()
     });
     connect(ui->btnRemoveObject, &QPushButton::clicked, this, &SimpleCalendarCreator::onRemoveObject);
     connect(ui->btnResize, &QPushButton::clicked, this, &SimpleCalendarCreator::onResizeCalendar);
+    connect(ui->btnPreview, &QPushButton::clicked, [this]() {
+        auto previewWindow = std::make_unique<PreviewWindow>(*ui->objectList, szCalendar);
+        previewWindow->exec();
+    });
 }
 
 void SimpleCalendarCreator::initUi()

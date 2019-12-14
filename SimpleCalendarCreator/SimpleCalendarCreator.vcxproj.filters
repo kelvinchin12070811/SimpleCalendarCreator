@@ -60,6 +60,12 @@
     <ClCompile Include="src\command\UndoHistory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\window\PreviewWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\element\Month.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="SimpleCalendarCreator.qrc">
@@ -76,6 +82,9 @@
     <QtMoc Include="src\window\CalendarResizer.hpp">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\window\PreviewWindow.hpp">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\window\SimpleCalendarCreator.ui">
@@ -85,6 +94,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\window\CalendarResizer.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\window\PreviewWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -111,6 +123,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\command\UndoHistory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\element\Month.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

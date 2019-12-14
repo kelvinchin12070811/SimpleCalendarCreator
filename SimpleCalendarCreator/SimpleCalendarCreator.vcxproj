@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="src\command\ResizeCalendar.cpp" />
     <ClCompile Include="src\command\UndoHistory.cpp" />
+    <ClCompile Include="src\element\Month.cpp" />
     <ClCompile Include="src\window\CalendarResizer.cpp" />
     <ClCompile Include="src\element\Line.cpp" />
     <ClCompile Include="src\window\ObjectCreator.cpp" />
@@ -127,6 +128,7 @@
     <ClCompile Include="src\command\RemoveObject.cpp" />
     <ClCompile Include="src\element\CustomListWidgetItem.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\window\PreviewWindow.cpp" />
     <ClCompile Include="src\window\SimpleCalendarCreator.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -135,12 +137,18 @@
   <ItemGroup>
     <QtUic Include="src\window\CalendarResizer.ui" />
     <QtUic Include="src\window\ObjectCreator.ui" />
+    <QtUic Include="src\window\PreviewWindow.ui" />
     <QtUic Include="src\window\SimpleCalendarCreator.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="SimpleCalendarCreator.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\element\Month.hpp" />
+    <QtMoc Include="src\window\PreviewWindow.hpp">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(QTDIR)\include\QtUiTools;$(ProjectDir)\src</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(QTDIR)\include\QtUiTools;$(ProjectDir)\src</IncludePath>
+    </QtMoc>
     <QtMoc Include="src\window\CalendarResizer.hpp">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(QTDIR)\include\QtUiTools;$(ProjectDir)\src</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(QTDIR)\include\QtUiTools;$(ProjectDir)\src</IncludePath>

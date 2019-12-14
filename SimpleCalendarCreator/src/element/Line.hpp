@@ -22,6 +22,7 @@ namespace element
         void setParent(CustomListWidgetItem* parent) override;
         void setSize(const QSize& value) override;
         const QPixmap& getRenderedGraphics() override;
+        QPixmap render(const Month& month) override;
         void edit() override;
     private:
         /**

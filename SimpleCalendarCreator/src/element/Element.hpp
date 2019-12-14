@@ -6,6 +6,8 @@
 #pragma once
 #include <qpixmap.h>
 
+#include "element/Month.hpp"
+
 class CustomListWidgetItem;
 
 namespace element
@@ -32,6 +34,10 @@ namespace element
          * @brief Get the rendered graphics for outline purpose.
          */
         virtual const QPixmap& getRenderedGraphics() = 0;
+        /**
+         * @brief Render the selected month.
+         */
+        virtual QPixmap render(const Month& month) = 0;
         /**
          * @brief Allow user to modifide the properties of the element.
          */

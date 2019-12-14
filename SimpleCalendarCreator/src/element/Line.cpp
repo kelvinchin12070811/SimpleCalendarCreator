@@ -47,6 +47,22 @@ namespace element
     {
         return graphic;
     }
+
+    QPixmap Line::render(const Month& month)
+    {
+        QPixmap rendered{ graphic.size() };
+        rendered.fill(Qt::GlobalColor::transparent);
+
+        QPainter painter{ &rendered };
+        QPen pen{ painter.pen() };
+        pen.setWidth(lineWidth);
+        pen.setColor(lineColour);
+        painter.setPen(pen);
+
+        painter.drawLine(lineNodes[0], lineNodes[1]);
+
+        return rendered;
+    }
     
     void Line::edit()
     {
