@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>EditLine</class>
+ <widget class="QDialog" name="EditLine">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -198,6 +198,9 @@
           <property name="text">
            <string>#000000</string>
           </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
         <item>
@@ -284,7 +287,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../SimpleCalendarCreator.qrc"/>
+  <include location="../../../SimpleCalendarCreator.qrc"/>
  </resources>
  <connections/>
 </ui>

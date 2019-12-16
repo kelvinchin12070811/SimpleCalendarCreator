@@ -22,6 +22,7 @@
 #include <quiloader.h>
 
 #include "element/Line.hpp"
+#include "window/object_editor/EditLine.hpp"
 
 #ifdef _DEBUG
 #include <qdebug.h>
@@ -29,6 +30,14 @@
 
 namespace element
 {
+    Line::Line()
+    {
+        properties.lineColour = Qt::GlobalColor::black;
+        properties.lineWidth = 1;
+        properties.posLineStart = QPoint{};
+        properties.posLineEnd = QPoint{};
+    }
+
     void Line::setParent(CustomListWidgetItem* parent)
     {
         this->parent = parent;
@@ -55,117 +64,31 @@ namespace element
 
         QPainter painter{ &rendered };
         QPen pen{ painter.pen() };
-        pen.setWidth(lineWidth);
-        pen.setColor(lineColour);
+        pen.setWidth(properties.lineWidth);
+        pen.setColor(properties.lineColour);
         painter.setPen(pen);
 
-        painter.drawLine(lineNodes[0], lineNodes[1]);
+        painter.drawLine(properties.posLineStart, properties.posLineEnd);
 
         return rendered;
     }
-    
+
     void Line::edit()
     {
-        QFile ui{ ":/resource/ui/edit_line.ui" };
-        ui.open(QIODevice::ReadOnly);
-        assert(ui.isOpen());
-        QUiLoader loader;
-        QDialog* dialog{ static_cast<QDialog*>(loader.load(&ui)) };
-        dialog->setWindowTitle(dialog->windowTitle().arg(parent->text()));
-        
-        std::map<QSpinBox*, std::function<void(QSpinBox*)>> spinBoxes = {
-            { dialog->findChild<QSpinBox*>("spinX1"), [this](QSpinBox* spinbox) {
-                    spinbox->setValue(lineNodes[0].x());
-                }
-            },
-            { dialog->findChild<QSpinBox*>("spinY1"), [this](QSpinBox* spinbox) {
-                    spinbox->setValue(lineNodes[0].y());
-                }
-            },
-            { dialog->findChild<QSpinBox*>("spinX2"), [this](QSpinBox* spinbox) {
-                    spinbox->setValue(lineNodes[1].x());
-                }
-            },
-            { dialog->findChild<QSpinBox*>("spinY2"), [this](QSpinBox* spinbox) {
-                    spinbox->setValue(lineNodes[1].y());
-                }
-            },
-            { dialog->findChild<QSpinBox*>("spinWidth"), [this](QSpinBox* spinbox) {
-                    spinbox->setValue(lineWidth);
-                }
-            }
-        };
-        for (auto itr : spinBoxes)
-        {
-            assert(itr.first != nullptr);
-            itr.first->setMaximum(std::numeric_limits<int>::max());
-            itr.first->setMinimum(std::numeric_limits<int>::min());
-            itr.second(itr.first);
-        }
-
-        auto colourPreview = dialog->findChild<QLabel*>("labColourPreview");
-        auto colourHex = dialog->findChild<QLineEdit*>("lnedColourHex");
-        assert(colourPreview != nullptr);
-        assert(colourHex != nullptr);
-
-        colourPreview->setStyleSheet("background-color: " + lineColour.name());
-        colourHex->setText(lineColour.name());
-
-        dialog->connect(dialog->findChild<QPushButton*>("btnChooseColour"), &QPushButton::clicked, [=]() {
-            auto colour = QColorDialog::getColor(lineColour, dialog);
-            QString hexVal{ colour.name() };
-#ifdef _DEBUG
-            qDebug() << hexVal;
-#endif // _DEBUG
-            colourPreview->setStyleSheet("background-color: " + hexVal);
-            colourHex->setText(hexVal);
-        });
-        dialog->connect(dialog->findChild<QPushButton*>("btnOk"), &QPushButton::clicked, [this, dialog]() {
-            onAccepted(dialog);
-        });
-        dialog->connect(dialog->findChild<QPushButton*>("btnCancel"), &QPushButton::clicked,
-            dialog, &QDialog::close);
-        dialog->connect(dialog->findChild<QLineEdit*>("lnedColourHex"), &QLineEdit::textChanged,
-            [dialog, colourPreview](const QString& value) {
-                if (QColor::isValidColor(value))
-                {
-                    colourPreview->setStyleSheet("background-color: " + value);
-                }
-            }
-        );
-        dialog->setAttribute(Qt::WA_DeleteOnClose);
-        dialog->show();
+        auto dialog = std::make_unique<EditLine>(&properties);
+        dialog->forwardConnect(std::bind(&Line::drawLine, this));
+        dialog->exec();
     }
-    
+
     void Line::drawLine()
     {
         graphic.fill(Qt::GlobalColor::transparent);
         QPainter painter{ &graphic };
         QPen pen = painter.pen();
-        pen.setColor(lineColour);
-        pen.setWidth(lineWidth);
+        pen.setColor(properties.lineColour);
+        pen.setWidth(properties.lineWidth);
         painter.setPen(pen);
-        painter.drawLine(lineNodes[0], lineNodes[1]);
+        painter.drawLine(properties.posLineStart, properties.posLineEnd);
         parent->renderOutline();
-    }
-
-    void Line::onAccepted(QDialog* dialog)
-    {
-        auto lnedColourHex = dialog->findChild<QLineEdit*>("lnedColourHex");
-        auto spinWidth = dialog->findChild<QSpinBox*>("spinWidth");
-        auto spinX1 = dialog->findChild<QSpinBox*>("spinX1");
-        auto spinY1 = dialog->findChild<QSpinBox*>("spinY1");
-        auto spinX2 = dialog->findChild<QSpinBox*>("spinX2");
-        auto spinY2 = dialog->findChild<QSpinBox*>("spinY2");
-
-        assert(lnedColourHex != nullptr);
-        lineColour = QColor{ lnedColourHex->text() };
-        lineWidth = spinWidth->value();
-        lineNodes[0].setX(spinX1->value());
-        lineNodes[0].setY(spinY1->value());
-        lineNodes[1].setX(spinX2->value());
-        lineNodes[1].setY(spinY2->value());
-        drawLine();
-        dialog->close();
     }
 }

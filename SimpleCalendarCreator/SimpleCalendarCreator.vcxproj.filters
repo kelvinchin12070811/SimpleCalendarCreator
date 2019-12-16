@@ -66,6 +66,12 @@
     <ClCompile Include="src\element\Month.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\window\object_editor\EditLine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\command\object_properties_modifier\LineObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="SimpleCalendarCreator.qrc">
@@ -85,6 +91,12 @@
     <QtMoc Include="src\window\PreviewWindow.hpp">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\window\object_editor\EditLine.hpp">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\command\object_properties_modifier\LineObject.hpp">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\window\SimpleCalendarCreator.ui">
@@ -97,6 +109,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\window\PreviewWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\window\object_editor\EditLine.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

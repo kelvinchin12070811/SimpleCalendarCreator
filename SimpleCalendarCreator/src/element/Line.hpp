@@ -13,12 +13,29 @@
 
 namespace element
 {
+    namespace object_properties
+    {
+        /**
+         * @brief Common properties of the calendar object element::Line.
+         */
+        struct Line
+        {
+            int lineWidth;
+            QPoint posLineStart;
+            QPoint posLineEnd;
+            QColor lineColour;
+        };
+    }
     /**
      * @brief Represented as a line on the calendar design.
      */
     class Line : public element::Element
     {
     public:
+        /**
+         * @brief Construct Line with default properties.
+         */
+        Line();
         void setParent(CustomListWidgetItem* parent) override;
         void setSize(const QSize& value) override;
         const QPixmap& getRenderedGraphics() override;
@@ -30,11 +47,6 @@ namespace element
          * @brief Render the line to the "graphic" property.
          */
         void drawLine();
-        /**
-         * @internal
-         * @brief Slot when "Ok" button is clicked on the edit dialog.
-         */
-        void onAccepted(QDialog* dialog);
     private:
         /**
          * @internal
@@ -43,21 +55,9 @@ namespace element
         CustomListWidgetItem* parent;
         /**
          * @internal
-         * @brief Thickness of the line.
+         * @brief Common properties of line object.
          */
-        int lineWidth{ 1 };
-        /**
-         * @internal
-         * @brief Position of the line's nodes
-         *  - Index 0 as starting point
-         *  - Index 1 as ending point
-         */
-        std::array<QPoint, 2> lineNodes;
-        /**
-         * @internal
-         * brief Colour of the line, black is default.
-         */
-        QColor lineColour{ Qt::GlobalColor::black };
+        element::object_properties::Line properties;
         /**
          * @internal
          * @brief Pre-rendered graphics that use as outline of the design.
