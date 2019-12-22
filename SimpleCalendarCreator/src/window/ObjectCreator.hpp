@@ -57,11 +57,6 @@ private:
     bool accepted{ false };
     /**
      * @internal
-     * @brief Maps that register readable name to a factory function to create specific calendar element.
-     */
-    std::map<QString, std::function<std::unique_ptr<element::Element>()>> objectFactory;
-    /**
-     * @internal
      * @brief Ui of the Object Creator.
      */
     std::unique_ptr<Ui::ObjectCreator> ui{ nullptr };

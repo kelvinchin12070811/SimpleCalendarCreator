@@ -5,20 +5,17 @@
 ************************************************************************************************************/
 #include "window/ObjectCreator.hpp"
 
+#include <boost/assert.hpp>
+
 #include <qmetaobject.h>
 #include <qstringlist.h>
 
-#include "element/Line.hpp"
+#include "element/CalendarObjectFactory.hpp"
 
 ObjectCreator::ObjectCreator(QWidget *parent)
     : QDialog(parent), ui(std::make_unique<Ui::ObjectCreator>())
 {
     ui->setupUi(this);
-
-    // Map elements readable name to class name
-    objectFactory = {
-        { "Line", []() { return std::make_unique<element::Line>(); } }
-    };
 
     initUi();
     connectObjects();
@@ -34,11 +31,13 @@ std::unique_ptr<element::Element> ObjectCreator::createElement() const
     if (!isAccepted()) return nullptr;
     try
     {
-        return objectFactory.at(ui->cmbObjectType->currentText())();
+        CalendarObjectFactory factory;
+        auto objClassName = factory.getObjectClassName(ui->cmbObjectType->currentText());
+        return factory.createObject(objClassName);
     }
     catch (const std::out_of_range & e)
     {
-        assert(0);  // element not registered in "objectFactory".
+        BOOST_ASSERT_MSG(false, "element not registered.");
         return nullptr;
     }
 }
@@ -56,9 +55,10 @@ void ObjectCreator::connectObjects()
 
 void ObjectCreator::initUi()
 {
-    for (auto&& itr : objectFactory)
+    CalendarObjectFactory factory;
+    for (auto&& itr : factory.getObjectReadableName())
     {
-        ui->cmbObjectType->addItem(itr.first);
+        ui->cmbObjectType->addItem(itr);
     }
 }
 

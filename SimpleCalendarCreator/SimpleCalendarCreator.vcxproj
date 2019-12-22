@@ -122,6 +122,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\command\object_properties_modifier\LineObject.cpp" />
+    <ClCompile Include="src\element\CalendarObjectFactory.cpp" />
     <ClCompile Include="src\window\object_editor\EditLine.cpp" />
     <ClCompile Include="src\command\ResizeCalendar.cpp" />
     <ClCompile Include="src\command\UndoHistory.cpp" />

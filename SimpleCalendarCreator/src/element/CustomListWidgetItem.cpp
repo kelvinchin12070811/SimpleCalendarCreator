@@ -5,6 +5,8 @@
 ************************************************************************************************************/
 #include "window/SimpleCalendarCreator.hpp"
 
+#include <boost/assert.hpp>
+
 #include "element/CustomListWidgetItem.hpp"
 
 #ifdef _DEBUG
@@ -15,6 +17,7 @@ CustomListWidgetItem::CustomListWidgetItem(SimpleCalendarCreator* mainWindow, co
     std::unique_ptr<element::Element> object):
         mainWindow(mainWindow), QListWidgetItem(label), object(std::move(object))
 {
+    BOOST_ASSERT_MSG(this->object != nullptr, "object can't be nullptr");
     this->object->setParent(this);
     this->object->setSize(this->mainWindow->getCalendarSize());
 }
