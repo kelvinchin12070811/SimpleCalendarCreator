@@ -341,3 +341,6 @@ healthchecksdb
 
 # Qt generated
 */GeneratedFiles/*
+
+# Custom properties files
+*.props

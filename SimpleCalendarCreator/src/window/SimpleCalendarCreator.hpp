@@ -6,6 +6,7 @@
 #pragma once
 #include "ui_SimpleCalendarCreator.h"
 
+#include <filesystem>
 #include <memory>
 #include <stack>
 
@@ -22,6 +23,9 @@ class SimpleCalendarCreator : public QMainWindow
 public:
     static const QSize* default_calender_size;  /**< @brief default size of the calendar design. */
     static const QString* window_title;  /**< @brief Window title text. */
+    static const QString* app_version;  /**< @brief Version num of the app, in major.minor.bugfix format. */
+    static const QString* app_uid;  /**< @brief Uid of the applab project. */
+    static const QString* file_version;  /**< @brief Version of the file format, in major.minor.bugfix format.*/
 public:
     SimpleCalendarCreator(QWidget *parent = Q_NULLPTR);
     /**
@@ -73,8 +77,23 @@ private: //slots
      * @brief Slot when user decide to resize their calendar design.
      */
     void onResizeCalendar();
+    /**
+     * @internal
+     * @brief Slot when trying to save a project.
+     */
+    void onSaveProject();
+    /**
+     * @internal
+     * @brief Slot when trying to save project as.
+     */
+    void onSaveProjectAs();
 
 private:
+    /**
+     * @internal
+     * @brief Path of last saved file. Empty to trigger save as.
+     */
+    std::filesystem::path savedPath;
     /**
      * @internal
      * @brief History tracking stack that holds previous executed command.

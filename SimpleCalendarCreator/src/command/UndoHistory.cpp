@@ -7,8 +7,8 @@
 
 UndoHistory* UndoHistory::getInstance()
 {
-    static UndoHistory instance;
-    return &instance;
+    static UndoHistory* instance{ new UndoHistory };
+    return instance;
 }
 
 void UndoHistory::push(std::unique_ptr<command::Command> command) noexcept

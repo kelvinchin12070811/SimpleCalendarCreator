@@ -6,6 +6,8 @@
 #pragma once
 #include <qpixmap.h>
 
+#include <pugixml.hpp>
+
 #include "element/Month.hpp"
 
 class CustomListWidgetItem;
@@ -42,6 +44,17 @@ namespace element
          * @brief Allow user to modifide the properties of the element.
          */
         virtual void edit() = 0;
+
+        /**
+         * @brief Serialize data for save file feature.
+         * @param node XML node to dump Object's prperties, can't be nullptr.
+         */
+        virtual void serialize(pugi::xml_node* node) = 0;
+        /**
+         * @brief Deserialize data from save file.
+         * @param node XML node that contain Calendar Object's properties.
+         */
+        virtual void deserialize(const pugi::xml_node& node) = 0;
         virtual ~Element() noexcept = 0;
     };
     inline Element::~Element() = default;

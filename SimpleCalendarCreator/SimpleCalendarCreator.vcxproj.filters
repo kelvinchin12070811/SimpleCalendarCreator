@@ -143,5 +143,8 @@
     <ClInclude Include="src\element\Month.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\element\CalendarObjectFactory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

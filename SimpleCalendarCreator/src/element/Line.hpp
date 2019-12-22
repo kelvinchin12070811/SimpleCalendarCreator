@@ -41,6 +41,8 @@ namespace element
         const QPixmap& getRenderedGraphics() override;
         QPixmap render(const Month& month) override;
         void edit() override;
+        void serialize(pugi::xml_node* node) override;
+        void deserialize(const pugi::xml_node& node) override;
     private:
         /**
          * @internal

@@ -5,9 +5,20 @@
 ************************************************************************************************************/
 #include "window/SimpleCalendarCreator.hpp"
 
+#include <sstream>
+
+#include <boost/assert.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ini_parser.hpp>
+
+#include <pugixml.hpp>
+
 #include <qdatetime.h>
+#include <qfiledialog.h>
 #include <qmessagebox.h>
 #include <qpainter.h>
+
+#include <zip.hpp>
 
 #include "command/AddObject.hpp"
 #include "command/RemoveObject.hpp"
@@ -20,8 +31,13 @@
 #include <qdebug.h>
 #endif
 
-const QSize* SimpleCalendarCreator::default_calender_size = new QSize{ 783, 709 };
-const QString* SimpleCalendarCreator::window_title = new QString{ "%1 - Simple Calendar Creator" };
+const QSize* SimpleCalendarCreator::default_calender_size{ new QSize{ 783, 709 } };
+const QString* SimpleCalendarCreator::window_title{ new QString{ "%1 - Simple Calendar Creator" } };
+const QString* SimpleCalendarCreator::app_version{ new QString{ "1.0.0" } };
+const QString* SimpleCalendarCreator::app_uid{
+    new QString{ "io.gitlab.kelvinchin12070811.simplecalendarcreator" }
+};
+const QString* SimpleCalendarCreator::file_version{ new QString{ "1.0.0"} };
 
 SimpleCalendarCreator::SimpleCalendarCreator(QWidget *parent)
     : QMainWindow(parent), ui(std::make_unique<Ui::SimpleCalendarCreatorClass>())
@@ -62,6 +78,8 @@ void SimpleCalendarCreator::connectObjects()
         [this]() { QMessageBox::aboutQt(this, this->windowTitle()); });
     connect(ui->actionNew, &QAction::triggered, this, &SimpleCalendarCreator::onNewProject);
     connect(ui->actionQuit, &QAction::triggered, [this]() { this->close(); });
+    connect(ui->actionSave, &QAction::triggered, this, &SimpleCalendarCreator::onSaveProject);
+    connect(ui->actionSave_As, &QAction::triggered, this, &SimpleCalendarCreator::onSaveProjectAs);
     connect(ui->actionUndo, &QAction::triggered, []() { UndoHistory::getInstance()->pop(); });
     connect(ui->btnAddObject, &QPushButton::clicked, this, &SimpleCalendarCreator::onAddObject);
     connect(ui->btnEditObject, &QPushButton::clicked, [this]() {
@@ -155,4 +173,139 @@ void SimpleCalendarCreator::onResizeCalendar()
 
         UndoHistory::getInstance()->push(std::move(cmd));
     }
+}
+
+void SimpleCalendarCreator::onSaveProject()
+{
+    if (!UndoHistory::getInstance()->hasUnsave()) return;
+    if (savedPath.empty())
+    {
+        onSaveProjectAs();
+        return;
+    }
+
+    libzip::archive container{ savedPath.string() };
+    boost::property_tree::ptree metaIni;
+    
+    try
+    {
+        libzip::stat fileId;
+        fileId = container.stat("_meta/meta.ini");
+        std::string file{ container.open(fileId.index).read(fileId.size) };
+        std::istringstream ss(file);
+        boost::property_tree::ini_parser::read_ini(ss, metaIni);
+    }
+    catch (const std::runtime_error & e)
+    {
+        QMessageBox::critical(this, "Error on saving file", e.what());
+    }
+
+    QString appId{ metaIni.get<char*>("app.uid") };
+    if (appId != *SimpleCalendarCreator::app_uid)
+    {
+        QMessageBox::critical(this, "Unsupported File Format",
+            "This file is not created for Simple Calendar Creator");
+        return;
+    }
+
+    QString verFile{ metaIni.get<char*>("file.version") };
+    QString verApp{ metaIni.get<char*>("app.version") };
+    if (*SimpleCalendarCreator::file_version < verFile ||
+        *SimpleCalendarCreator::app_version < verApp)
+    {
+        QMessageBox::critical(this, "Unsupported File Format",
+            "This file is created for newer version of Simple Calendar Creator which is not supported.");
+        return;
+    }
+
+    QString modTime{ QDateTime::currentDateTimeUtc().toString(Qt::DateFormat::ISODate) };
+    metaIni.put("file.created", modTime.toStdString());
+
+    pugi::xml_document document;
+    auto design = document.append_child("design");
+    for (int idx{ 0 }; idx < ui->objectList->count(); idx++)
+    {
+        auto item = static_cast<CustomListWidgetItem*>(ui->objectList->item(idx));
+        auto objectNode = design.append_child("calendar_obj");
+        objectNode.append_attribute("name").set_value(item->text().toUtf8().data());
+        item->getElement()->serialize(&objectNode);
+    }
+
+    auto saveWorker = [&container](const std::string & data, const std::string & file) {
+        try
+        {
+            auto stat = container.stat(file);
+            container.replace(libzip::source_buffer(data), stat.index);
+        }
+        catch (const std::runtime_error & e)
+        {
+            container.add(libzip::source_buffer(data), file);
+        }
+    };
+
+    std::ostringstream ss;
+    boost::property_tree::ini_parser::write_ini(ss, metaIni);
+    saveWorker(ss.str(), "_meta/meta.ini");
+
+    ss.swap(std::ostringstream{});
+    document.save(ss, "    ");
+    saveWorker(ss.str(), "design.xml");
+}
+
+void SimpleCalendarCreator::onSaveProjectAs()
+{
+    if (!UndoHistory::getInstance()->hasUnsave()) return;
+
+    QString path{ QFileDialog::getSaveFileName(this, "Save as", "", "Calendar design(*.calendar)") };
+#ifdef _DEBUG
+    qDebug() << "output path: " << path;
+#endif // _DEBUG
+
+    if (path.isEmpty()) return;
+
+    QString modTime{ QDateTime::currentDateTimeUtc().toString(Qt::DateFormat::ISODate) };
+
+    boost::property_tree::ptree meta;
+    meta.add("spec.version", "1.0.0");
+    meta.add("app.uid", SimpleCalendarCreator::app_uid->toStdString());
+    meta.add("app.version", SimpleCalendarCreator::app_version->toStdString());
+    meta.add("file.version", SimpleCalendarCreator::file_version->toStdString());
+    meta.add("file.created", modTime.toStdString());
+    meta.add("file.modified", modTime.toStdString());
+
+    pugi::xml_document document;
+    auto design = document.append_child("design");
+    for (int idx{ 0 }; idx < ui->objectList->count(); idx++)
+    {
+        auto item = dynamic_cast<CustomListWidgetItem*>(ui->objectList->item(idx));
+        BOOST_ASSERT_MSG(item != nullptr, "item is not CustomListWidget");
+        auto objectNode = design.append_child("calendar_obj");
+        objectNode.append_attribute("name").set_value(item->text().toUtf8().data());
+        item->getElement()->serialize(&objectNode);
+    }
+
+    libzip::archive output{ path.toStdString(), ZIP_CREATE };
+
+    auto writeOutput = [&output](const std::string& filename, const libzip::source& source) {
+        try
+        {
+            auto info = output.stat(filename);
+            output.replace(source, info.index);
+        }
+        catch (const std::runtime_error&)
+        {
+            output.add(source, filename);
+        }
+    };
+
+    std::ostringstream buffer;
+    boost::property_tree::ini_parser::write_ini(buffer, meta);
+    writeOutput("_meta/meta.ini", libzip::source_buffer(buffer.str()));
+
+    buffer.swap(std::ostringstream{});
+    document.save(buffer, "    ");
+    writeOutput("design.xml", libzip::source_buffer(buffer.str()));
+
+    savedPath = path.toStdString();
+    setProjectName(QString::fromStdString(savedPath.stem().string()));
 }
