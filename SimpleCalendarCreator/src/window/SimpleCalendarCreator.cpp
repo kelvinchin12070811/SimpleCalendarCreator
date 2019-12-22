@@ -14,6 +14,7 @@
 #include <pugixml.hpp>
 
 #include <qdatetime.h>
+#include <qdebug.h>
 #include <qfiledialog.h>
 #include <qmessagebox.h>
 #include <qpainter.h>
@@ -178,21 +179,33 @@ void SimpleCalendarCreator::onResizeCalendar()
 void SimpleCalendarCreator::onSaveProject()
 {
     if (!UndoHistory::getInstance()->hasUnsave()) return;
-    if (savedPath.empty())
+    if (savedPath.path().isEmpty())
     {
         onSaveProjectAs();
         return;
     }
 
-    libzip::archive container{ savedPath.string() };
+    std::unique_ptr<libzip::archive> container{ nullptr };
     boost::property_tree::ptree metaIni;
     
     try
     {
+        container = std::make_unique<libzip::archive>(savedPath.filePath().toStdString());
+    }
+    catch (const std::exception& e)
+    {
+#ifdef _DEBUG
+        qDebug() << e.what();
+#endif // _DEBUG
+        BOOST_ASSERT_MSG(false, "failed to open file");
+    }
+
+    try
+    {
         libzip::stat fileId;
-        fileId = container.stat("_meta/meta.ini");
-        std::string file{ container.open(fileId.index).read(fileId.size) };
-        std::istringstream ss(file);
+        fileId = container->stat("_meta/meta.ini");
+        libzip::file file{ container->open(fileId.index) };
+        std::istringstream ss(file.read(fileId.size));
         boost::property_tree::ini_parser::read_ini(ss, metaIni);
     }
     catch (const std::runtime_error & e)
@@ -234,12 +247,12 @@ void SimpleCalendarCreator::onSaveProject()
     auto saveWorker = [&container](const std::string & data, const std::string & file) {
         try
         {
-            auto stat = container.stat(file);
-            container.replace(libzip::source_buffer(data), stat.index);
+            auto stat = container->stat(file);
+            container->replace(libzip::source_buffer(data), stat.index);
         }
         catch (const std::runtime_error & e)
         {
-            container.add(libzip::source_buffer(data), file);
+            container->add(libzip::source_buffer(data), file);
         }
     };
 
@@ -306,6 +319,6 @@ void SimpleCalendarCreator::onSaveProjectAs()
     document.save(buffer, "    ");
     writeOutput("design.xml", libzip::source_buffer(buffer.str()));
 
-    savedPath = path.toStdString();
-    setProjectName(QString::fromStdString(savedPath.stem().string()));
+    savedPath = path;
+    setProjectName(savedPath.completeBaseName());
 }

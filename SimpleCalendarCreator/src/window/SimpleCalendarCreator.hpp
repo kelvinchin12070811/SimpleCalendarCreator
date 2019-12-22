@@ -6,10 +6,10 @@
 #pragma once
 #include "ui_SimpleCalendarCreator.h"
 
-#include <filesystem>
 #include <memory>
 #include <stack>
 
+#include <qfileinfo.h>
 #include <QtWidgets/QMainWindow>
 
 #include "command/Command.hpp"
@@ -91,11 +91,6 @@ private: //slots
 private:
     /**
      * @internal
-     * @brief Path of last saved file. Empty to trigger save as.
-     */
-    std::filesystem::path savedPath;
-    /**
-     * @internal
      * @brief History tracking stack that holds previous executed command.
      */
     std::stack<std::unique_ptr<command::Command>> undoStack;
@@ -105,6 +100,11 @@ private:
      */
     std::unique_ptr<Ui::SimpleCalendarCreatorClass> ui{ nullptr };
 
+    /**
+     * @internal
+     * @brief Path of last saved file. Empty to trigger save as.
+     */
+    QFileInfo savedPath;
     /**
      * @internal
      * @brief Size of calendar.
