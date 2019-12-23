@@ -6,6 +6,7 @@
 #pragma once
 #include <memory>
 
+#include <qpointer.h>
 #include <qlistwidget.h>
 #include <qgraphicsitem.h>
 
@@ -24,7 +25,7 @@ public:
      * @param label Text to show on the item.
      * @param object Calendar element that will be hold by the item. nullptr for not holding any element.
      */
-    explicit CustomListWidgetItem(SimpleCalendarCreator* mainWindow, const QString& label,
+    explicit CustomListWidgetItem(QPointer<SimpleCalendarCreator> mainWindow, const QString& label,
         std::unique_ptr<element::Element> object = nullptr);
     ~CustomListWidgetItem() noexcept;
 
@@ -45,7 +46,12 @@ private:
      * @internal
      * @brief Reference to main window for rendering design outline, can't be nullptr.
      */
-    SimpleCalendarCreator* mainWindow{ nullptr };
+    QPointer<SimpleCalendarCreator> mainWindow{ nullptr };
+    /**
+     * @internal
+     * @brief Reference to scene that hold the graphics item.
+     */
+    QPointer<QGraphicsScene> itemScene{ nullptr };
 
     /**
      * @brief [read, write] Calendar element that hold by the item, nullptr for not holding any of it.

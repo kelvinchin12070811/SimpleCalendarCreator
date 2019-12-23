@@ -29,6 +29,7 @@ namespace command
         if (item == nullptr) return false;
 
         list->addItem(item);
+        item->getElement()->edit();
         return true;
     }
 

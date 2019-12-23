@@ -25,20 +25,13 @@
 #include "command/RemoveObject.hpp"
 #include "command/ResizeCalendar.hpp"
 #include "command/UndoHistory.hpp"
+#include "element/CalendarObjectFactory.hpp"
 #include "window/CalendarResizer.hpp"
 #include "window/PreviewWindow.hpp"
 
 #ifdef _DEBUG
 #include <qdebug.h>
 #endif
-
-const QSize* SimpleCalendarCreator::default_calender_size{ new QSize{ 783, 709 } };
-const QString* SimpleCalendarCreator::window_title{ new QString{ "%1 - Simple Calendar Creator" } };
-const QString* SimpleCalendarCreator::app_version{ new QString{ "1.0.0" } };
-const QString* SimpleCalendarCreator::app_uid{
-    new QString{ "io.gitlab.kelvinchin12070811.simplecalendarcreator" }
-};
-const QString* SimpleCalendarCreator::file_version{ new QString{ "1.0.0"} };
 
 SimpleCalendarCreator::SimpleCalendarCreator(QWidget *parent)
     : QMainWindow(parent), ui(std::make_unique<Ui::SimpleCalendarCreatorClass>())
@@ -61,7 +54,7 @@ QSize SimpleCalendarCreator::getCalendarSize() const noexcept
 void SimpleCalendarCreator::setProjectName(const QString& value) noexcept
 {
     projectName = value;
-    this->setWindowTitle(window_title->arg(projectName));
+    this->setWindowTitle(QString{ SimpleCalendarCreator::window_title.data() }.arg(value));
 }
 
 void SimpleCalendarCreator::resizeEvent(QResizeEvent* ev)
@@ -78,6 +71,7 @@ void SimpleCalendarCreator::connectObjects()
     connect(ui->actionAbout_Qt, &QAction::triggered,
         [this]() { QMessageBox::aboutQt(this, this->windowTitle()); });
     connect(ui->actionNew, &QAction::triggered, this, &SimpleCalendarCreator::onNewProject);
+    connect(ui->actionOpen, &QAction::triggered, this, &SimpleCalendarCreator::onOpenProject);
     connect(ui->actionQuit, &QAction::triggered, [this]() { this->close(); });
     connect(ui->actionSave, &QAction::triggered, this, &SimpleCalendarCreator::onSaveProject);
     connect(ui->actionSave_As, &QAction::triggered, this, &SimpleCalendarCreator::onSaveProjectAs);
@@ -123,7 +117,7 @@ void SimpleCalendarCreator::onNewProject()
         undoStack.swap(decltype(undoStack){});
 
     setProjectName();
-    auto tempCmd = std::make_unique<command::ResizeCalendar>(*default_calender_size,
+    auto tempCmd = std::make_unique<command::ResizeCalendar>(default_calender_size,
         ui->szCalendarIndicator, &szCalendar);
     tempCmd->execute();
 
@@ -154,6 +148,103 @@ void SimpleCalendarCreator::onNewProject()
     }
 
     UndoHistory::getInstance()->changesSaved();
+}
+
+void SimpleCalendarCreator::onOpenProject()
+{
+    constexpr std::string_view error_dialog_title{ "Error on Opening File" };
+
+    onNewProject();
+
+    auto path = QFileDialog::getOpenFileName(this, "Open file...", {}, "Calendar design(*.calendar)");
+    if (path.isEmpty()) return;
+
+    std::unique_ptr<libzip::archive> container{ nullptr };
+    try
+    {
+        container = std::make_unique<libzip::archive>(path.toStdString());
+    }
+    catch (const std::runtime_error & e)
+    {
+#ifdef _DEBUG
+        qDebug() << e.what();
+#endif // _DEBUG
+        BOOST_ASSERT_MSG(false, "Critical error occured");
+    }
+
+    boost::property_tree::ptree metaIni;
+
+    auto reader = [&container](const std::string & name) -> std::string {
+        libzip::stat stat{ container->stat(name) };
+        return container->open(stat.index).read(stat.size);
+    };
+
+    try
+    {
+        std::istringstream ss{ reader("_meta/meta.ini") };
+        boost::property_tree::ini_parser::read_ini(ss, metaIni);
+    }
+    catch (const std::exception& e)
+    {
+        QMessageBox::critical(this, error_dialog_title.data(), e.what());
+        return;
+    }
+
+    auto specVer = QString::fromStdString(metaIni.get<std::string>("spec.version"));
+    auto appId = QString::fromStdString(metaIni.get<std::string>("app.uid"));
+    auto fileVersion = QString::fromStdString(metaIni.get<std::string>("file.version"));
+    if (appId != SimpleCalendarCreator::app_uid.data())
+    {
+        QMessageBox::critical(this, static_cast<std::string>(error_dialog_title).c_str(),
+            "Simple Calendar Creator is unable to open this file.");
+        return;
+    }
+
+    if (specVer > "1.0.0" || fileVersion > SimpleCalendarCreator::file_version.data())
+    {
+        QMessageBox::critical(this, error_dialog_title.data(),
+            "Unable to open file, it's designed for newer program");
+        return;
+    }
+
+    pugi::xml_document document;
+    try
+    {
+        std::istringstream ss{ reader("design.xml") };
+        auto result = document.load(ss);
+        if (result.status != pugi::xml_parse_status::status_ok)
+            throw std::runtime_error{ result.description() };
+    }
+    catch (const std::exception& e)
+    {
+        QMessageBox::critical(this, error_dialog_title.data(), e.what());
+        return;
+    }
+
+    auto design = document.first_child();
+    CalendarObjectFactory factory;
+    for (auto itr : design)
+    {
+        using namespace std::string_literals;
+        if (itr.name() != "calendar_obj"s) continue;
+        try
+        {
+            auto item = new CustomListWidgetItem{ this, itr.attribute("name").as_string(),
+                factory.createObject(itr.attribute("type").as_string()) };
+            ui->objectList->addItem(item);
+            item->getElement()->deserialize(itr);
+        }
+        catch (const std::out_of_range & e)
+        {
+#ifdef _DEBUG
+            qDebug() << e.what();
+#endif // _DEBUG
+            continue;
+        }
+    }
+
+    savedPath = path;
+    setProjectName(savedPath.completeBaseName());
 }
 
 void SimpleCalendarCreator::onRemoveObject()
@@ -213,18 +304,18 @@ void SimpleCalendarCreator::onSaveProject()
         QMessageBox::critical(this, "Error on saving file", e.what());
     }
 
-    QString appId{ metaIni.get<char*>("app.uid") };
-    if (appId != *SimpleCalendarCreator::app_uid)
+    auto appId = QString::fromStdString(metaIni.get<std::string>("app.uid"));
+    if (appId != SimpleCalendarCreator::app_uid.data())
     {
         QMessageBox::critical(this, "Unsupported File Format",
             "This file is not created for Simple Calendar Creator");
         return;
     }
 
-    QString verFile{ metaIni.get<char*>("file.version") };
-    QString verApp{ metaIni.get<char*>("app.version") };
-    if (*SimpleCalendarCreator::file_version < verFile ||
-        *SimpleCalendarCreator::app_version < verApp)
+    auto verFile = QString::fromStdString(metaIni.get<std::string>("file.version"));
+    auto verApp = QString::fromStdString(metaIni.get<std::string>("app.version"));
+    if (verFile > SimpleCalendarCreator::file_version.data() ||
+        verApp > SimpleCalendarCreator::app_version.data())
     {
         QMessageBox::critical(this, "Unsupported File Format",
             "This file is created for newer version of Simple Calendar Creator which is not supported.");
@@ -232,7 +323,7 @@ void SimpleCalendarCreator::onSaveProject()
     }
 
     QString modTime{ QDateTime::currentDateTimeUtc().toString(Qt::DateFormat::ISODate) };
-    metaIni.put("file.created", modTime.toStdString());
+    metaIni.put("file.modified", modTime.toStdString());
 
     pugi::xml_document document;
     auto design = document.append_child("design");
@@ -280,9 +371,9 @@ void SimpleCalendarCreator::onSaveProjectAs()
 
     boost::property_tree::ptree meta;
     meta.add("spec.version", "1.0.0");
-    meta.add("app.uid", SimpleCalendarCreator::app_uid->toStdString());
-    meta.add("app.version", SimpleCalendarCreator::app_version->toStdString());
-    meta.add("file.version", SimpleCalendarCreator::file_version->toStdString());
+    meta.add("app.uid", SimpleCalendarCreator::app_uid.data());
+    meta.add("app.version", SimpleCalendarCreator::app_version.data());
+    meta.add("file.version", SimpleCalendarCreator::file_version.data());
     meta.add("file.created", modTime.toStdString());
     meta.add("file.modified", modTime.toStdString());
 

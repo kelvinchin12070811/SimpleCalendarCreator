@@ -21,11 +21,16 @@ class SimpleCalendarCreator : public QMainWindow
 {
     Q_OBJECT
 public:
-    static const QSize* default_calender_size;  /**< @brief default size of the calendar design. */
-    static const QString* window_title;  /**< @brief Window title text. */
-    static const QString* app_version;  /**< @brief Version num of the app, in major.minor.bugfix format. */
-    static const QString* app_uid;  /**< @brief Uid of the applab project. */
-    static const QString* file_version;  /**< @brief Version of the file format, in major.minor.bugfix format.*/
+    /** @brief default size of the calendar design. */
+    static constexpr QSize default_calender_size{ 783, 709 };
+    /** @brief Window title text. */
+    static constexpr std::string_view window_title{ "%1 - Simple Calendar Creator" };
+    /** @brief Version num of the app, in major.minor.bugfix format. */
+    static constexpr std::string_view app_version{ "1.0.0" };
+    /** @brief Uid of the applab project. */
+    static constexpr std::string_view app_uid{ "io.gitlab.kelvinchin12070811.simplecalendarcreator" };
+    /** @brief Version of the file format, in major.minor.bugfix format.*/
+    static constexpr std::string_view file_version{ "1.0.0" };
 public:
     SimpleCalendarCreator(QWidget *parent = Q_NULLPTR);
     /**
@@ -69,6 +74,11 @@ private: //slots
     void onNewProject();
     /**
      * @internal
+     * @brief Slot when user open existing project.
+     */
+    void onOpenProject();
+    /**
+     * @internal
      * @brief Slot when a calendar object is being to remove from the design.
      */
     void onRemoveObject();
@@ -109,7 +119,7 @@ private:
      * @internal
      * @brief Size of calendar.
      */
-    QSize szCalendar{ *SimpleCalendarCreator::default_calender_size };
+    QSize szCalendar{ SimpleCalendarCreator::default_calender_size };
     /**
      * @internal
      * @brief Name of the project, "Untitled" by default.

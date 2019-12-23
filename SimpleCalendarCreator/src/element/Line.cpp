@@ -85,7 +85,7 @@ namespace element
     void Line::serialize(pugi::xml_node* node)
     {
         BOOST_ASSERT_MSG(node != nullptr, "node can't be nullptr");
-        node->append_attribute("type").set_value("line");
+        node->append_attribute("type").set_value("Line");
         auto ndColour = node->append_child("colour");
         ndColour.text().set(properties.lineColour.name().toUtf8().data());
 
@@ -106,7 +106,18 @@ namespace element
 
     void Line::deserialize(const pugi::xml_node& node)
     {
-        BOOST_ASSERT_MSG(false, "unimplemented method");
+        properties.lineColour = node.child("colour").text().as_string();
+        properties.lineWidth = node.child("width").text().as_int();
+            
+        auto points = node.child("points");
+        auto pos1 = points.child("start");
+        auto pos2 = points.child("end");
+
+        properties.posLineStart.setX(pos1.attribute("x").as_int());
+        properties.posLineStart.setY(pos1.attribute("y").as_int());
+        properties.posLineEnd.setX(pos2.attribute("x").as_int());
+        properties.posLineEnd.setY(pos2.attribute("y").as_int());
+        drawLine();
     }
 
     void Line::drawLine()

@@ -13,19 +13,25 @@
 #include <qdebug.h>
 #endif // _DEBUG
 
-CustomListWidgetItem::CustomListWidgetItem(SimpleCalendarCreator* mainWindow, const QString& label,
+CustomListWidgetItem::CustomListWidgetItem(QPointer<SimpleCalendarCreator> mainWindow, const QString& label,
     std::unique_ptr<element::Element> object):
         mainWindow(mainWindow), QListWidgetItem(label), object(std::move(object))
 {
+    BOOST_ASSERT_MSG(this->mainWindow != nullptr, "mainWindow can't be nullptr");
     BOOST_ASSERT_MSG(this->object != nullptr, "object can't be nullptr");
     this->object->setParent(this);
     this->object->setSize(this->mainWindow->getCalendarSize());
+
+    itemScene = this->mainWindow->getUi()->winOutline->scene();
 }
 
 CustomListWidgetItem::~CustomListWidgetItem() noexcept
 {
-    if (pixmapItem != nullptr && pixmapItem->parentWidget() == nullptr)
-        delete pixmapItem;
+    if (itemScene == nullptr) return;
+    if (pixmapItem == nullptr) return;
+
+    if (pixmapItem->scene() == itemScene) return;
+    delete pixmapItem;
 }
 
 void CustomListWidgetItem::setElement(std::unique_ptr<element::Element> value) noexcept
