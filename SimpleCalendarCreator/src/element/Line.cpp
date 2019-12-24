@@ -21,7 +21,6 @@
 #include <qpainter.h>
 #include <qpushbutton.h>
 #include <qspinbox.h>
-#include <quiloader.h>
 
 #include "element/Line.hpp"
 #include "window/object_editor/EditLine.hpp"

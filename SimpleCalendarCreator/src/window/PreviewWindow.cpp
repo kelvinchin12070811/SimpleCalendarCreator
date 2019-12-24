@@ -6,9 +6,14 @@
 #include "window/PreviewWindow.hpp"
 
 #include <qaction.h>
+#include <qevent.h>
 #include <qpainter.h>
 
 #include "element/CustomListWidgetItem.hpp"
+
+#ifdef _DEBUG
+#include <qdebug.h>
+#endif // _DEBUG
 
 PreviewWindow::PreviewWindow(const QListWidget& list, const QSize& size, QWidget *parent)
     : QDialog(parent), szCalendar(size),ui(std::make_unique<Ui::PreviewWindow>())
@@ -25,12 +30,24 @@ PreviewWindow::~PreviewWindow() noexcept
         delete previewPixmap;
 }
 
+void PreviewWindow::showEvent(QShowEvent* ev)
+{
+    onFitInView();
+    ev->accept();
+}
+
 void PreviewWindow::connectObjects()
 {
+    connect(ui->fitInView, &QPushButton::clicked, this, &PreviewWindow::onFitInView);
     connect(ui->monthNext, &QPushButton::clicked, this, &PreviewWindow::onNextMonth);
     connect(ui->monthPrevios, &QPushButton::clicked, this, &PreviewWindow::onPrevMonth);
     connect(ui->monthToPreview, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
         this, &PreviewWindow::onPreviewMonthChanged);
+    connect(ui->resetZoom, &QPushButton::clicked, this, &PreviewWindow::onResetZoom);
+    connect(ui->zoomIn, &QPushButton::clicked, this, &PreviewWindow::onZoomIn);
+    connect(ui->zoomLevel, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+        this, &PreviewWindow::onZoomLevelChanged);
+    connect(ui->zoomOut, &QPushButton::clicked, this, &PreviewWindow::onZoomOut);
 }
 
 void PreviewWindow::render(const QListWidget& list)
@@ -60,13 +77,27 @@ void PreviewWindow::render(const QListWidget& list)
 
 void PreviewWindow::initUi()
 {
+    ui->zoomLevel->setMaximum(std::numeric_limits<int>::max());
+    ui->zoomLevel->setValue(100);
+
     QGraphicsScene* scene{ new QGraphicsScene };
     
     previewPixmap = new QGraphicsPixmapItem{ months[0] };
     scene->addItem(previewPixmap);
 
     ui->previewArea->setScene(scene);
+}
 
+void PreviewWindow::onFitInView()
+{
+    double ratio{
+        (static_cast<double>(ui->previewArea->viewport()->width()) / static_cast<double>(szCalendar.width()))
+        * 100.0
+    };
+    ui->previewArea->fitInView(previewPixmap, Qt::AspectRatioMode::KeepAspectRatio);
+    ui->zoomLevel->blockSignals(true);
+    ui->zoomLevel->setValue(static_cast<int>(ratio));
+    ui->zoomLevel->blockSignals(false);
 }
 
 void PreviewWindow::onNextMonth()
@@ -103,4 +134,28 @@ void PreviewWindow::onPreviewMonthChanged(int value)
         ui->monthPrevios->setEnabled(false);
     else
         ui->monthPrevios->setEnabled(true);
+}
+
+void PreviewWindow::onResetZoom()
+{
+    ui->previewArea->resetTransform();
+    ui->zoomLevel->setValue(100);
+}
+
+void PreviewWindow::onZoomIn()
+{
+    int current{ ui->zoomLevel->value() };
+    ui->zoomLevel->setValue(current + PreviewWindow::zoom_amount);
+}
+
+void PreviewWindow::onZoomLevelChanged(int value)
+{
+    ui->previewArea->resetTransform();
+    ui->previewArea->scale(value / 100.0, value / 100.0);
+}
+
+void PreviewWindow::onZoomOut()
+{
+    int current{ ui->zoomLevel->value() };
+    ui->zoomLevel->setValue(current - PreviewWindow::zoom_amount);
 }

@@ -20,7 +20,9 @@
 class PreviewWindow : public QDialog
 {
     Q_OBJECT
-
+public:
+    /** Amount of zoom increment or decrement. */
+    static constexpr int zoom_amount{ 5 };
 public:
     /**
      * @brief Construct new preview window.
@@ -31,59 +33,89 @@ public:
     PreviewWindow(const QListWidget& list, const QSize& size, QWidget *parent = Q_NULLPTR);
     ~PreviewWindow() noexcept;
 
+protected:
+    /**
+     * @internal
+     * Event handaler when the dialog is presented.
+     */
+    void showEvent(QShowEvent* ev) override;
 private:
     /**
      * @internal
-     * @brief Connect objects with slots.
+     * Connect objects with slots.
      */
     void connectObjects();
     /**
      * @internal
-     * @brief Extra instruction to setup ui.
+     * Extra instruction to setup ui.
      */
     void initUi();
     /**
      * @internal
-     * @brief Render months with provided list.
+     * Render months with provided list.
      */
     void render(const QListWidget& list);
 private slots:  //Slots
     /**
      * @internal
-     * @brief Show the next month when requested by user.
+     * Fit the graphics in preview window.
+     */
+    void onFitInView();
+    /**
+     * @internal
+     * Show the next month when requested by user.
      */
     void onNextMonth();
     /**
      * @internal
-     * @brief Show the previous month when requested by user.
+     * Show the previous month when requested by user.
      */
     void onPrevMonth();
     /**
      * @internal
-     * @brief On the index of combo box changed.
+     * On the index of combo box changed.
      */
     void onPreviewMonthChanged(int value);
-
+    /**
+     * @internal
+     * Slot when reseting zoom to 100%
+     */
+    void onResetZoom();
+    /**
+     * @internal
+     * Slot when zooming view in.
+     */
+    void onZoomIn();
+    /**
+     * @internal
+     * Slot when zoom level changed. Handaler to zoom in or out.
+     */
+    void onZoomLevelChanged(int value);
+    /**
+     * @internal
+     * Slot when zooming view out.
+     */
+    void onZoomOut();
 private:  //Attributes
     /**
      * @internal
-     * @brief Ui elements of PreviewWindow.
+     * Ui elements of PreviewWindow.
      */
     std::unique_ptr<Ui::PreviewWindow> ui{ nullptr };
     /**
      * @internal
-     * @brief Rendered months image.
+     * Rendered months image.
      */
     std::vector<QPixmap> months;
     
     /**
      * @internal
-     * @brief Current pixmap to preview.
+     * Current pixmap to preview.
      */
     QGraphicsPixmapItem* previewPixmap{ nullptr };
     /**
      * @internal
-     * @brief Size of the calendar design.
+     * Size of the calendar design.
      */
     QSize szCalendar;
 };

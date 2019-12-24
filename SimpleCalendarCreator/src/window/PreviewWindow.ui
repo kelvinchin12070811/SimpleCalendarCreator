@@ -188,6 +188,60 @@
      </item>
     </layout>
    </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="minimumSize">
+        <size>
+         <width>60</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>60</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Zoom</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="zoomLevel"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="zoomIn">
+       <property name="text">
+        <string>Zoom in</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="zoomOut">
+       <property name="text">
+        <string>Zoom out</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="fitInView">
+       <property name="text">
+        <string>Fit in view</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="resetZoom">
+       <property name="text">
+        <string>Reset zoom</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
