@@ -5,9 +5,9 @@
 TEMPLATE = app
 TARGET = SimpleCalendarCreator
 DESTDIR = ../Win32/Debug
-QT += core gui uitools widgets
+QT += core gui widgets
 CONFIG += debug
-DEFINES += _UNICODE _ENABLE_EXTENDED_ALIGNED_STORAGE WIN64 QT_DLL QT_WIDGETS_LIB QT_UITOOLS_LIB
+DEFINES += _UNICODE _ENABLE_EXTENDED_ALIGNED_STORAGE WIN64 QT_DLL QT_WIDGETS_LIB
 INCLUDEPATH += ./GeneratedFiles \
     . \
     ./GeneratedFiles/$(ConfigurationName) \
