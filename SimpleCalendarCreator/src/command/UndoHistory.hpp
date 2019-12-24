@@ -20,29 +20,29 @@ public:
     UndoHistory& operator=(UndoHistory&&) = delete;
 
     /**
-     * @brief Get the singletone instance of Undo History
+     * Get the singletone instance of Undo History
      */
     static UndoHistory* getInstance();
 
     /**
-     * @brief Push command to undo stack and execute the operation.
+     * Push command to undo stack and execute the operation.
      */
     void push(std::unique_ptr<command::Command> command) noexcept;
     /**
-     * @brief Pop command from undo stack and revert the operation.
+     * Pop command from undo stack and revert the operation.
      */
     void pop() noexcept;
 
     /**
-     * @brief Determine if user have unsave changes, traced by command pushed to undo stack.
+     * Determine if user have unsave changes, traced by command pushed to undo stack.
      */
     bool hasUnsave() noexcept;
     /**
-     * @brief Update the unsave status to saved.
+     * Update the unsave status to saved.
      */
     void changesSaved() noexcept;
     /**
-     * @brief Clear all undo history.
+     * Clear all undo history.
      */
     void clearHistory() noexcept;
 protected:
@@ -53,12 +53,12 @@ private:
 private:  //Attributes
     /**
      * @internal
-     * @brief Determine if user have unchange.
+     * Determine if user have unchange.
      */
     bool unsave{ false };
     /**
      * @internal
-     * @brief Stack to trace user's operations.
+     * Stack to trace user's operations.
      */
     std::stack<std::unique_ptr<command::Command>> tracer;
 };

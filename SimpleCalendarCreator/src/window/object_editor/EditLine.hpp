@@ -29,12 +29,12 @@ public:
     ~EditLine() noexcept = default;
 
     /**
-     * @brief Determine if user has accepted the modefied properties.
+     * Determine if user has accepted the modefied properties.
      */
     bool isAccepted() const noexcept;
     
     /**
-     * @brief Foward reciver to slots which will only connected when needed for
+     * Foward reciver to slots which will only connected when needed for
      * command::object_properties_modifier::LineObject.
      */
     void forwardConnect(std::function<void()> slot);
@@ -42,47 +42,47 @@ public:
 private:
     /**
      * @internal
-     * @brief Connect objects to its appropraite slots.
+     * Connect objects to its appropraite slots.
      */
     void connectObjects();
     /**
      * @internal
-     * @brief Extra instruction to setup ui.
+     * Extra instruction to setup ui.
      */
     void initUi();
 
 private slots:
     /**
      * @internal
-     * @brief Slots when user accepted the modified properties.
+     * Slots when user accepted the modified properties.
      */
     void onAccepted();
     /**
      * @internal
-     * @brief Slots when user decided to change the line's colour.
+     * Slots when user decided to change the line's colour.
      */
     void onSelectColour();
 
 private:
     /**
      * @internal
-     * @brief Determine if user has accepted the modified properties.
+     * Determine if user has accepted the modified properties.
      */
     bool accepted{ false };
 
     /**
      * @internal
-     * @brief Ui elements of EditLine dialog.
+     * Ui elements of EditLine dialog.
      */
     std::unique_ptr<Ui::EditLine> ui{ nullptr };
     /**
      * @internal
-     * @brief Properties to modify.
+     * Properties to modify.
      */
     element::object_properties::Line* properties{ nullptr };
     /**
      * @internal
-     * @brief Receiver of the propertiesChanged signal of command::object_properties_modifier::LineObject.
+     * Receiver of the propertiesChanged signal of command::object_properties_modifier::LineObject.
      */
     std::function<void()> signalReceiver{ nullptr };
 };

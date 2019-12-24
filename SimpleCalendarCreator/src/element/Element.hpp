@@ -25,33 +25,33 @@ namespace element
     {
     public:
         /**
-         * @brief Set parent of the element.
+         * Set parent of the element.
          */
         virtual void setParent(CustomListWidgetItem* parent) = 0;
         /**
-         * @brief Resize the element.
+         * Resize the element.
          */
         virtual void setSize(const QSize& value) = 0;
         /**
-         * @brief Get the rendered graphics for outline purpose.
+         * Get the rendered graphics for outline purpose.
          */
         virtual const QPixmap& getRenderedGraphics() = 0;
         /**
-         * @brief Render the selected month.
+         * Render the selected month.
          */
         virtual QPixmap render(const Month& month) = 0;
         /**
-         * @brief Allow user to modifide the properties of the element.
+         * Allow user to modifide the properties of the element.
          */
         virtual void edit() = 0;
 
         /**
-         * @brief Serialize data for save file feature.
+         * Serialize data for save file feature.
          * @param node XML node to dump Object's prperties, can't be nullptr.
          */
         virtual void serialize(pugi::xml_node* node) = 0;
         /**
-         * @brief Deserialize data from save file.
+         * Deserialize data from save file.
          * @param node XML node that contain Calendar Object's properties.
          */
         virtual void deserialize(const pugi::xml_node& node) = 0;

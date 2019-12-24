@@ -19,7 +19,7 @@ class CalendarResizer : public QDialog
 
 public:
     /**
-     * @brief Create resizer dialog with current calendar size.
+     * Create resizer dialog with current calendar size.
      * @param curSize Current size of the calendar design.
      * @param parent Parent widget of the dialog, nullptr for no parent.
      */
@@ -27,11 +27,11 @@ public:
     ~CalendarResizer() noexcept = default;
 
     /**
-     * @brief Determine if user has accepted the values.
+     * Determine if user has accepted the values.
      */
     bool isAccepted() const noexcept;
     /**
-     * @brief Get new size selected by user.
+     * Get new size selected by user.
      */
     QSize getDecidedSize() const noexcept;
 private:
@@ -48,12 +48,12 @@ private:  //slots
 private:
     /**
      * @internal
-     * @brief Determine if user accepted the new properties.
+     * Determine if user accepted the new properties.
      */
     bool accepted{ false };
     /**
      * @internal
-     * @brief Ui elements of CalendarResizer's dialog
+     * Ui elements of CalendarResizer's dialog
      */
     std::unique_ptr<Ui::CalendarResizer> ui{ nullptr };
 };

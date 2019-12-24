@@ -20,7 +20,7 @@ namespace command
         static const QString* sz_indicator_text;
     public:
         /**
-         * @brief Create new ResizeCalender command.
+         * Create new ResizeCalender command.
          * @param newSize Target size to resize.
          * @param szIndicator Indicator that tell the user what ther design size is, this will modify the
          * text shown on the indicator. Can't be nullptr.
@@ -33,22 +33,22 @@ namespace command
     private:
         /**
          * @internal
-         * @brief Reference to size indicator which tell user the size of their calendar design.
+         * Reference to size indicator which tell user the size of their calendar design.
          */
         QLabel* szIndicator{ nullptr };
         /**
          * @internal
-         * @brief Target size to resize.
+         * Target size to resize.
          */
         QSize newSize;
         /**
          * @internal
-         * @brief Calendar size before resize.
+         * Calendar size before resize.
          */
         QSize prevSize;
         /**
          * @internal
-         * @brief Reference to the master calendar design size.
+         * Reference to the master calendar design size.
          */
         QSize* size{ nullptr };
     };

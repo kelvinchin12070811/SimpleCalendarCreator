@@ -20,10 +20,10 @@ namespace element
          */
         struct Line
         {
-            int lineWidth;
-            QPoint posLineStart;
-            QPoint posLineEnd;
-            QColor lineColour;
+            int lineWidth;  /**< Width of the line. */
+            QPoint posLineStart;  /**< Starting point of the line. */
+            QPoint posLineEnd;  /**< Ending point of the line. */
+            QColor lineColour;  /**< Colour of the line. */
         };
     }
     /**
@@ -33,7 +33,7 @@ namespace element
     {
     public:
         /**
-         * @brief Construct Line with default properties.
+         * Construct Line with default properties.
          */
         Line();
         void setParent(CustomListWidgetItem* parent) override;
@@ -46,23 +46,23 @@ namespace element
     private:
         /**
          * @internal
-         * @brief Render the line to the "graphic" property.
+         * Render the line to the "graphic" property.
          */
         void drawLine();
     private:
         /**
          * @internal
-         * @brief Parent object that holding the element.
+         * Parent object that holding the element.
          */
         CustomListWidgetItem* parent;
         /**
          * @internal
-         * @brief Common properties of line object.
+         * Common properties of line object.
          */
         element::object_properties::Line properties;
         /**
          * @internal
-         * @brief Pre-rendered graphics that use as outline of the design.
+         * Pre-rendered graphics that use as outline of the design.
          */
         QPixmap graphic;
     };

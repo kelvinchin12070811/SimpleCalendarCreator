@@ -21,12 +21,12 @@ namespace command
     {
     public:
         /**
-         * @brief Execute the command.
+         * Execute the command.
          * @retval true if success.
          */
         virtual bool execute() = 0;
         /**
-         * @brief Undo this command.
+         * Undo this command.
          */
         virtual void unexecute() = 0;
         virtual ~Command() noexcept = 0;

@@ -19,7 +19,7 @@ namespace command
     {
     public:
         /**
-         * @brief Construct new command with a parent.
+         * Construct new command with a parent.
          * @param list List that as the target to add new calendar element. Can't be nullptr.
          * @param mainWindow Reference to the mainWindow object for rendering outline, can't be nullptr.
          */
@@ -32,12 +32,12 @@ namespace command
     private:
         /**
          * @internal
-         * @brief Targeted list to emplace calendar element, can't be nullptr.
+         * Targeted list to emplace calendar element, can't be nullptr.
          */
         QListWidget* list{ nullptr };
         /**
          * @internal
-         * @brief Tempory item that hold the id of element added to @p list.
+         * Tempory item that hold the id of element added to @p list.
          */
         CustomListWidgetItem* item{ nullptr };
     };

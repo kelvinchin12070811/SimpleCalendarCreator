@@ -14,13 +14,13 @@
 #include "window/SimpleCalendarCreator.hpp"
 
 /**
- * @brief Exteded QListWidgetItem for storing calendar element.
+ * @brief Extended QListWidgetItem for storing calendar element.
  */
 class CustomListWidgetItem : public QListWidgetItem
 {
 public:
     /**
-     * @brief Create ListWidgetItem.
+     * Create ListWidgetItem.
      * @param mainWindow Reference to main window for rendering design outline, can't be nullptr.
      * @param label Text to show on the item.
      * @param object Calendar element that will be hold by the item. nullptr for not holding any element.
@@ -38,27 +38,27 @@ public:
     const QGraphicsPixmapItem* getPixmapItem() const noexcept;
 
     /**
-     * @brief Render the outline of this item to the outline window.
+     * Render the outline of this item to the outline window.
      */
     void renderOutline();
 private:
     /**
      * @internal
-     * @brief Reference to main window for rendering design outline, can't be nullptr.
+     * Reference to main window for rendering design outline, can't be nullptr.
      */
     QPointer<SimpleCalendarCreator> mainWindow{ nullptr };
     /**
      * @internal
-     * @brief Reference to scene that hold the graphics item.
+     * Reference to scene that hold the graphics item.
      */
     QPointer<QGraphicsScene> itemScene{ nullptr };
 
     /**
-     * @brief [read, write] Calendar element that hold by the item, nullptr for not holding any of it.
+     * [read, write] Calendar element that hold by the item, nullptr for not holding any of it.
      */
     std::unique_ptr<element::Element> object{ nullptr };
     /**
-     * @brief [read] Id of PixmapItem that will be drawn on the outline window.
+     * [read] Id of PixmapItem that will be drawn on the outline window.
      * Memory of pixmapItem will be freed at the end if it does not own a parent.
      */
     QGraphicsPixmapItem* pixmapItem{ nullptr };

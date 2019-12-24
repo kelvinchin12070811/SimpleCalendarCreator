@@ -25,7 +25,7 @@ public:
     static constexpr int zoom_amount{ 5 };
 public:
     /**
-     * @brief Construct new preview window.
+     * Construct new preview window.
      * @param list List of calendar objects to render months' graphics.
      * @param size Size of the calendar design.
      * @param parent Parent of this dialog.

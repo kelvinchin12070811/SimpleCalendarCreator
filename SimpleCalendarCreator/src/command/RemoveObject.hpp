@@ -21,7 +21,7 @@ namespace command
     {
     public:
         /**
-         * @brief Construct new remove object command.
+         * Construct new remove object command.
          * @param list Targeted list to remove the user selected object, can't be nullptr.
          * @param view Reference to outline window to remove outline. Can't be nullptr.
          */
@@ -33,24 +33,24 @@ namespace command
     private:
         /**
          * @internal
-         * @brief Temporary holder of item returned from the list.
+         * Temporary holder of item returned from the list.
          * Use to restore the item to the list when unexecute() called.
          */
         std::unique_ptr<CustomListWidgetItem> item{ nullptr };
         /**
          * @internal
-         * @brief Targeted list to perform removal, can't be nullptr.
+         * Targeted list to perform removal, can't be nullptr.
          */
         QListWidget* list{ nullptr };
         /**
          * @internal
-         * @brief Previous index of the removed item, use to reinsert the item to the list when unexeute().
+         * Previous index of the removed item, use to reinsert the item to the list when unexeute().
          */
         QModelIndex index;
 
         /**
          * @internal
-         * @brief Reference to outline window to remove outline from preview. Can't be nullptr.
+         * Reference to outline window to remove outline from preview. Can't be nullptr.
          */
         QGraphicsView* view{ nullptr };
     };

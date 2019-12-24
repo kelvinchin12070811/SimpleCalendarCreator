@@ -19,7 +19,7 @@ namespace command::object_properties_modifier
         Q_OBJECT
     public:
         /**
-         * @brief Construct new LineObject modifier.
+         * Construct new LineObject modifier.
          * @param properties Reference to target properties to change, can't be nullptr.
          * @param newValue New values to apply.
          */
@@ -35,24 +35,24 @@ namespace command::object_properties_modifier
          * @{
          */
         /**
-         * @brief Fired when the properties changed via execute or unexecute.
+         * Fired when the properties changed via execute or unexecute.
          */
         void propertiesChanged();
         /** @} */
     private:
         /**
          * @internal
-         * @brief Last properties of object.
+         * Last properties of object.
          */
         element::object_properties::Line prevProperties;
         /**
          * @internal
-         * @brief new properties value to apply.
+         * new properties value to apply.
          */
         element::object_properties::Line newProperties;
         /**
          * @internal
-         * @bref Reference to properties to change.
+         * Reference to properties to change.
          */
         element::object_properties::Line* curnProperties;
     };

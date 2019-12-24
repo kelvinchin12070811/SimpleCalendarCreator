@@ -344,3 +344,6 @@ healthchecksdb
 
 # Custom properties files
 *.props
+
+# Doxygen generated technical docs
+docs/*

@@ -112,9 +112,6 @@ void SimpleCalendarCreator::onNewProject()
 
         if (result == QMessageBox::No) return;
     }
-    //Clear history stack.
-    if (!undoStack.empty())
-        undoStack.swap(decltype(undoStack){});
 
     setProjectName();
     auto tempCmd = std::make_unique<command::ResizeCalendar>(default_calender_size,

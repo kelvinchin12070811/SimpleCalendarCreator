@@ -25,16 +25,16 @@ public:
     ObjectCreator(QWidget *parent = Q_NULLPTR);
     ~ObjectCreator() = default;
 
-    /** @brief Determine if the input is accepted by the user (hit Ok button). */
+    /** Determine if the input is accepted by the user (hit Ok button). */
     bool isAccepted() const;
     /**
-     * @brief Create the specific element determined by the user.
+     * Create the specific element determined by the user.
      * @return Instance of a calendar element or nullptr if user does not accept the input.
      * @warning Assertion occur if user selected element does not registered.
      */
     std::unique_ptr<element::Element> createElement() const;
     /**
-     * @brief Get the name of the object will be created.
+     * Get the name of the object will be created.
      */
     QString getObjectName() const noexcept;
 
@@ -45,19 +45,19 @@ private:
 private: // slots
     /**
      * @internal
-     * @brief Slot when "Ok" button is clicked.
+     * Slot when "Ok" button is clicked.
      */
     void onAccepted();
 
 private:
     /**
      * @internal
-     * @brief Determine if current session of create object dialog is accepted by user.
+     * Determine if current session of create object dialog is accepted by user.
      */
     bool accepted{ false };
     /**
      * @internal
-     * @brief Ui of the Object Creator.
+     * Ui of the Object Creator.
      */
     std::unique_ptr<Ui::ObjectCreator> ui{ nullptr };
 };
