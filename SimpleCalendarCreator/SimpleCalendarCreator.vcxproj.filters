@@ -75,6 +75,12 @@
     <ClCompile Include="src\element\CalendarObjectFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\element\Rectangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\object_editor\EditRectangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="SimpleCalendarCreator.qrc">
@@ -100,6 +106,9 @@
     <QtMoc Include="src\command\object_properties_modifier\LineObject.hpp">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\window\object_editor\EditRectangle.hpp">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\window\SimpleCalendarCreator.ui">
@@ -115,6 +124,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\window\object_editor\EditLine.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\window\object_editor\EditRectangle.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -147,6 +159,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\element\CalendarObjectFactory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\element\Rectangle.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\command\ChangeObjectProperties.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -78,13 +78,15 @@ namespace element
     {
         auto dialog = std::make_unique<EditLine>(&properties);
         dialog->forwardConnect(std::bind(&Line::drawLine, this));
+        auto dialogWindowTitle = dialog->windowTitle();
+        dialog->setWindowTitle(dialogWindowTitle.arg(parent->text()));
         dialog->exec();
     }
 
     void Line::serialize(pugi::xml_node* node)
     {
         BOOST_ASSERT_MSG(node != nullptr, "node can't be nullptr");
-        node->append_attribute("type").set_value("Line");
+        node->append_attribute("type").set_value(element::Element::getTypeName<Line>().c_str());
         auto ndColour = node->append_child("colour");
         ndColour.text().set(properties.lineColour.name().toUtf8().data());
 

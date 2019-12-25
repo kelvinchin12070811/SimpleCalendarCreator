@@ -9,7 +9,7 @@
 
 #include <qcolordialog.h>
 
-#include "command/object_properties_modifier/LineObject.hpp"
+#include "command/ChangeObjectProperties.hpp"
 #include "command/UndoHistory.hpp"
 
 EditLine::EditLine(element::object_properties::Line* properties, QWidget* parent)
@@ -74,13 +74,11 @@ void EditLine::onAccepted()
     newValues.posLineEnd = QPoint{ ui->spinX2->value(), ui->spinY2->value() };
     newValues.posLineStart = QPoint{ ui->spinX1->value(), ui->spinY1->value() };
 
-    auto cmd = std::make_unique<command::object_properties_modifier::LineObject>(
+    auto cmd = std::make_unique<command::ChangeObjectProperties<element::object_properties::Line>>(
         properties,
         newValues
     );
-    auto& slot = signalReceiver;  //Make copy of signalReceiver which will be owned by the slot's lambda.
-    cmd->connect(cmd.get(), &command::object_properties_modifier::LineObject::propertiesChanged,
-        [slot]() { slot(); });
+    cmd->propertiesChanged.connect(signalReceiver);
     accepted = true;
     UndoHistory::getInstance()->push(std::move(cmd));
     this->close();

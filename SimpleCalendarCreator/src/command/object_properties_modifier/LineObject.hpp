@@ -13,6 +13,7 @@ namespace command::object_properties_modifier
 {
     /**
      * @brief Command that modify the properties of element::Line calendar object.
+     * @deprecated Changed to templated based properties changer command::ChangeObjectProperties.
      */
     class LineObject : public QObject, public command::Command
     {

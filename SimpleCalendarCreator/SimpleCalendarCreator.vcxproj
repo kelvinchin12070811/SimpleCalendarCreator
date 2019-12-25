@@ -121,8 +121,10 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\window\object_editor\EditRectangle.cpp" />
     <ClCompile Include="src\command\object_properties_modifier\LineObject.cpp" />
     <ClCompile Include="src\element\CalendarObjectFactory.cpp" />
+    <ClCompile Include="src\element\Rectangle.cpp" />
     <ClCompile Include="src\window\object_editor\EditLine.cpp" />
     <ClCompile Include="src\command\ResizeCalendar.cpp" />
     <ClCompile Include="src\command\UndoHistory.cpp" />
@@ -141,6 +143,7 @@
     <QtMoc Include="src\window\SimpleCalendarCreator.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="src\window\object_editor\EditRectangle.ui" />
     <QtUic Include="src\window\object_editor\EditLine.ui" />
     <QtUic Include="src\window\CalendarResizer.ui" />
     <QtUic Include="src\window\ObjectCreator.ui" />
@@ -151,6 +154,15 @@
     <QtRcc Include="SimpleCalendarCreator.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\window\object_editor\EditRectangle.hpp">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src</IncludePath>
+    </QtMoc>
+    <ClInclude Include="src\command\ChangeObjectProperties.hpp">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src</IncludePath>
+    </ClInclude>
+    <ClInclude Include="src\element\Rectangle.hpp" />
     <QtMoc Include="src\window\object_editor\EditLine.hpp">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(QTDIR)\include\QtUiTools;$(ProjectDir)\src</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(QTDIR)\include\QtUiTools;$(ProjectDir)\src</IncludePath>

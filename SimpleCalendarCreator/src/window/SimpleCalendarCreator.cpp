@@ -242,6 +242,7 @@ void SimpleCalendarCreator::onOpenProject()
 
     savedPath = path;
     setProjectName(savedPath.completeBaseName());
+    UndoHistory::getInstance()->changesSaved();
 }
 
 void SimpleCalendarCreator::onRemoveObject()

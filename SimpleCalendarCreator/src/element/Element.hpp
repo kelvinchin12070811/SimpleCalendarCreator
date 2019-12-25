@@ -4,6 +4,12 @@
 * file, You can obtain one at http ://mozilla.org/MPL/2.0/.
 ************************************************************************************************************/
 #pragma once
+#include <string>
+#include <type_traits>
+
+#include <boost/algorithm/string.hpp>
+#include <boost/type_index.hpp>
+
 #include <qpixmap.h>
 
 #include <pugixml.hpp>
@@ -56,6 +62,20 @@ namespace element
          */
         virtual void deserialize(const pugi::xml_node& node) = 0;
         virtual ~Element() noexcept = 0;
+
+        /**
+         * Get class name of the given calendar object.
+         * @tparam T Calendar object type to find Class name.
+         */
+        template <typename T>
+        static inline constexpr std::string getTypeName()
+        {
+            static_assert(std::is_base_of<element::Element, T>::value,
+                "Object must subclass of element::Element");
+            std::string name{ boost::typeindex::type_id<T>().pretty_name() };
+            boost::replace_first(name, "class ", "");
+            return name;
+        }
     };
     inline Element::~Element() = default;
 }

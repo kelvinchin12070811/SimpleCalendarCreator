@@ -13,8 +13,12 @@ UndoHistory* UndoHistory::getInstance()
 
 void UndoHistory::push(std::unique_ptr<command::Command> command) noexcept
 {
-    if (!command->execute()) return;
     tracer.push(std::move(command));
+    if (!tracer.top()->execute())
+    {
+        tracer.pop();
+        return;
+    }
     unsave = true;
 }
 
