@@ -45,15 +45,14 @@ namespace element
         QPixmap rendered{ graphic.size() };
         rendered.fill(Qt::GlobalColor::transparent);
         QPainter painter{ &rendered };
-        QPen pen{ painter.pen() };
-
-        pen.setColor(properties.foregroundColour);
-        pen.setWidth(properties.width);
+        QPen pen{ properties.foregroundColour, static_cast<qreal>(properties.width) };
+        painter.setRenderHint(QPainter::RenderHint::Antialiasing);
         painter.setPen(pen);
 
-        painter.drawRect(properties.rect);
-        painter.fillRect(properties.rect, properties.backgroundColour);
-        parent->renderOutline();
+        QPainterPath path;
+        path.addRect(properties.rect);
+        painter.fillPath(path, { properties.backgroundColour });
+        painter.drawPath(path);
 
         return rendered;
     }
@@ -108,14 +107,13 @@ namespace element
     {
         graphic.fill(Qt::GlobalColor::transparent);
         QPainter painter{ &graphic };
-        QPen pen{ painter.pen() };
-
-        pen.setColor(properties.foregroundColour);
-        pen.setWidth(properties.width);
+        QPen pen{ properties.foregroundColour, static_cast<qreal>(properties.width) };
         painter.setPen(pen);
-
-        painter.fillRect(properties.rect, properties.backgroundColour);
-        painter.drawRect(properties.rect);
+        
+        QPainterPath path;
+        path.addRect(properties.rect);
+        painter.fillPath(path, { properties.backgroundColour });
+        painter.drawPath(path);
         parent->renderOutline();
     }
 }

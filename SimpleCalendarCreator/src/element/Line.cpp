@@ -65,6 +65,7 @@ namespace element
 
         QPainter painter{ &rendered };
         QPen pen{ painter.pen() };
+        painter.setRenderHint(QPainter::RenderHint::Antialiasing);
         pen.setWidth(properties.lineWidth);
         pen.setColor(properties.lineColour);
         painter.setPen(pen);
