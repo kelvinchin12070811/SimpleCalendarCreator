@@ -88,7 +88,7 @@ namespace element
         BOOST_ASSERT_MSG(node != nullptr, "node can't be nullptr");
         node->append_attribute("type").set_value(element::Element::getTypeName<Line>().c_str());
         auto ndColour = node->append_child("colour");
-        ndColour.text().set(properties.lineColour.name().toUtf8().data());
+        ndColour.text().set(properties.lineColour.name(QColor::NameFormat::HexArgb).toUtf8().data());
 
         auto ndWidth = node->append_child("width");
         ndWidth.text().set(properties.lineWidth);

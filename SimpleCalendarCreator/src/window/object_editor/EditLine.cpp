@@ -62,7 +62,7 @@ void EditLine::initUi()
     ui->spinWidth->setMaximum(max);
     ui->spinWidth->setValue(properties->lineWidth);
 
-    ui->lnedColourHex->setText(properties->lineColour.name());
+    ui->lnedColourHex->setText(properties->lineColour.name(QColor::NameFormat::HexArgb));
     ui->labColourPreview->setStyleSheet("background-color: " + properties->lineColour.name());
 }
 
@@ -87,6 +87,6 @@ void EditLine::onAccepted()
 void EditLine::onSelectColour()
 {
     QColor colour{ QColorDialog::getColor(properties->lineColour) };
-    ui->lnedColourHex->setText(colour.name());
+    ui->lnedColourHex->setText(colour.name(QColor::NameFormat::HexArgb));
     ui->labColourPreview->setStyleSheet("background: " + colour.name());
 }

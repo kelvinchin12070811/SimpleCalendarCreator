@@ -96,8 +96,7 @@ void SimpleCalendarCreator::initUi()
     onNewProject();
 }
 
-void SimpleCalendarCreator::saveWorker(const QString& path, libzip::archive* container,
-    const QString& createdTime)
+void SimpleCalendarCreator::saveWorker(const QString& path, const QString& createdTime)
 {
     
     if (path.isEmpty()) return;
@@ -127,17 +126,22 @@ void SimpleCalendarCreator::saveWorker(const QString& path, libzip::archive* con
         item->getElement()->serialize(&objectNode);
     }
 
-    libzip::archive output{ path.toStdString(), ZIP_CREATE };
+    std::unique_ptr<libzip::archive> output;  //{ path.toStdString(), ZIP_CREATE };
+
+    if (createdTime.isEmpty())
+        output = std::make_unique<libzip::archive>(path.toStdString(), ZIP_CREATE);
+    else
+        output = std::make_unique<libzip::archive>(path.toStdString());
 
     auto writeOutput = [&output](const std::string & filename, const libzip::source & source) {
         try
         {
-            auto info = output.stat(filename);
-            output.replace(source, info.index);
+            auto info = output->stat(filename);
+            output->replace(source, info.index);
         }
         catch (const std::runtime_error&)
         {
-            output.add(source, filename);
+            output->add(source, filename);
         }
     };
 
@@ -295,7 +299,6 @@ void SimpleCalendarCreator::onOpenProject()
             continue;
         }
     }
-
     savedPath = path;
     setProjectName(savedPath.completeBaseName());
     UndoHistory::getInstance()->changesSaved();
@@ -375,19 +378,15 @@ void SimpleCalendarCreator::onSaveProject()
             "This file is created for newer version of Simple Calendar Creator which is not supported.");
         return;
     }
-
-    saveWorker(savedPath.filePath(), container.get(),
-        QString::fromStdString(metaIni.get<std::string>("file.created")));
+    container = nullptr;
+    saveWorker(savedPath.filePath(), QString::fromStdString(metaIni.get<std::string>("file.created")));
 }
 
 void SimpleCalendarCreator::onSaveProjectAs()
 {
-    if (!UndoHistory::getInstance()->hasUnsave()) return;
-
     QString path{ QFileDialog::getSaveFileName(this, "Save as", "", "Calendar design(*.calendar)") };
 #ifdef _DEBUG
     qDebug() << "output path: " << path;
 #endif // _DEBUG
-    libzip::archive archive{ path.toStdString(), ZIP_CREATE };
-    saveWorker(path, &archive);
+    saveWorker(path);
 }

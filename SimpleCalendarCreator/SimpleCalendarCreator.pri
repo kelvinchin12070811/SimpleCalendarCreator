@@ -7,7 +7,8 @@
 message("You are running qmake on a generated .pro file. This may not work!")
 
 
-HEADERS += ./src/element/CalendarObjectFactory.hpp \
+HEADERS += ./src/element/Rectangle.hpp \
+    ./src/element/CalendarObjectFactory.hpp \
     ./src/element/Month.hpp \
     ./src/command/ResizeCalendar.hpp \
     ./src/command/UndoHistory.hpp \
@@ -22,9 +23,12 @@ HEADERS += ./src/element/CalendarObjectFactory.hpp \
     ./src/command/object_properties_modifier/LineObject.hpp \
     ./src/window/PreviewWindow.hpp \
     ./src/window/CalendarResizer.hpp \
-    ./src/window/ObjectCreator.hpp
+    ./src/window/ObjectCreator.hpp \
+    ./src/window/object_editor/EditRectangle.hpp \
+    ./src/command/ChangeObjectProperties.hpp
 SOURCES += ./src/command/object_properties_modifier/LineObject.cpp \
     ./src/element/CalendarObjectFactory.cpp \
+    ./src/element/Rectangle.cpp \
     ./src/window/object_editor/EditLine.cpp \
     ./src/command/ResizeCalendar.cpp \
     ./src/command/UndoHistory.cpp \
@@ -37,10 +41,12 @@ SOURCES += ./src/command/object_properties_modifier/LineObject.cpp \
     ./src/element/CustomListWidgetItem.cpp \
     ./src/main.cpp \
     ./src/window/PreviewWindow.cpp \
-    ./src/window/SimpleCalendarCreator.cpp
+    ./src/window/SimpleCalendarCreator.cpp \
+    ./src/window/object_editor/EditRectangle.cpp
 FORMS += ./src/window/object_editor/EditLine.ui \
     ./src/window/CalendarResizer.ui \
     ./src/window/ObjectCreator.ui \
     ./src/window/PreviewWindow.ui \
-    ./src/window/SimpleCalendarCreator.ui
+    ./src/window/SimpleCalendarCreator.ui \
+    ./src/window/object_editor/EditRectangle.ui
 RESOURCES += SimpleCalendarCreator.qrc

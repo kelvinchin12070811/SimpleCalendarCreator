@@ -74,8 +74,10 @@ namespace element
         node->append_child("border_width").text().set(properties.width);
         
         auto ndColour = node->append_child("colour");
-        ndColour.append_child("background").text().set(properties.backgroundColour.name().toUtf8().data());
-        ndColour.append_child("foreground").text().set(properties.foregroundColour.name().toUtf8().data());
+        ndColour.append_child("background").text()
+            .set(properties.backgroundColour.name(QColor::NameFormat::HexArgb).toUtf8().data());
+        ndColour.append_child("foreground").text()
+            .set(properties.foregroundColour.name(QColor::NameFormat::HexArgb).toUtf8().data());
 
         auto ndRect = node->append_child("rect");
         ndRect.append_attribute("x").set_value(properties.rect.x());
@@ -112,8 +114,8 @@ namespace element
         pen.setWidth(properties.width);
         painter.setPen(pen);
 
-        painter.drawRect(properties.rect);
         painter.fillRect(properties.rect, properties.backgroundColour);
+        painter.drawRect(properties.rect);
         parent->renderOutline();
     }
 }

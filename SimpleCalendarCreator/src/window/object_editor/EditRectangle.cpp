@@ -60,31 +60,33 @@ void EditRectangle::initUi()
     ui->borderwidth->setMaximum(max);
     ui->borderwidth->setValue(properties->width);
 
-    QString colourName{ properties->backgroundColour.name() };
+    QString colourName{ properties->backgroundColour.name(QColor::NameFormat::HexArgb) };
     ui->clHexBackground->setText(colourName);
     ui->previewBackground->setStyleSheet("background-color: " + colourName);
 
-    colourName = properties->foregroundColour.name();
+    colourName = properties->foregroundColour.name(QColor::NameFormat::HexArgb);
     ui->clHexForeground->setText(colourName);
     ui->previewForeground->setStyleSheet("background-color: " + colourName);
 }
 
 void EditRectangle::onSelectBackgroundColour()
 {
-    auto colour = QColorDialog::getColor(properties->backgroundColour, this, "Select Background Colour");
+    auto colour = QColorDialog::getColor(properties->backgroundColour, this, "Select Background Colour",
+        QColorDialog::ColorDialogOption::ShowAlphaChannel);
     if (colour == properties->backgroundColour) return;
 
-    auto colourName = colour.name();
+    auto colourName = colour.name(QColor::NameFormat::HexArgb);
     ui->clHexBackground->setText(colourName);
     ui->previewBackground->setStyleSheet("background-color: " + colourName);
 }
 
 void EditRectangle::onSelectForefroundColour()
 {
-    auto colour = QColorDialog::getColor(properties->foregroundColour, this, "Select Foreground Colour");
+    auto colour = QColorDialog::getColor(properties->foregroundColour, this, "Select Foreground Colour",
+        QColorDialog::ColorDialogOption::ShowAlphaChannel);
     if (colour == properties->foregroundColour) return;
 
-    auto colourName = colour.name();
+    auto colourName = colour.name(QColor::NameFormat::HexArgb);
     ui->clHexForeground->setText(colourName);
     ui->previewForeground->setStyleSheet("background-color: " + colourName);
 }

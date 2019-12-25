@@ -75,10 +75,9 @@ private:
      * General algorithm to save file. Save file will only update modified date while save as will update
      * everything.
      * @param path Path to save project.
-     * @param container Container to store data, must not be nullptr.
      * @param createdTime Time when the file is created. Empty for not created yet.
      */
-    void saveWorker(const QString& path, libzip::archive* container, const QString& createdTime = QString{});
+    void saveWorker(const QString& path, const QString& createdTime = QString{});
 
 private: //slots
     /**
