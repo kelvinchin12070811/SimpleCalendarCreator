@@ -68,7 +68,7 @@ void SimpleCalendarCreator::connectObjects()
         [this]() { QMessageBox::about(this, this->windowTitle(), "Created by Kelvin Chin"); });
     connect(ui->actionAbout_Qt, &QAction::triggered,
         [this]() { QMessageBox::aboutQt(this, this->windowTitle()); });
-    connect(ui->actionNew, &QAction::triggered, this, &SimpleCalendarCreator::onNewProject);
+    connect(ui->actionNew, &QAction::triggered, [this]() { onNewProject(); });
     connect(ui->actionOpen, &QAction::triggered, this, &SimpleCalendarCreator::onOpenProject);
     connect(ui->actionQuit, &QAction::triggered, [this]() { this->close(); });
     connect(ui->actionSave, &QAction::triggered, this, &SimpleCalendarCreator::onSaveProject);
@@ -163,14 +163,14 @@ void SimpleCalendarCreator::onAddObject()
     UndoHistory::getInstance()->push(std::make_unique<command::AddObject>(this, ui->objectList));
 }
 
-void SimpleCalendarCreator::onNewProject()
+bool SimpleCalendarCreator::onNewProject()
 {
     if (UndoHistory::getInstance()->hasUnsave())
     {
         auto result = QMessageBox::information(this, "Unsaved work", QString{ "Operation will cause" }
             + " unsaved work lost, are your sure to continue?", QMessageBox::Yes | QMessageBox::No);
 
-        if (result == QMessageBox::No) return;
+        if (result == QMessageBox::No) return false;
     }
 
     setProjectName();
@@ -205,16 +205,17 @@ void SimpleCalendarCreator::onNewProject()
     }
 
     UndoHistory::getInstance()->changesSaved();
+    return true;
 }
 
 void SimpleCalendarCreator::onOpenProject()
 {
     constexpr std::string_view error_dialog_title{ "Error on Opening File" };
 
-    onNewProject();
-
     auto path = QFileDialog::getOpenFileName(this, "Open file...", {}, "Calendar design(*.calendar)");
     if (path.isEmpty()) return;
+    
+    if (!onNewProject()) return;
 
     std::unique_ptr<libzip::archive> container{ nullptr };
     try

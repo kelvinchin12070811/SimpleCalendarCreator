@@ -88,8 +88,9 @@ private: //slots
     /**
      * @internal
      * Slot when user create new project.
+     * @return true if proceed.
      */
-    void onNewProject();
+    bool onNewProject();
     /**
      * @internal
      * Slot when user open existing project.
