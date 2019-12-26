@@ -5,12 +5,17 @@
 ************************************************************************************************************/
 #include "element/CalendarObjectFactory.hpp"
 
+#include "element/Ellipse.hpp"
 #include "element/Line.hpp"
 #include "element/Rectangle.hpp"
 
 const std::map<QString, std::function<std::unique_ptr<element::Element>()>>
     *CalendarObjectFactory::objCreator{
         new std::map<QString, std::function<std::unique_ptr<element::Element>()>>{
+            {
+                QString::fromStdString(element::Element::getTypeName<element::Ellipse>()),
+                []() { return std::make_unique<element::Ellipse>(); }
+            },
             {
                 QString::fromStdString(element::Element::getTypeName<element::Line>()),
                 []() { return std::make_unique<element::Line>(); }
@@ -24,6 +29,7 @@ const std::map<QString, std::function<std::unique_ptr<element::Element>()>>
 
 const std::map<QString, QString> *CalendarObjectFactory::objNativeName =
     new std::map<QString, QString>{
+        { "Ellipse", QString::fromStdString(element::Element::getTypeName<element::Ellipse>()) },
         { "Line", QString::fromStdString(element::Element::getTypeName<element::Line>()) },
         { "Rectangle", QString::fromStdString(element::Element::getTypeName<element::Rectangle>()) }
     };
