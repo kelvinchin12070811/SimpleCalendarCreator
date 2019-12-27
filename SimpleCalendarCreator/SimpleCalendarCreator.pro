@@ -12,7 +12,8 @@ INCLUDEPATH += ./GeneratedFiles \
     . \
     ./GeneratedFiles/$(ConfigurationName) \
     ./src/window \
-    $(ProjectDir)/src
+    $(ProjectDir)/src \
+    ./src/window/object_editor
 DEPENDPATH += .
 MOC_DIR += ./GeneratedFiles/$(ConfigurationName)
 OBJECTS_DIR += debug

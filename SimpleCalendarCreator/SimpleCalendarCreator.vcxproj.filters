@@ -87,6 +87,12 @@
     <ClCompile Include="src\window\object_editor\EditEllipse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\element\Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\object_editor\EditText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="SimpleCalendarCreator.qrc">
@@ -118,6 +124,9 @@
     <QtMoc Include="src\window\object_editor\EditEllipse.hpp">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\window\object_editor\EditText.hpp">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\window\SimpleCalendarCreator.ui">
@@ -139,6 +148,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\window\object_editor\EditEllipse.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\window\object_editor\EditText.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -182,5 +194,11 @@
     <ClInclude Include="src\element\Ellipse.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\element\Text.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

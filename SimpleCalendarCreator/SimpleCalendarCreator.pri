@@ -8,6 +8,7 @@ message("You are running qmake on a generated .pro file. This may not work!")
 
 
 HEADERS += ./src/command/ChangeObjectProperties.hpp \
+    ./src/element/Ellipse.hpp \
     ./src/element/Rectangle.hpp \
     ./src/element/CalendarObjectFactory.hpp \
     ./src/element/Month.hpp \
@@ -21,14 +22,17 @@ HEADERS += ./src/command/ChangeObjectProperties.hpp \
     ./src/element/Element.hpp \
     ./src/window/SimpleCalendarCreator.hpp \
     ./src/window/object_editor/EditRectangle.hpp \
+    ./src/window/object_editor/EditEllipse.hpp \
     ./src/window/object_editor/EditLine.hpp \
     ./src/command/object_properties_modifier/LineObject.hpp \
     ./src/window/PreviewWindow.hpp \
     ./src/window/CalendarResizer.hpp \
     ./src/window/ObjectCreator.hpp \
-    ./src/element/Ellipse.hpp \
-    ./src/window/object_editor/EditEllipse.hpp
-SOURCES += ./src/window/object_editor/EditRectangle.cpp \
+    ./src/element/Text.hpp \
+    ./src/window/object_editor/EditText.hpp
+SOURCES += ./src/window/object_editor/EditEllipse.cpp \
+    ./src/element/Ellipse.cpp \
+    ./src/window/object_editor/EditRectangle.cpp \
     ./src/command/object_properties_modifier/LineObject.cpp \
     ./src/element/CalendarObjectFactory.cpp \
     ./src/element/Rectangle.cpp \
@@ -45,13 +49,14 @@ SOURCES += ./src/window/object_editor/EditRectangle.cpp \
     ./src/main.cpp \
     ./src/window/PreviewWindow.cpp \
     ./src/window/SimpleCalendarCreator.cpp \
-    ./src/element/Ellipse.cpp \
-    ./src/window/object_editor/EditEllipse.cpp
-FORMS += ./src/window/object_editor/EditRectangle.ui \
+    ./src/element/Text.cpp \
+    ./src/window/object_editor/EditText.cpp
+FORMS += ./src/window/object_editor/EditEllipse.ui \
+    ./src/window/object_editor/EditRectangle.ui \
     ./src/window/object_editor/EditLine.ui \
     ./src/window/CalendarResizer.ui \
     ./src/window/ObjectCreator.ui \
     ./src/window/PreviewWindow.ui \
     ./src/window/SimpleCalendarCreator.ui \
-    ./src/window/object_editor/EditEllipse.ui
+    ./src/window/object_editor/EditText.ui
 RESOURCES += SimpleCalendarCreator.qrc
