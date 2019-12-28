@@ -99,6 +99,13 @@
         </item>
        </layout>
       </item>
+      <item>
+       <widget class="QCheckBox" name="isVerticalAlignment">
+        <property name="text">
+         <string>Vertical alignment</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

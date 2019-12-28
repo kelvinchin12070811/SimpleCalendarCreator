@@ -7,6 +7,9 @@
 
 #include <boost/assert.hpp>
 
+#include <QTextBlock>
+#include <QTextDocument>
+
 #include "element/CustomListWidgetItem.hpp"
 #include "window/object_editor/EditText.hpp"
 
@@ -15,6 +18,7 @@ namespace element
     Text::Text()
     {
         properties = {
+            false,
             Qt::GlobalColor::black,
             QFont{},
             QPoint{ 0, 0 },
@@ -45,15 +49,33 @@ namespace element
         QPixmap rendered{ graphic.size() };
         rendered.fill(Qt::GlobalColor::transparent);
 
+        QString text;
         QPainter painter{ &rendered };
-        QPen pen{ properties.textColour, static_cast<qreal>(properties.font.weight()) };
-        QFontMetrics metrics{ properties.font };
-        QRect textRect{ properties.pos, QSize{ metrics.width(properties.text), metrics.height() } };
-
-        painter.setPen(pen);
         painter.setRenderHint(QPainter::RenderHint::TextAntialiasing);
-        painter.setFont(properties.font);
-        painter.drawText(textRect, Qt::AlignCenter, properties.text);
+
+        if (properties.verticalText == true)
+        {
+            for (auto itr : properties.text)
+                text += QString{ "%1<br>" }.arg(itr);
+        }
+        else
+        {
+            text = properties.text;
+        }
+        QTextDocument document;
+        document.setDefaultFont(properties.font);
+        document.setHtml(
+            QString{ Text::css_rules }.arg(text)
+            .arg(properties.textColour.name(QColor::NameFormat::HexArgb)));
+        for (auto itr = document.begin(); itr != document.end(); itr = itr.next())
+        {
+            QTextCursor tc{ itr };
+            auto format = itr.blockFormat();
+            format.setLineHeight(Text::line_height, QTextBlockFormat::LineHeightTypes::ProportionalHeight);
+            tc.setBlockFormat(format);
+        }
+        painter.translate(properties.pos);
+        document.drawContents(&painter);
 
         return rendered;
     }
@@ -79,7 +101,9 @@ namespace element
         nodPos.append_attribute("x").set_value(properties.pos.x());
         nodPos.append_attribute("y").set_value(properties.pos.y());
 
-        node->append_child("text").text().set(properties.text.toStdString().c_str());
+        auto nodText = node->append_child("text");
+        nodText.text().set(properties.text.toStdString().c_str());
+        nodText.append_attribute("vertical").set_value(properties.verticalText);
     }
     
     void Text::deserialize(const pugi::xml_node& node)
@@ -90,7 +114,9 @@ namespace element
         auto nodPos = node.child("position");
         properties.pos = { nodPos.attribute("x").as_int(), nodPos.attribute("y").as_int() };
 
-        properties.text = node.child("text").text().as_string();
+        auto nodText = node.child("text");
+        properties.text = nodText.text().as_string();
+        properties.verticalText = nodText.attribute("vertical").as_bool();
 
         drawText();
     }
@@ -98,21 +124,32 @@ namespace element
     void Text::drawText()
     {
         graphic.fill(Qt::GlobalColor::transparent);
+        QString text;
         QPainter painter{ &graphic };
-        QFontMetrics metrics{ properties.font };
-        QRect fontRect{
-            properties.pos,
-            QSize{
-                metrics.width(properties.text),
-                metrics.height()
-            }
-        };
-        
-        QPainterPath path;
-        QPen pen{ properties.textColour };
-        painter.setPen(pen);
-        painter.setFont(properties.font);
-        painter.drawText(fontRect, properties.text);
+
+        if (properties.verticalText == true)
+        {
+            for (auto itr : properties.text)
+                text += QString{ "%1<br>" }.arg(itr);
+        }
+        else
+        {
+            text = properties.text;
+        }
+        QTextDocument document;
+        document.setDefaultFont(properties.font);
+        document.setHtml(
+            QString{ Text::css_rules }.arg(text)
+            .arg(properties.textColour.name(QColor::NameFormat::HexArgb)));
+        for (auto itr = document.begin(); itr != document.end(); itr = itr.next())
+        {
+            QTextCursor tc{ itr };
+            auto format = itr.blockFormat();
+            format.setLineHeight(Text::line_height, QTextBlockFormat::LineHeightTypes::ProportionalHeight);
+            tc.setBlockFormat(format);
+        }
+        painter.translate(properties.pos);
+        document.drawContents(&painter);
         parent->renderOutline();
     }
 }

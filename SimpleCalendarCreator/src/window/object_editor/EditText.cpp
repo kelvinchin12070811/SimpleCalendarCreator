@@ -37,6 +37,7 @@ void EditText::initUi()
     ui->text->setText(properties->text);
     ui->posX->setValue(properties->pos.x());
     ui->posY->setValue(properties->pos.y());
+    ui->isVerticalAlignment->setChecked(properties->verticalText);
     ui->fontInfo->setText(properties->font.toString());
     selectedFont = properties->font;
 
@@ -48,6 +49,7 @@ void EditText::initUi()
 void EditText::onAccepted()
 {
     element::object_properties::Text newProperties{
+        ui->isVerticalAlignment->isChecked(),
         QColor{ ui->colHex->text() },
         selectedFont,
         QPoint{

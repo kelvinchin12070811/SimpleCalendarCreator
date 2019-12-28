@@ -19,6 +19,7 @@ namespace element
          */
         struct Text
         {
+            bool verticalText;  /**< Determine if the renderer should draw the text vertically. */
             QColor textColour;  /**< Colour of the text. */
             QFont font;  /**< Font info. */
             QPoint pos;  /**< Text position. */
@@ -30,6 +31,11 @@ namespace element
      */
     class Text : public Element
     {
+    public:
+        /** Height of line. */
+        static constexpr qreal line_height{ 70 };
+        /** CSS style of the text to render. */
+        static constexpr char* const css_rules{ "<span style='color: %2; text-align: center'>%1</span>" };
     public:
         /**
          * Create Text object
