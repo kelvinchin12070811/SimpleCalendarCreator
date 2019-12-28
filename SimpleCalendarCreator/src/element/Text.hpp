@@ -31,9 +31,6 @@ namespace element
     class Text : public Element
     {
     public:
-        /** Default colour applied to rect that preview as the position of the text. */
-        static constexpr char* const text_preview_rect_colour{ "#80ff0000" };
-    public:
         /**
          * Create Text object
          */

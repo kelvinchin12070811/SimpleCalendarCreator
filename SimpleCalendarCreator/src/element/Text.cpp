@@ -109,10 +109,10 @@ namespace element
         };
         
         QPainterPath path;
-        path.addRect(fontRect);
-        painter.fillPath(path, { Text::text_preview_rect_colour });
+        QPen pen{ properties.textColour };
+        painter.setPen(pen);
         painter.setFont(properties.font);
-        painter.drawText(fontRect, parent->text());
+        painter.drawText(fontRect, properties.text);
         parent->renderOutline();
     }
 }
