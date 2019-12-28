@@ -51,6 +51,7 @@ namespace element
         QPainter painter{ &rendered };
         QPen pen{ { properties.foregroundColour }, static_cast<qreal>(properties.width) };
         painter.setPen(pen);
+        painter.setRenderHint(QPainter::RenderHint::Antialiasing);
 
         QPainterPath path;
         path.addEllipse(properties.originPos, static_cast<qreal>(properties.radiusX),
