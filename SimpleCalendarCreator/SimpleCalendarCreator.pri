@@ -30,7 +30,10 @@ HEADERS += ./src/element/Text.hpp \
     ./src/window/PreviewWindow.hpp \
     ./src/window/CalendarResizer.hpp \
     ./src/window/ObjectCreator.hpp \
-    ./src/element/TemplatedText.hpp
+    ./src/element/TemplatedText.hpp \
+    ./src/window/object_editor/EditTemplatedText.hpp \
+    ./src/element/MonthTitle.hpp \
+    ./src/window/object_editor/EditMonthTitle.hpp
 SOURCES += ./src/element/Text.cpp \
     ./src/window/object_editor/EditEllipse.cpp \
     ./src/element/Ellipse.cpp \
@@ -52,7 +55,10 @@ SOURCES += ./src/element/Text.cpp \
     ./src/window/object_editor/EditText.cpp \
     ./src/window/PreviewWindow.cpp \
     ./src/window/SimpleCalendarCreator.cpp \
-    ./src/element/TemplatedText.cpp
+    ./src/element/TemplatedText.cpp \
+    ./src/window/object_editor/EditTemplatedText.cpp \
+    ./src/element/MonthTitle.cpp \
+    ./src/window/object_editor/EditMonthTitle.cpp
 FORMS += ./src/window/object_editor/EditEllipse.ui \
     ./src/window/object_editor/EditRectangle.ui \
     ./src/window/object_editor/EditLine.ui \
@@ -60,5 +66,7 @@ FORMS += ./src/window/object_editor/EditEllipse.ui \
     ./src/window/ObjectCreator.ui \
     ./src/window/object_editor/EditText.ui \
     ./src/window/PreviewWindow.ui \
-    ./src/window/SimpleCalendarCreator.ui
+    ./src/window/SimpleCalendarCreator.ui \
+    ./src/window/object_editor/EditTemplatedText.ui \
+    ./src/window/object_editor/EditMonthTitle.ui
 RESOURCES += SimpleCalendarCreator.qrc

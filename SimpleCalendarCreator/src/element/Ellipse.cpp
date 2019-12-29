@@ -43,7 +43,7 @@ namespace element
         return graphic;
     }
     
-    QPixmap Ellipse::render(const Month& month)
+    QPixmap Ellipse::render(const QDate& date)
     {
         QPixmap rendered{ graphic.size() };
         rendered.fill(Qt::GlobalColor::transparent);

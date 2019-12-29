@@ -4,8 +4,8 @@
 * file, You can obtain one at http ://mozilla.org/MPL/2.0/.
 ************************************************************************************************************/
 #pragma once
-#include <QColor>
-#include <QRect>
+#include <QFont>
+#include <QLocale>
 
 #include "element/Element.hpp"
 
@@ -14,26 +14,27 @@ namespace element
     namespace object_properties
     {
         /**
-         * @brief Defined as the properties of element::Rectangle
+         * @brief Properties of element::MonthTitle.
          */
-        struct Rectangle
+        struct MonthTitle
         {
-            QRect rect;  /**< Rectangle definition. */
-            QColor foregroundColour;  /**< Foreground colour of rectangle. */
-            QColor backgroundColour;  /**< Background colour of rectangle. */
-            int width;  /**< Line width of the rectangle. */
+            bool isVertical;  /**< Determine if the title is vertically rendered. */
+            QLocale locale;  /**< Locale/language to render the month name. */
+            QPoint pos;  /**< Position of the title. */
+            QFont font;  /**< Font use to render the title. */
+            QColor textColour;  /**< Colour use to render the title. */
         };
     }
     /**
-     * @brief Represented as Rectangle in Calendar object.
+     * @brief Represented as name of the month in various language in native locale.
      */
-    class Rectangle : public Element
+    class MonthTitle : public Element
     {
     public:
         /**
-         * Construct new Rectangle object.
+         * Create new object with default properties.
          */
-        Rectangle();
+        MonthTitle();
 
         void setParent(CustomListWidgetItem* parent) override;
         void setSize(const QSize& size) override;
@@ -43,27 +44,34 @@ namespace element
         void serialize(pugi::xml_node* node) override;
         void deserialize(const pugi::xml_node& node) override;
 
-    private slots:
+    private:
         /**
          * @internal
-         * Slots when drawing for rectangle is required.
+         * Draw graphic for outline.
          */
-        void drawRect();
+        void drawOutline();
+        /**
+         * @internal
+         * General title rendering function.
+         * @param painter Painter to draw on, must not be nullptr.
+         * @parma date Render month in the selected date.
+         */
+        void drawTitle(QPainter* painter, const QDate& date);
 
     private:
         /**
          * @internal
-         * Parent custom list widget item relay on.
+         * Parent that contain the element, must not be nullptr.
          */
         CustomListWidgetItem* parent{ nullptr };
         /**
          * @internal
-         * Properties of Rectangle.
+         * Properties of the Calendar Object.
          */
-        object_properties::Rectangle properties;
+        object_properties::MonthTitle properties;
         /**
          * @internal
-         * Rendered outline buffer.
+         * Graphic that use to render the outline of the Calendar Object.
          */
         QPixmap graphic;
     };

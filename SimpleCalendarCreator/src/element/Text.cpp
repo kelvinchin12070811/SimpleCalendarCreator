@@ -44,7 +44,7 @@ namespace element
         return graphic;
     }
     
-    QPixmap Text::render(const Month& month)
+    QPixmap Text::render(const QDate& date)
     {
         QPixmap rendered{ graphic.size() };
         rendered.fill(Qt::GlobalColor::transparent);

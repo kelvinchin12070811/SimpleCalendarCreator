@@ -40,7 +40,7 @@ namespace element
         void setParent(CustomListWidgetItem* parent) override;
         void setSize(const QSize& size) override;
         const QPixmap& getRenderedGraphics() override;
-        QPixmap render(const Month& month) override;
+        QPixmap render(const QDate& date) override;
         void edit() override;
         void serialize(pugi::xml_node* node) override;
         void deserialize(const pugi::xml_node& node) override;
@@ -57,7 +57,7 @@ namespace element
          * @param painter Painter to draw on, must not be nullptr.
          * @param month Month to draw, default to Month::january.
          */
-        void drawText(QPainter* painter, const Month& month = Month::january);
+        void drawText(QPainter* painter, const QDate& date);
 
     private:
         /**

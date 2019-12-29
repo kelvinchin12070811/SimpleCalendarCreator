@@ -7,6 +7,7 @@
 
 #include "element/Ellipse.hpp"
 #include "element/Line.hpp"
+#include "element/MonthTitle.hpp"
 #include "element/Rectangle.hpp"
 #include "element/TemplatedText.hpp"
 #include "element/Text.hpp"
@@ -21,6 +22,10 @@ const std::map<QString, std::function<std::unique_ptr<element::Element>()>>
             {
                 QString::fromStdString(element::Element::getTypeName<element::Line>()),
                 []() { return std::make_unique<element::Line>(); }
+            },
+            {
+                QString::fromStdString(element::Element::getTypeName<element::MonthTitle>()),
+                []() { return std::make_unique<element::MonthTitle>(); }
             },
             {
                 QString::fromStdString(element::Element::getTypeName<element::Rectangle>()),
@@ -41,9 +46,10 @@ const std::map<QString, QString> *CalendarObjectFactory::objNativeName =
     new std::map<QString, QString>{
         { "Ellipse", QString::fromStdString(element::Element::getTypeName<element::Ellipse>()) },
         { "Line", QString::fromStdString(element::Element::getTypeName<element::Line>()) },
+        { "Month title", QString::fromStdString(element::Element::getTypeName<element::MonthTitle>()) },
         { "Rectangle", QString::fromStdString(element::Element::getTypeName<element::Rectangle>()) },
         {
-            "Templated Text",
+            "Templated text",
             QString::fromStdString(element::Element::getTypeName<element::TemplatedText>())
         },
         { "Text", QString::fromStdString(element::Element::getTypeName<element::Text>()) }

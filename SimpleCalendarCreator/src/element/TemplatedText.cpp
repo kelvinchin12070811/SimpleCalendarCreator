@@ -9,6 +9,7 @@
 
 #include <boost/assert.hpp>
 
+#include <QDate>
 #include <QTextBlock>
 #include <QTextDocument>
 
@@ -48,14 +49,14 @@ namespace element
         return graphic;
     }
     
-    QPixmap TemplatedText::render(const Month& month)
+    QPixmap TemplatedText::render(const QDate& date)
     {
         QPixmap rendered{ graphic.size() };
         rendered.fill(Qt::GlobalColor::transparent);
 
         QPainter painter{ &rendered };
         painter.setRenderHint(QPainter::RenderHint::TextAntialiasing);
-        drawText(&painter, month);
+        drawText(&painter, date);
         return rendered;
     }
     
@@ -125,15 +126,16 @@ namespace element
     {
         graphic.fill(Qt::GlobalColor::transparent);
         QPainter painter{ &graphic };
-        drawText(&painter);
+        QDate date{ QDate::currentDate() };
+        date.setDate(date.year(), 1, 1);
+        drawText(&painter, date);
         parent->renderOutline();
     }
 
-    void TemplatedText::drawText(QPainter* painter, const Month& month)
+    void TemplatedText::drawText(QPainter* painter, const QDate& date)
     {
         BOOST_ASSERT_MSG(painter != nullptr, "painter must not be nullptr");
-        int idx{ std::clamp(static_cast<int>(month), static_cast<int>(Month::january),
-            static_cast<int>(Month::december)) };
+        int idx{ std::clamp(date.month(), 1, 12) };
         if (idx >= properties.texts.size())
             idx = idx % properties.texts.size();
 

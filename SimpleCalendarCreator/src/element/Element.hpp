@@ -43,9 +43,9 @@ namespace element
          */
         virtual const QPixmap& getRenderedGraphics() = 0;
         /**
-         * Render the selected month.
+         * Render the selected month in a year.
          */
-        virtual QPixmap render(const Month& month) = 0;
+        virtual QPixmap render(const QDate& date) = 0;
         /**
          * Allow user to modifide the properties of the element.
          */

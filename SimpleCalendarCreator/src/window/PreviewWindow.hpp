@@ -33,6 +33,12 @@ public:
     PreviewWindow(const QListWidget& list, const QSize& size, QWidget *parent = Q_NULLPTR);
     ~PreviewWindow() noexcept;
 
+    /**
+     * Set the target year to generate calendar.
+     * @param year target year to generate calendar.
+     */
+    void setYear(int year);
+
 protected:
     /**
      * @internal
@@ -97,6 +103,11 @@ private slots:  //Slots
      */
     void onZoomOut();
 private:  //Attributes
+    /**
+     * @internal
+     * Target year to generate with calendar.
+     */
+    int selectedYear{ 1997 };
     /**
      * @internal
      * Ui elements of PreviewWindow.

@@ -5,9 +5,10 @@
 ************************************************************************************************************/
 #include "window/PreviewWindow.hpp"
 
-#include <qaction.h>
+#include <QAction>
+#include <QDate>
 #include <qevent.h>
-#include <qpainter.h>
+#include <QPainter>
 
 #include "element/CustomListWidgetItem.hpp"
 
@@ -28,6 +29,11 @@ PreviewWindow::~PreviewWindow() noexcept
 {
     if (previewPixmap != nullptr && previewPixmap->parentWidget() != nullptr)
         delete previewPixmap;
+}
+
+void PreviewWindow::setYear(int year)
+{
+    this->selectedYear = year;
 }
 
 void PreviewWindow::showEvent(QShowEvent* ev)
@@ -53,7 +59,7 @@ void PreviewWindow::connectObjects()
 void PreviewWindow::render(const QListWidget& list)
 {
     QPainter painter;
-    for (int idxMonth{ 0 }; idxMonth < 12; idxMonth++)
+    for (QDate date{ selectedYear, 1, 1 }; date.month() <= 12; date = date.addMonths(1))
     {
         QPixmap buffer{ szCalendar };
         buffer.fill(Qt::GlobalColor::white);
@@ -67,7 +73,7 @@ void PreviewWindow::render(const QListWidget& list)
             if (element_ != nullptr)
             {
                 painter.drawPixmap(QRect{ QPoint{ 0, 0 }, szCalendar },
-                    element_->render(static_cast<element::Month>(idxMonth)));
+                    element_->render(date));
             }
         }
         painter.end();
