@@ -59,7 +59,7 @@ void PreviewWindow::connectObjects()
 void PreviewWindow::render(const QListWidget& list)
 {
     QPainter painter;
-    for (QDate date{ selectedYear, 1, 1 }; date.month() <= 12; date = date.addMonths(1))
+    for (QDate date{ selectedYear, 1, 1 }; date.year() == selectedYear; date = date.addMonths(1))
     {
         QPixmap buffer{ szCalendar };
         buffer.fill(Qt::GlobalColor::white);
