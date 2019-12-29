@@ -41,7 +41,7 @@ private:
 private:  //slots
     /**
      * @internal
-     * @breif Slots when user accept the new properties.
+     * Slots when user accept the new properties.
      */
     void onAccepted();
 

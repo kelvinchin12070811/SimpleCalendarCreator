@@ -8,6 +8,7 @@
 #include "element/Ellipse.hpp"
 #include "element/Line.hpp"
 #include "element/Rectangle.hpp"
+#include "element/TemplatedText.hpp"
 #include "element/Text.hpp"
 
 const std::map<QString, std::function<std::unique_ptr<element::Element>()>>
@@ -26,6 +27,10 @@ const std::map<QString, std::function<std::unique_ptr<element::Element>()>>
                 []() { return std::make_unique<element::Rectangle>(); }
             },
             {
+                QString::fromStdString(element::Element::getTypeName<element::TemplatedText>()),
+                []() { return std::make_unique<element::TemplatedText>(); }
+            },
+            {
                 QString::fromStdString(element::Element::getTypeName<element::Text>()),
                 []() { return std::make_unique<element::Text>(); }
             }
@@ -37,6 +42,10 @@ const std::map<QString, QString> *CalendarObjectFactory::objNativeName =
         { "Ellipse", QString::fromStdString(element::Element::getTypeName<element::Ellipse>()) },
         { "Line", QString::fromStdString(element::Element::getTypeName<element::Line>()) },
         { "Rectangle", QString::fromStdString(element::Element::getTypeName<element::Rectangle>()) },
+        {
+            "Templated Text",
+            QString::fromStdString(element::Element::getTypeName<element::TemplatedText>())
+        },
         { "Text", QString::fromStdString(element::Element::getTypeName<element::Text>()) }
     };
 

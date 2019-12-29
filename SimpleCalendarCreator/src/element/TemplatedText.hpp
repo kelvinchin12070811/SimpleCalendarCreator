@@ -5,8 +5,8 @@
 ************************************************************************************************************/
 #pragma once
 #include <QFont>
-#include <QPoint>
 #include <QString>
+#include <QStringList>
 
 #include "element/Element.hpp"
 
@@ -15,32 +15,27 @@ namespace element
     namespace object_properties
     {
         /**
-         * @brief properties of calendar object element::Text.
+         * @brief Properties of element::TemplatedText.
          */
-        struct Text
+        struct TemplatedText
         {
-            bool verticalText;  /**< Determine if the renderer should draw the text vertically. */
+            bool isVertical;  /**< Determine if the text is vertical aligned. */
             QColor textColour;  /**< Colour of the text. */
-            QFont font;  /**< Font info. */
-            QPoint pos;  /**< Text position. */
-            QString text;  /**< Text to render. */
+            QFont font;  /**< Font use to render the text. */
+            QPoint pos;  /**< Position of the text. */
+            QStringList texts;  /**< Texts that will be rendered on each month. */
         };
     }
     /**
-     * @brief Represented as Text on the calendar.
+     * @brief Text Object that render different text on each month.
      */
-    class Text : public Element
+    class TemplatedText : public Element
     {
     public:
-        /** Height of line. */
-        static constexpr qreal line_height{ 70 };
-        /** CSS style of the text to render. */
-        static constexpr char* const css_rules{ "<span style='color: %2; text-align: center'>%1</span>" };
-    public:
         /**
-         * Create Text object
+         * Create new TemplatedText object.
          */
-        Text();
+        TemplatedText();
 
         void setParent(CustomListWidgetItem* parent) override;
         void setSize(const QSize& size) override;
@@ -49,26 +44,35 @@ namespace element
         void edit() override;
         void serialize(pugi::xml_node* node) override;
         void deserialize(const pugi::xml_node& node) override;
+        
     private:
         /**
          * @internal
-         * Render text to outline.
+         * Render to outline window.
          */
-        void drawText();
+        void drawOutline();
+        /**
+         * @internal
+         * General text rendering function.
+         * @param painter Painter to draw on, must not be nullptr.
+         * @param month Month to draw, default to Month::january.
+         */
+        void drawText(QPainter* painter, const Month& month = Month::january);
+
     private:
         /**
          * @internal
-         * Parent of the calendar object. Must not be nullptr.
+         * Parent of the Calendar Object, must not be nullptr.
          */
         CustomListWidgetItem* parent{ nullptr };
         /**
          * @internal
-         * Properties of the Text object.
+         * Properties of the Calendar Object.
          */
-        object_properties::Text properties;
+        object_properties::TemplatedText properties;
         /**
          * @internal
-         * Rendered graphic for previewing outline.
+         * Renderend graphics for outline.
          */
         QPixmap graphic;
     };

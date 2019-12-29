@@ -93,6 +93,12 @@
     <ClCompile Include="src\window\object_editor\EditText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\element\TemplatedText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\object_editor\EditTemplatedText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="SimpleCalendarCreator.qrc">
@@ -127,6 +133,9 @@
     <QtMoc Include="src\window\object_editor\EditText.hpp">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\window\object_editor\EditTemplatedText.hpp">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\window\SimpleCalendarCreator.ui">
@@ -151,6 +160,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\window\object_editor\EditText.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\window\object_editor\EditTemplatedText.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -195,6 +207,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\element\Text.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\element\TemplatedText.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

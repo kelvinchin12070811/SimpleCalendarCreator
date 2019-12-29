@@ -121,6 +121,7 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\element\TemplatedText.cpp" />
     <ClCompile Include="src\element\Text.cpp" />
     <ClCompile Include="src\window\object_editor\EditEllipse.cpp" />
     <ClCompile Include="src\element\Ellipse.cpp" />
@@ -139,6 +140,7 @@
     <ClCompile Include="src\command\RemoveObject.cpp" />
     <ClCompile Include="src\element\CustomListWidgetItem.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\window\object_editor\EditTemplatedText.cpp" />
     <ClCompile Include="src\window\object_editor\EditText.cpp" />
     <ClCompile Include="src\window\PreviewWindow.cpp" />
     <ClCompile Include="src\window\SimpleCalendarCreator.cpp" />
@@ -152,6 +154,7 @@
     <QtUic Include="src\window\object_editor\EditLine.ui" />
     <QtUic Include="src\window\CalendarResizer.ui" />
     <QtUic Include="src\window\ObjectCreator.ui" />
+    <QtUic Include="src\window\object_editor\EditTemplatedText.ui" />
     <QtUic Include="src\window\object_editor\EditText.ui" />
     <QtUic Include="src\window\PreviewWindow.ui" />
     <QtUic Include="src\window\SimpleCalendarCreator.ui" />
@@ -160,7 +163,12 @@
     <QtRcc Include="SimpleCalendarCreator.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\element\TemplatedText.hpp" />
     <ClInclude Include="src\element\Text.hpp" />
+    <QtMoc Include="src\window\object_editor\EditTemplatedText.hpp">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src;.\src\window\object_editor</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src;.\src\window\object_editor</IncludePath>
+    </QtMoc>
     <QtMoc Include="src\window\object_editor\EditText.hpp">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src</IncludePath>
