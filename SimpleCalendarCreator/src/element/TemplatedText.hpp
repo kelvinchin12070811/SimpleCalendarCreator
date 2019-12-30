@@ -20,6 +20,7 @@ namespace element
         struct TemplatedText
         {
             bool isVertical;  /**< Determine if the text is vertical aligned. */
+            uint8_t textAlign; /**< Determin the alignment of text. Left: 1, Center: 2, Right: 3 */
             QColor textColour;  /**< Colour of the text. */
             QFont font;  /**< Font use to render the text. */
             QPoint pos;  /**< Position of the text. */

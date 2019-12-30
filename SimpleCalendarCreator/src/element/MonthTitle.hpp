@@ -4,6 +4,7 @@
 * file, You can obtain one at http ://mozilla.org/MPL/2.0/.
 ************************************************************************************************************/
 #pragma once
+#include <array>
 #include <QFont>
 #include <QLocale>
 
@@ -19,6 +20,10 @@ namespace element
         struct MonthTitle
         {
             bool isVertical;  /**< Determine if the title is vertically rendered. */
+            uint8_t textAlign;  /**< Determine the alignement of text. Left: 1, Center: 2, Right: 3. */
+            uint8_t nameFormat;  /**< Determine the format of the month name accroding to
+                                      MonthTitle::name_format. Default as 1.
+                                  */
             QLocale locale;  /**< Locale/language to render the month name. */
             QPoint pos;  /**< Position of the title. */
             QFont font;  /**< Font use to render the title. */
@@ -30,6 +35,15 @@ namespace element
      */
     class MonthTitle : public Element
     {
+    public:
+        /**
+         * Format of name that will be rendered by locale. See Qt Documentation of QDate::toString for more
+         * info.
+         */
+        static constexpr std::array<std::string_view, 2> name_format{ {
+            "MMM",
+            "MMMM"
+        } };
     public:
         /**
          * Create new object with default properties.

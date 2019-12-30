@@ -62,6 +62,7 @@ void EditTemplatedText::initUi()
     selectedColour = properties->textColour;
     applyPreviewColour(selectedColour, ui->colHex, ui->colPreview);
 
+    ui->textAlign->setCurrentIndex(properties->textAlign - 1);
     ui->isVertical->setChecked(properties->isVertical);
     ui->texts->addItems(properties->texts);
 }
@@ -78,6 +79,7 @@ void EditTemplatedText::onAccepted()
 
     element::object_properties::TemplatedText newProperties{
         ui->isVertical->isChecked(),
+        static_cast<uint8_t>(ui->textAlign->currentIndex() + 1),
         selectedColour,
         selectedFont,
         QPoint{ ui->posX->value(), ui->posY->value() },

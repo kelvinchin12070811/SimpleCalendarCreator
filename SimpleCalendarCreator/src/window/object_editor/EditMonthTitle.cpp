@@ -66,6 +66,8 @@ void EditMonthTitle::initUi()
 
     ui->posX->setValue(properties->pos.x());
     ui->posY->setValue(properties->pos.y());
+    ui->textAlign->setCurrentIndex(properties->textAlign - 1);
+    ui->nameFormat->setCurrentIndex(static_cast<int>(properties->nameFormat));
 
     selectedColour = properties->textColour;
     applyColourPreview(selectedColour, ui->colHex, ui->colPreview);
@@ -82,26 +84,15 @@ void EditMonthTitle::initUi()
 
 void EditMonthTitle::onAccepted()
 {
-    QString selectedLocaleName{ ui->selectLocale->currentText() };
-    auto list = selectedLocaleName.split('-', QString::SplitBehavior::SkipEmptyParts);
-
+    int selectedLocale{ ui->selectLocale->currentIndex() };
     auto allLocale = QLocale::matchingLocales(QLocale::Language::AnyLanguage, QLocale::Script::AnyScript,
         QLocale::Country::AnyCountry);
-    auto rst = std::find_if(allLocale.begin(), allLocale.end(),
-        [&list](decltype(allLocale)::reference itr) {
-            return itr.nativeLanguageName() == list[0] && itr.nativeCountryName() == list[1];
-        });
-
-#ifdef _DEBUG
-    if (rst == allLocale.end())
-    {
-        qDebug() << "Unable to find locale: " << selectedLocaleName;
-    }
-#endif // _DEBUG
 
     element::object_properties::MonthTitle newProperties{
         ui->isVertical->isChecked(),
-        rst == allLocale.end() ? properties->locale : *rst,
+        static_cast<uint8_t>(ui->textAlign->currentIndex() + 1),
+        static_cast<uint8_t>(ui->nameFormat->currentIndex()),
+        allLocale[selectedLocale],
         QPoint{ ui->posX->value(), ui->posY->value() },
         selectedFont,
         selectedColour

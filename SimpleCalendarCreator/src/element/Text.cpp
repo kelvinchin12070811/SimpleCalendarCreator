@@ -142,11 +142,11 @@ namespace element
                 fontRect.setWidth(metrics.width(itr));
                 fontRect.setHeight(metrics.height());
                 if (properties.textAlignment == 2)
-                    shift = -(fontRect.width() / 2);
+                    shift = fontRect.width() / 2;
                 else if (properties.textAlignment == 3)
                     shift = fontRect.width();
 
-                painter->drawText(fontRect.x() + shift, fontRect.y(), fontRect.width(), fontRect.height(),
+                painter->drawText(fontRect.x() - shift, fontRect.y(), fontRect.width(), fontRect.height(),
                     0, itr);
                 fontRect.setY(fontRect.y() + fontRect.height() - metrics.descent());
             }
