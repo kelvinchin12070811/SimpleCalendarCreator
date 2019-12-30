@@ -21,10 +21,10 @@
 
 #include "command/AddObject.hpp"
 #include "command/RemoveObject.hpp"
-#include "command/ResizeCalendar.hpp"
 #include "command/UndoHistory.hpp"
 #include "element/CalendarObjectFactory.hpp"
 #include "window/CalendarResizer.hpp"
+#include "window/EditProjectInfo.hpp"
 #include "window/PreviewWindow.hpp"
 
 #ifdef _DEBUG
@@ -46,7 +46,7 @@ const Ui::SimpleCalendarCreatorClass* SimpleCalendarCreator::getUi() const noexc
 
 QSize SimpleCalendarCreator::getCalendarSize() const noexcept
 {
-    return szCalendar;
+    return properties.szCalendar;
 }
 
 void SimpleCalendarCreator::setProjectName(const QString& value) noexcept
@@ -57,9 +57,9 @@ void SimpleCalendarCreator::setProjectName(const QString& value) noexcept
 
 void SimpleCalendarCreator::resizeEvent(QResizeEvent* ev)
 {
-    ui->winOutline->fitInView(0, 0, static_cast<qreal>(szCalendar.width()),
-        static_cast<qreal>(szCalendar.height()), Qt::AspectRatioMode::KeepAspectRatio);
-    ui->winOutline->centerOn(szCalendar.width() / 2.0, szCalendar.height() / 2.0);
+    ui->winOutline->fitInView(0, 0, static_cast<qreal>(properties.szCalendar.width()),
+        static_cast<qreal>(properties.szCalendar.height()), Qt::AspectRatioMode::KeepAspectRatio);
+    ui->winOutline->centerOn(properties.szCalendar.width() / 2.0, properties.szCalendar.height() / 2.0);
 }
 
 void SimpleCalendarCreator::connectObjects()
@@ -80,19 +80,20 @@ void SimpleCalendarCreator::connectObjects()
         if (itm == nullptr) return;
         static_cast<CustomListWidgetItem*>(itm)->getElement()->edit();
     });
+    connect(ui->btnEditProps, &QPushButton::clicked, [this]() {
+        auto dialogue = std::make_unique<EditProjectInfo>(&properties,
+            std::bind(&SimpleCalendarCreator::onPropertiesChanged, this), this);
+        dialogue->exec();
+    });
     connect(ui->btnRemoveObject, &QPushButton::clicked, this, &SimpleCalendarCreator::onRemoveObject);
-    connect(ui->btnResize, &QPushButton::clicked, this, &SimpleCalendarCreator::onResizeCalendar);
     connect(ui->btnPreview, &QPushButton::clicked, [this]() {
-        auto previewWindow = std::make_unique<PreviewWindow>(*ui->objectList, szCalendar);
+        auto previewWindow = std::make_unique<PreviewWindow>(*ui->objectList, properties.szCalendar);
         previewWindow->exec();
     });
 }
 
 void SimpleCalendarCreator::initUi()
 {
-    QDate today{ QDate::currentDate() };
-    ui->spnYear->setValue(today.year());
-
     onNewProject();
 }
 
@@ -117,6 +118,12 @@ void SimpleCalendarCreator::saveWorker(const QString& path, const QString& creat
 
     pugi::xml_document document;
     auto design = document.append_child("design");
+    auto project = design.append_child("project");
+    project.append_child("target-year").text().set(properties.selectedYear);
+    auto projectSize = project.append_child("size");
+    projectSize.append_attribute("w").set_value(properties.szCalendar.width());
+    projectSize.append_attribute("h").set_value(properties.szCalendar.height());
+
     for (int idx{ 0 }; idx < ui->objectList->count(); idx++)
     {
         auto item = dynamic_cast<CustomListWidgetItem*>(ui->objectList->item(idx));
@@ -174,9 +181,14 @@ bool SimpleCalendarCreator::onNewProject()
     }
 
     setProjectName();
-    auto tempCmd = std::make_unique<command::ResizeCalendar>(default_calender_size,
-        ui->szCalendarIndicator, &szCalendar);
-    tempCmd->execute();
+    QDate today{ QDate::currentDate() };
+    properties = {
+        today.year(),
+        SimpleCalendarCreator::default_calender_size
+    };
+    ui->labYear->setText(QString{ EditProjectInfo::format_targeted_year }.arg(properties.selectedYear));
+    ui->szCalendarIndicator->setText(QString{ EditProjectInfo::format_calendar_size }
+        .arg(properties.szCalendar.width()).arg(properties.szCalendar.height()));
 
     ui->objectList->clear();
     
@@ -188,11 +200,11 @@ bool SimpleCalendarCreator::onNewProject()
     }
     scene = new QGraphicsScene;
 
-    scene->setSceneRect(0, 0,
-        static_cast<qreal>(szCalendar.width()), static_cast<qreal>(szCalendar.height()));
+    scene->setSceneRect(0, 0, static_cast<qreal>(properties.szCalendar.width()),
+        static_cast<qreal>(properties.szCalendar.height()));
     ui->winOutline->setScene(scene);
 
-    QPixmap border{ szCalendar };
+    QPixmap border{ properties.szCalendar };
     border.fill(Qt::GlobalColor::white);
 
     QGraphicsPixmapItem* borderItem = new QGraphicsPixmapItem{ border };
@@ -280,6 +292,16 @@ void SimpleCalendarCreator::onOpenProject()
     }
 
     auto design = document.first_child();
+    auto project = design.child("project");
+    properties.selectedYear = project.child("target-year").text().as_int(1997);
+    
+    auto projectSize = project.child("size");
+    properties.szCalendar = QSize{
+        projectSize.attribute("w").as_int(),
+        projectSize.attribute("h").as_int()
+    };
+    onPropertiesChanged();
+
     CalendarObjectFactory factory;
     for (auto itr : design)
     {
@@ -305,24 +327,23 @@ void SimpleCalendarCreator::onOpenProject()
     UndoHistory::getInstance()->changesSaved();
 }
 
+void SimpleCalendarCreator::onPropertiesChanged()
+{
+    ui->labYear->setText(QString{ EditProjectInfo::format_targeted_year }.arg(properties.selectedYear));
+    ui->szCalendarIndicator->setText(QString{ EditProjectInfo::format_calendar_size }
+        .arg(properties.szCalendar.width()).arg(properties.szCalendar.height()));
+
+    for (int idx{ 0 }; idx < ui->objectList->count(); idx++)
+    {
+        auto item = dynamic_cast<CustomListWidgetItem*>(ui->objectList->item(idx));
+        item->getElement()->setSize(properties.szCalendar);
+    }
+}
+
 void SimpleCalendarCreator::onRemoveObject()
 {
     auto undoHistory = UndoHistory::getInstance();
     undoHistory->push(std::make_unique<command::RemoveObject>(ui->objectList, ui->winOutline));
-}
-
-void SimpleCalendarCreator::onResizeCalendar()
-{
-    auto dialog = std::make_unique<CalendarResizer>(szCalendar);
-    dialog->exec();
-
-    if (dialog->isAccepted())
-    {
-        auto cmd = std::make_unique<command::ResizeCalendar>(dialog->getDecidedSize(),
-            ui->szCalendarIndicator, &szCalendar);
-
-        UndoHistory::getInstance()->push(std::move(cmd));
-    }
 }
 
 void SimpleCalendarCreator::onSaveProject()

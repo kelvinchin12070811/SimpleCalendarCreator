@@ -7,7 +7,8 @@
 message("You are running qmake on a generated .pro file. This may not work!")
 
 
-HEADERS += ./src/element/MonthTitle.hpp \
+HEADERS += ./src/window/EditProjectInfo.hpp \
+    ./src/element/MonthTitle.hpp \
     ./src/element/TemplatedText.hpp \
     ./src/element/Text.hpp \
     ./src/command/ChangeObjectProperties.hpp \
@@ -56,7 +57,8 @@ SOURCES += ./src/element/MonthTitle.cpp \
     ./src/window/object_editor/EditTemplatedText.cpp \
     ./src/window/object_editor/EditText.cpp \
     ./src/window/PreviewWindow.cpp \
-    ./src/window/SimpleCalendarCreator.cpp
+    ./src/window/SimpleCalendarCreator.cpp \
+    ./src/window/EditProjectInfo.cpp
 FORMS += ./src/window/object_editor/EditEllipse.ui \
     ./src/window/object_editor/EditMonthTitle.ui \
     ./src/window/object_editor/EditRectangle.ui \
@@ -66,5 +68,6 @@ FORMS += ./src/window/object_editor/EditEllipse.ui \
     ./src/window/object_editor/EditTemplatedText.ui \
     ./src/window/object_editor/EditText.ui \
     ./src/window/PreviewWindow.ui \
-    ./src/window/SimpleCalendarCreator.ui
+    ./src/window/SimpleCalendarCreator.ui \
+    ./src/window/EditProjectInfo.ui
 RESOURCES += SimpleCalendarCreator.qrc

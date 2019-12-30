@@ -17,6 +17,21 @@
 #include "command/Command.hpp"
 
 /**
+ * @brief properties of calendar.
+ */
+struct CalendarProperties
+{
+    /**
+     * Year selected to generate calendar.
+     */
+    int selectedYear;
+    /**
+     * Size of calendar.
+     */
+    QSize szCalendar;
+};
+
+/**
  * @brief Main window of the program. Initialized by the main entry point.
  */
 class SimpleCalendarCreator : public QMainWindow
@@ -79,7 +94,7 @@ private:
      */
     void saveWorker(const QString& path, const QString& createdTime = QString{});
 
-private: //slots
+private slots:
     /**
      * @internal
      * Slot when a calendar object is being to add to the design.
@@ -98,14 +113,14 @@ private: //slots
     void onOpenProject();
     /**
      * @internal
+     * Slot called when CalendarProperties changed.
+     */
+    void onPropertiesChanged();
+    /**
+     * @internal
      * Slot when a calendar object is being to remove from the design.
      */
     void onRemoveObject();
-    /**
-     * @internal
-     * Slot when user decide to resize their calendar design.
-     */
-    void onResizeCalendar();
     /**
      * @internal
      * Slot when trying to save a project.
@@ -120,20 +135,19 @@ private: //slots
 private:
     /**
      * @internal
+     * Properties of calendar.
+     */
+    CalendarProperties properties;
+    /**
+     * @internal
      * Ui elements of the window.
      */
     std::unique_ptr<Ui::SimpleCalendarCreatorClass> ui{ nullptr };
-
     /**
      * @internal
      * Path of last saved file. Empty to trigger save as.
      */
     QFileInfo savedPath;
-    /**
-     * @internal
-     * Size of calendar.
-     */
-    QSize szCalendar{ SimpleCalendarCreator::default_calender_size };
     /**
      * @internal
      * Name of the project, "Untitled" by default.

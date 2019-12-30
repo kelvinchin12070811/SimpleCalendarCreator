@@ -50,44 +50,30 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="btnResize">
+          <widget class="QLabel" name="labYear">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
-            <string>Resize Calendar</string>
+            <string>Year:</string>
            </property>
           </widget>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_4">
-           <item>
-            <widget class="QLabel" name="labYear">
-             <property name="minimumSize">
-              <size>
-               <width>55</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>55</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Year</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QSpinBox" name="spnYear">
-             <property name="minimum">
-              <number>1997</number>
-             </property>
-             <property name="maximum">
-              <number>9999</number>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <widget class="QPushButton" name="btnEditProps">
+           <property name="text">
+            <string>Edit properties</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
