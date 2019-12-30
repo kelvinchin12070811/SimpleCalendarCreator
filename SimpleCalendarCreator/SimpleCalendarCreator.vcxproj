@@ -134,7 +134,6 @@
     <ClCompile Include="src\window\object_editor\EditLine.cpp" />
     <ClCompile Include="src\command\ResizeCalendar.cpp" />
     <ClCompile Include="src\command\UndoHistory.cpp" />
-    <ClCompile Include="src\element\Month.cpp" />
     <ClCompile Include="src\window\CalendarResizer.cpp" />
     <ClCompile Include="src\element\Line.cpp" />
     <ClCompile Include="src\window\ObjectCreator.cpp" />
@@ -204,7 +203,6 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(QTDIR)\include\QtUiTools;$(ProjectDir)\src</IncludePath>
     </QtMoc>
     <ClInclude Include="src\element\CalendarObjectFactory.hpp" />
-    <ClInclude Include="src\element\Month.hpp" />
     <QtMoc Include="src\window\PreviewWindow.hpp">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(QTDIR)\include\QtUiTools;$(ProjectDir)\src</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(QTDIR)\include\QtUiTools;$(ProjectDir)\src</IncludePath>

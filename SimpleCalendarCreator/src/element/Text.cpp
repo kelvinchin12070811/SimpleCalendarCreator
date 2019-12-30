@@ -7,8 +7,8 @@
 
 #include <boost/assert.hpp>
 
-#include <QTextBlock>
-#include <QTextDocument>
+#include <QFontMetrics>
+#include <QRect>
 
 #include "element/CustomListWidgetItem.hpp"
 #include "window/object_editor/EditText.hpp"
@@ -19,6 +19,7 @@ namespace element
     {
         properties = {
             false,
+            1,
             Qt::GlobalColor::black,
             QFont{},
             QPoint{ 0, 0 },
@@ -48,35 +49,9 @@ namespace element
     {
         QPixmap rendered{ graphic.size() };
         rendered.fill(Qt::GlobalColor::transparent);
-
-        QString text;
         QPainter painter{ &rendered };
         painter.setRenderHint(QPainter::RenderHint::TextAntialiasing);
-
-        if (properties.verticalText == true)
-        {
-            for (auto itr : properties.text)
-                text += QString{ "%1<br>" }.arg(itr);
-        }
-        else
-        {
-            text = properties.text;
-        }
-        QTextDocument document;
-        document.setDefaultFont(properties.font);
-        document.setHtml(
-            QString{ Text::css_rules }.arg(text)
-            .arg(properties.textColour.name(QColor::NameFormat::HexArgb)));
-        for (auto itr = document.begin(); itr != document.end(); itr = itr.next())
-        {
-            QTextCursor tc{ itr };
-            auto format = itr.blockFormat();
-            format.setLineHeight(Text::line_height, QTextBlockFormat::LineHeightTypes::ProportionalHeight);
-            tc.setBlockFormat(format);
-        }
-        painter.translate(properties.pos);
-        document.drawContents(&painter);
-
+        drawText(&painter);
         return rendered;
     }
     
@@ -85,7 +60,7 @@ namespace element
         auto dialog = std::make_unique<EditText>(&properties);
         QString title = dialog->windowTitle().arg(parent->text());
         dialog->setWindowTitle(title);
-        dialog->forwardConnect(std::bind(&Text::drawText, this));
+        dialog->forwardConnect(std::bind(&Text::drawOutline, this));
         dialog->exec();
     }
     
@@ -104,6 +79,7 @@ namespace element
         auto nodText = node->append_child("text");
         nodText.text().set(properties.text.toStdString().c_str());
         nodText.append_attribute("vertical").set_value(properties.verticalText);
+        nodText.append_attribute("text-align").set_value(properties.textAlignment);
     }
     
     void Text::deserialize(const pugi::xml_node& node)
@@ -117,39 +93,63 @@ namespace element
         auto nodText = node.child("text");
         properties.text = nodText.text().as_string();
         properties.verticalText = nodText.attribute("vertical").as_bool();
+        properties.textAlignment = nodText.attribute("text-align").as_uint(1);
 
-        drawText();
+        drawOutline();
     }
-    
-    void Text::drawText()
+
+    void Text::drawOutline()
     {
         graphic.fill(Qt::GlobalColor::transparent);
-        QString text;
         QPainter painter{ &graphic };
-
-        if (properties.verticalText == true)
+        drawText(&painter);
+        parent->renderOutline();
+    }
+    
+    void Text::drawText(QPainter* painter)
+    {
+        BOOST_ASSERT_MSG(painter != nullptr, "painter must not be nullptr");
+        QFontMetrics metrics{ properties.font };
+        QPen pen{ properties.textColour };
+        painter->setPen(pen);
+        painter->setFont(properties.font);
+        if (!properties.verticalText)
         {
-            for (auto itr : properties.text)
-                text += QString{ "%1<br>" }.arg(itr);
+            QRect fontRect{
+                properties.pos,
+                QSize{
+                    metrics.width(properties.text),
+                    metrics.height()
+                }
+            };
+            switch (properties.textAlignment)
+            {
+            case 2:
+                fontRect.setX(fontRect.x() - (fontRect.width() / 2));
+                break;
+            case 3:
+                fontRect.setX(fontRect.x() + fontRect.width());
+                break;
+            }
+            painter->drawText(fontRect, properties.text);
         }
         else
         {
-            text = properties.text;
+            QRect fontRect{ properties.pos, QSize{} };
+            int shift{ 0 };
+            for (const auto& itr : properties.text)
+            {
+                fontRect.setWidth(metrics.width(itr));
+                fontRect.setHeight(metrics.height());
+                if (properties.textAlignment == 2)
+                    shift = -(fontRect.width() / 2);
+                else if (properties.textAlignment == 3)
+                    shift = fontRect.width();
+
+                painter->drawText(fontRect.x() + shift, fontRect.y(), fontRect.width(), fontRect.height(),
+                    0, itr);
+                fontRect.setY(fontRect.y() + fontRect.height() - metrics.descent());
+            }
         }
-        QTextDocument document;
-        document.setDefaultFont(properties.font);
-        document.setHtml(
-            QString{ Text::css_rules }.arg(text)
-            .arg(properties.textColour.name(QColor::NameFormat::HexArgb)));
-        for (auto itr = document.begin(); itr != document.end(); itr = itr.next())
-        {
-            QTextCursor tc{ itr };
-            auto format = itr.blockFormat();
-            format.setLineHeight(Text::line_height, QTextBlockFormat::LineHeightTypes::ProportionalHeight);
-            tc.setBlockFormat(format);
-        }
-        painter.translate(properties.pos);
-        document.drawContents(&painter);
-        parent->renderOutline();
     }
 }

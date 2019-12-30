@@ -20,6 +20,7 @@ namespace element
         struct Text
         {
             bool verticalText;  /**< Determine if the renderer should draw the text vertically. */
+            uint8_t textAlignment;  /**< Determine the alignment of text. Left: 1, Center: 2, Right: 3*/
             QColor textColour;  /**< Colour of the text. */
             QFont font;  /**< Font info. */
             QPoint pos;  /**< Text position. */
@@ -52,9 +53,15 @@ namespace element
     private:
         /**
          * @internal
-         * Render text to outline.
+         * Render graphic for outline.
          */
-        void drawText();
+        void drawOutline();
+        /**
+         * @internal
+         * General text renderer.
+         * @param painter Painter to draw on, must not be nullptr.
+         */
+        void drawText(QPainter* painter);
     private:
         /**
          * @internal

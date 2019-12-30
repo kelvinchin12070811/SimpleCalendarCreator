@@ -14,8 +14,6 @@
 
 #include <pugixml.hpp>
 
-#include "element/Month.hpp"
-
 class CustomListWidgetItem;
 
 namespace element

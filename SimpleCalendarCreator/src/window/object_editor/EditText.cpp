@@ -35,6 +35,7 @@ void EditText::connectObjects()
 void EditText::initUi()
 {
     ui->text->setText(properties->text);
+    ui->textAlignment->setCurrentIndex(properties->textAlignment - 1);
     ui->posX->setValue(properties->pos.x());
     ui->posY->setValue(properties->pos.y());
     ui->isVerticalAlignment->setChecked(properties->verticalText);
@@ -50,6 +51,7 @@ void EditText::onAccepted()
 {
     element::object_properties::Text newProperties{
         ui->isVerticalAlignment->isChecked(),
+        static_cast<uint8_t>(ui->textAlignment->currentIndex() + 1),
         QColor{ ui->colHex->text() },
         selectedFont,
         QPoint{
