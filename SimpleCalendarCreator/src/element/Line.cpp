@@ -50,7 +50,7 @@ namespace element
         if (graphic.size().isNull())
             graphic = QPixmap{ value };
         else
-            graphic.scaled(value, Qt::AspectRatioMode::KeepAspectRatio);
+            graphic.scaled(value);
     }
 
     const QPixmap& Line::getRenderedGraphics()

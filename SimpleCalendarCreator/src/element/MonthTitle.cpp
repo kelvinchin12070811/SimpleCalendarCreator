@@ -38,7 +38,7 @@ namespace element
         if (graphic.isNull())
             graphic = QPixmap{ size };
         else
-            graphic.scaled(size, Qt::AspectRatioMode::KeepAspectRatio);
+            graphic.scaled(size);
     }
     
     const QPixmap& MonthTitle::getRenderedGraphics()

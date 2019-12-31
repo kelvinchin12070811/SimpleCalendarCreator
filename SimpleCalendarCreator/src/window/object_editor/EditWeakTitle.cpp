@@ -19,7 +19,6 @@ EditWeakTitle::EditWeakTitle(element::object_properties::WeakTitle* properties, 
     BOOST_ASSERT_MSG(this->properties != nullptr, "properties must not be nullptr");
     ui->setupUi(this);
     initUi();
-    connectObjects();
 }
 
 void EditWeakTitle::forwardConnect(std::function<void()> slot)

@@ -32,7 +32,7 @@ namespace element
         if (graphic.size().isNull())
             graphic = QPixmap{ size };
         else
-            graphic.scaled(size, Qt::AspectRatioMode::KeepAspectRatio);
+            graphic.scaled(size);
     }
     
     const QPixmap& Rectangle::getRenderedGraphics()
