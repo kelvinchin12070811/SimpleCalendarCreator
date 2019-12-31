@@ -11,6 +11,7 @@
 #include "element/Rectangle.hpp"
 #include "element/TemplatedText.hpp"
 #include "element/Text.hpp"
+#include "element/WeakTitle.hpp"
 
 const std::map<QString, std::function<std::unique_ptr<element::Element>()>>
     *CalendarObjectFactory::objCreator{
@@ -38,6 +39,10 @@ const std::map<QString, std::function<std::unique_ptr<element::Element>()>>
             {
                 QString::fromStdString(element::Element::getTypeName<element::Text>()),
                 []() { return std::make_unique<element::Text>(); }
+            },
+            {
+                QString::fromStdString(element::Element::getTypeName<element::WeakTitle>()),
+                []() { return std::make_unique<element::WeakTitle>(); }
             }
         }
     };
@@ -52,7 +57,8 @@ const std::map<QString, QString> *CalendarObjectFactory::objNativeName =
             "Templated text",
             QString::fromStdString(element::Element::getTypeName<element::TemplatedText>())
         },
-        { "Text", QString::fromStdString(element::Element::getTypeName<element::Text>()) }
+        { "Text", QString::fromStdString(element::Element::getTypeName<element::Text>()) },
+        { "Weak title", QString::fromStdString(element::Element::getTypeName<element::WeakTitle>()) }
     };
 
 std::unique_ptr<element::Element> CalendarObjectFactory::createObject(const QString& name) const

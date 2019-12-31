@@ -56,7 +56,7 @@ namespace element
          * @internal
          * General text rendering function.
          * @param painter Painter to draw on, must not be nullptr.
-         * @param month Month to draw, default to Month::january.
+         * @param date Selected date to draw a month of that date.
          */
         void drawText(QPainter* painter, const QDate& date);
 

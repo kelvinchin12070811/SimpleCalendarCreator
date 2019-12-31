@@ -68,7 +68,7 @@ namespace element
          * @internal
          * General title rendering function.
          * @param painter Painter to draw on, must not be nullptr.
-         * @parma date Render month in the selected date.
+         * @param date Render month in the selected date.
          */
         void drawTitle(QPainter* painter, const QDate& date);
 

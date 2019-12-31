@@ -105,6 +105,12 @@
     <ClCompile Include="src\window\EditProjectInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\window\object_editor\EditWeakTitle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\element\WeakTitle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="SimpleCalendarCreator.qrc">
@@ -148,6 +154,9 @@
     <QtMoc Include="src\window\EditProjectInfo.hpp">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\window\object_editor\EditWeakTitle.hpp">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\window\SimpleCalendarCreator.ui">
@@ -181,6 +190,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\window\EditProjectInfo.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\window\object_editor\EditWeakTitle.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -228,6 +240,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\element\MonthTitle.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\element\WeakTitle.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

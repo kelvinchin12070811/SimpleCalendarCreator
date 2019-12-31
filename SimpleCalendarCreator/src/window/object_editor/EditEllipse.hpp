@@ -13,7 +13,7 @@
 #include "ui_EditEllipse.h"
 
 /**
- * @Brief Dialog that allow user to modify properties of element::Ellipse.
+ * @brief Dialog that allow user to modify properties of element::Ellipse.
  */
 class EditEllipse : public QDialog
 {

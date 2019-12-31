@@ -121,6 +121,7 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\element\WeakTitle.cpp" />
     <ClCompile Include="src\window\EditProjectInfo.cpp" />
     <ClCompile Include="src\element\MonthTitle.cpp" />
     <ClCompile Include="src\element\TemplatedText.cpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\window\object_editor\EditTemplatedText.cpp" />
     <ClCompile Include="src\window\object_editor\EditText.cpp" />
+    <ClCompile Include="src\window\object_editor\EditWeakTitle.cpp" />
     <ClCompile Include="src\window\PreviewWindow.cpp" />
     <ClCompile Include="src\window\SimpleCalendarCreator.cpp" />
   </ItemGroup>
@@ -160,6 +162,7 @@
     <QtUic Include="src\window\ObjectCreator.ui" />
     <QtUic Include="src\window\object_editor\EditTemplatedText.ui" />
     <QtUic Include="src\window\object_editor\EditText.ui" />
+    <QtUic Include="src\window\object_editor\EditWeakTitle.ui" />
     <QtUic Include="src\window\PreviewWindow.ui" />
     <QtUic Include="src\window\SimpleCalendarCreator.ui" />
   </ItemGroup>
@@ -167,6 +170,11 @@
     <QtRcc Include="SimpleCalendarCreator.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\element\WeakTitle.hpp" />
+    <QtMoc Include="src\window\object_editor\EditWeakTitle.hpp">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src;.\src\window\object_editor;.\src</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src;.\src\window\object_editor;.\src</IncludePath>
+    </QtMoc>
     <QtMoc Include="src\window\EditProjectInfo.hpp">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src;.\src\window\object_editor</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src;.\src\window\object_editor</IncludePath>
