@@ -23,6 +23,21 @@ namespace element
             QColor backgroundColour;  /**< Background colour of rectangle. */
             int width;  /**< Line width of the rectangle. */
         };
+
+        /** Determine if two set of properties are equal. */
+        inline bool operator==(const Rectangle& lhs, const Rectangle& rhs)
+        {
+            return (lhs.rect == rhs.rect) &&
+                (lhs.foregroundColour == rhs.foregroundColour) &&
+                (lhs.backgroundColour == rhs.backgroundColour) &&
+                (lhs.width == rhs.width);
+        }
+
+        /** Determine if two set of properties are not equal. */
+        inline bool operator!=(const Rectangle& lhs, const Rectangle& rhs)
+        {
+            return !operator==(lhs, rhs);
+        }
     }
     /**
      * @brief Represented as Rectangle in Calendar object.

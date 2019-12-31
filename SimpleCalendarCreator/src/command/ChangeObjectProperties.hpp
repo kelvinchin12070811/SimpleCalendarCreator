@@ -36,6 +36,9 @@ namespace command
 
         bool execute() override
         {
+            if (*curProperties == newProperties)
+                return false;
+
             *curProperties = newProperties;
             propertiesChanged();
             return true;

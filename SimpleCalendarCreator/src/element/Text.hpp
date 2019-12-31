@@ -26,6 +26,23 @@ namespace element
             QPoint pos;  /**< Text position. */
             QString text;  /**< Text to render. */
         };
+
+        /** Determine if two set of properties are equal. */
+        inline bool operator==(const Text& lhs, const Text& rhs)
+        {
+            return (lhs.verticalText == rhs.verticalText) &&
+                (lhs.textAlignment == rhs.textAlignment) &&
+                (lhs.textColour == rhs.textColour) &&
+                (lhs.font == rhs.font) &&
+                (lhs.pos == rhs.pos) &&
+                (lhs.text == rhs.text);
+        }
+
+        /** Determine if two set of properties are not equal. */
+        inline bool operator!=(const Text& lhs, const Text& rhs)
+        {
+            return !operator==(lhs, rhs);
+        }
     }
     /**
      * @brief Represented as Text on the calendar.

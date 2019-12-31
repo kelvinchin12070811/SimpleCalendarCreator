@@ -38,6 +38,25 @@ namespace element
              */
             std::vector<std::pair<QString, std::vector<QString>>> lables;
         };
+
+        /** Determine if two set of properties are equal. */
+        inline bool operator==(const WeakTitle& lhs, const WeakTitle& rhs)
+        {
+            return (lhs.isVertical == rhs.isVertical) &&
+                (lhs.textAlignment == rhs.textAlignment) &&
+                (lhs.normalTextColour == rhs.normalTextColour) &&
+                (lhs.satTextColour == rhs.satTextColour) &&
+                (lhs.sunTextColour == rhs.sunTextColour) &&
+                (lhs.font == rhs.font) &&
+                (lhs.fontRect == rhs.fontRect) &&
+                (lhs.lables == rhs.lables);
+        }
+
+        /** Determin if two set of properties are not equal. */
+        inline bool operator!=(const WeakTitle& lhs, const WeakTitle& rhs)
+        {
+            return !operator==(lhs, rhs);
+        }
     }
 
     class WeakTitle : public Element

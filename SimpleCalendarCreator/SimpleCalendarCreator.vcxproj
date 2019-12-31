@@ -170,6 +170,7 @@
     <QtRcc Include="SimpleCalendarCreator.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\element\Dates.hpp" />
     <ClInclude Include="src\element\WeakTitle.hpp" />
     <QtMoc Include="src\window\object_editor\EditWeakTitle.hpp">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src;.\src\window\object_editor;.\src</IncludePath>

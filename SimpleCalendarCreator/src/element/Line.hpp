@@ -25,6 +25,25 @@ namespace element
             QPoint posLineEnd;  /**< Ending point of the line. */
             QColor lineColour;  /**< Colour of the line. */
         };
+
+        /**
+         * Determine if two properties are equal.
+         */
+        inline bool operator==(const Line& lhs, const Line& rhs)
+        {
+            return (lhs.lineWidth == rhs.lineWidth) &&
+                (lhs.posLineStart == rhs.posLineStart) &&
+                (lhs.posLineEnd == rhs.posLineEnd) &&
+                (lhs.lineColour == rhs.lineColour);
+        }
+
+        /**
+         * Determine if two properties are not equal.
+         */
+        inline bool operator!=(const Line& lhs, const Line& rhs)
+        {
+            return !operator==(lhs, rhs);
+        }
     }
     /**
      * @brief Represented as a line on the calendar design.

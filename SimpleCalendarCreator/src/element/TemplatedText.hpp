@@ -26,6 +26,23 @@ namespace element
             QPoint pos;  /**< Position of the text. */
             QStringList texts;  /**< Texts that will be rendered on each month. */
         };
+
+        /** Determine if two set of properties are equal. */
+        inline bool operator==(const TemplatedText& lhs, const TemplatedText& rhs)
+        {
+            return (lhs.isVertical == rhs.isVertical) &&
+                (lhs.textAlign == rhs.textAlign) &&
+                (lhs.textColour == rhs.textColour) &&
+                (lhs.font == rhs.font) &&
+                (lhs.pos == rhs.pos) &&
+                (lhs.texts == rhs.texts);
+        }
+
+        /** Determine if two set of properties are not equal. */
+        inline bool operator!=(const TemplatedText& lhs, const TemplatedText& rhs)
+        {
+            return !operator==(lhs, rhs);
+        }
     }
     /**
      * @brief Text Object that render different text on each month.

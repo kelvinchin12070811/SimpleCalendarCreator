@@ -29,6 +29,26 @@ namespace element
             QFont font;  /**< Font use to render the title. */
             QColor textColour;  /**< Colour use to render the title. */
         };
+
+        /**
+         * Determine if two set of properties are equal.
+         */
+        inline bool operator==(const MonthTitle& lhs, const MonthTitle& rhs)
+        {
+            return (lhs.isVertical == rhs.isVertical) &&
+                (lhs.textAlign == rhs.textAlign) &&
+                (lhs.nameFormat == rhs.nameFormat) &&
+                (lhs.locale == rhs.locale) &&
+                (lhs.pos == rhs.pos) &&
+                (lhs.font == rhs.font) &&
+                (lhs.textColour == rhs.textColour);
+        }
+
+        /** Determine if two set of properties are not equal. */
+        inline bool operator!=(const MonthTitle& lhs, const MonthTitle& rhs)
+        {
+            return !operator==(lhs, rhs);
+        }
     }
     /**
      * @brief Represented as name of the month in various language in native locale.

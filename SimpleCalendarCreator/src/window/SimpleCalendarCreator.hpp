@@ -32,6 +32,21 @@ struct CalendarProperties
 };
 
 /**
+ * Determine if two set of properties are equal.
+ */
+inline bool operator==(const CalendarProperties& lhs, const CalendarProperties& rhs)
+{
+    return (lhs.selectedYear == rhs.selectedYear) &&
+        (lhs.szCalendar == rhs.szCalendar);
+}
+
+/** Determine if two set of properties are not equal. */
+inline bool operator!=(const CalendarProperties& lhs, const CalendarProperties& rhs)
+{
+    return !operator==(lhs, rhs);
+}
+
+/**
  * @brief Main window of the program. Initialized by the main entry point.
  */
 class SimpleCalendarCreator : public QMainWindow

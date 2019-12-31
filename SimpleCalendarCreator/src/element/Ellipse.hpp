@@ -24,6 +24,27 @@ namespace element
             QColor foregroundColour;  /**< Border colour. */
             QColor backgroundColour;  /**< Fill colour. */
         };
+
+        /**
+         * Determine if two properties are equal.
+         */
+        inline bool operator==(const Ellipse& lhs, const Ellipse& rhs)
+        {
+            return (lhs.radiusX == rhs.radiusX) &&
+                (lhs.radiusY == rhs.radiusY) &&
+                (lhs.width == rhs.width) &&
+                (lhs.originPos == rhs.originPos) &&
+                (lhs.foregroundColour == rhs.foregroundColour) &&
+                (lhs.backgroundColour == rhs.backgroundColour);
+        }
+
+        /**
+         * Determine if two properties are not equal.
+         */
+        inline bool operator!=(const Ellipse& lhs, const Ellipse& rhs)
+        {
+            return !operator==(lhs, rhs);
+        }
     }
 
     /**
