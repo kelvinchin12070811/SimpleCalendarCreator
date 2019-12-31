@@ -44,7 +44,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="originX"/>
+           <widget class="QSpinBox" name="originX">
+            <property name="minimum">
+             <number>-2147483647</number>
+            </property>
+            <property name="maximum">
+             <number>2147483647</number>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -70,7 +77,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="originY"/>
+           <widget class="QSpinBox" name="originY">
+            <property name="minimum">
+             <number>-2147483647</number>
+            </property>
+            <property name="maximum">
+             <number>2147483647</number>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -105,7 +119,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="radX"/>
+           <widget class="QSpinBox" name="radX">
+            <property name="maximum">
+             <number>2147483647</number>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -131,7 +149,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="radY"/>
+           <widget class="QSpinBox" name="radY">
+            <property name="maximum">
+             <number>2147483647</number>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -162,7 +184,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="borderWidth"/>
+         <widget class="QSpinBox" name="borderWidth">
+          <property name="maximum">
+           <number>2147483647</number>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

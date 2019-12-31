@@ -5,8 +5,6 @@
 ************************************************************************************************************/
 #include "window/object_editor/EditLine.hpp"
 
-#include <numeric>
-
 #include <qcolordialog.h>
 
 #include "command/ChangeObjectProperties.hpp"
@@ -40,26 +38,10 @@ void EditLine::connectObjects()
 
 void EditLine::initUi()
 {
-    const int max{ std::numeric_limits<int>::max() };
-    const int min{ std::numeric_limits<int>::min() };
-    
-    ui->spinX1->setMaximum(max);
-    ui->spinX1->setMinimum(min);
     ui->spinX1->setValue(properties->posLineStart.x());
-
-    ui->spinY1->setMaximum(max);
-    ui->spinY1->setMinimum(min);
     ui->spinY1->setValue(properties->posLineStart.y());
-
-    ui->spinX2->setMaximum(max);
-    ui->spinX2->setMinimum(min);
     ui->spinX2->setValue(properties->posLineEnd.x());
-
-    ui->spinY2->setMaximum(max);
-    ui->spinY2->setMinimum(min);
     ui->spinY2->setValue(properties->posLineEnd.y());
-
-    ui->spinWidth->setMaximum(max);
     ui->spinWidth->setValue(properties->lineWidth);
 
     ui->lnedColourHex->setText(properties->lineColour.name(QColor::NameFormat::HexArgb));

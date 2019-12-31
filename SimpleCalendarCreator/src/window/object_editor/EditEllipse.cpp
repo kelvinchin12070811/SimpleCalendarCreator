@@ -5,8 +5,6 @@
 ************************************************************************************************************/
 #include "window/object_editor/EditEllipse.hpp"
 
-#include <numeric>
-
 #include <boost/assert.hpp>
 
 #include <QColorDialog>
@@ -38,20 +36,10 @@ void EditEllipse::connectObjects()
 
 void EditEllipse::initUi()
 {
-    constexpr int max{ std::numeric_limits<int>::max() };
-    ui->originX->setMaximum(max);
     ui->originX->setValue(properties->originPos.x());
-    
-    ui->originY->setMaximum(max);
     ui->originY->setValue(properties->originPos.y());
-
-    ui->radX->setMaximum(max);
     ui->radX->setValue(properties->radiusX);
-    
-    ui->radY->setMaximum(max);
     ui->radY->setValue(properties->radiusY);
-
-    ui->borderWidth->setMaximum(max);
     ui->borderWidth->setValue(properties->width);
 
     QString colourName{ properties->backgroundColour.name(QColor::NameFormat::HexArgb) };
