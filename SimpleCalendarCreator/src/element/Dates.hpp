@@ -51,7 +51,8 @@ namespace element
                 (lhs.weakendColour == rhs.weakendColour) &&
                 (lhs.weakstartColour == rhs.weakstartColour) &&
                 (lhs.font == rhs.font) &&
-                (lhs.drawArea == rhs.drawArea);
+                (lhs.drawArea == rhs.drawArea) &&
+                (lhs.speacialDays == rhs.speacialDays);
         }
 
         /** Determine if two set of properties are not equal. */
@@ -67,6 +68,10 @@ namespace element
     class Dates : public Element
     {
     public:
+        /** Background colour of outline bound. */
+        static constexpr char* const outline_bound_colour{ "#8087ceeb" };
+    public:
+        /** Create new object with default properties. */
         Dates();
 
         void setParent(CustomListWidgetItem* parent) override;

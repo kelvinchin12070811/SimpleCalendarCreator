@@ -99,24 +99,25 @@ void EditDates::onAccepted()
         {}
     };
 
+    newProperties.speacialDays.reserve(ui->markers->topLevelItemCount());
+
     for (int idx{ 0 }; idx < ui->markers->topLevelItemCount(); idx++)
     {
         using namespace element::object_properties;
         auto markersGroup = ui->markers->topLevelItem(idx);
-        decltype(properties->speacialDays)::value_type type;
+        decltype(newProperties.speacialDays)::value_type type;
         std::get<Dates::SpeacialDaysIndex::group_name>(type) = markersGroup->text(0);
         std::get<Dates::SpeacialDaysIndex::group_colour>(type) = markersGroup->text(1);
         
         auto& vector = std::get<Dates::SpeacialDaysIndex::group_members>(type);
+        vector.reserve(markersGroup->childCount());
         for (int idx2{ 0 }; idx2 < markersGroup->childCount(); idx2++)
         {
             auto item = markersGroup->child(idx2);
             vector.emplace_back(item->text(0), item->text(1));
         }
-        vector.shrink_to_fit();
-        properties->speacialDays.push_back(std::move(type));
+        newProperties.speacialDays.push_back(std::move(type));
     }
-    properties->speacialDays.shrink_to_fit();
 
     auto cmd = std::make_unique<command::ChangeObjectProperties<decltype(newProperties)>>(properties,
         newProperties);
