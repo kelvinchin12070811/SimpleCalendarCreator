@@ -68,8 +68,8 @@ namespace element
     class Dates : public Element
     {
     public:
-        /** Background colour of outline bound. */
-        static constexpr char* const outline_bound_colour{ "#8087ceeb" };
+        /** Background colour of outline bound in AARRGGBB format. */
+        static constexpr char* const outline_bound_colour{ "#4c87ceeb" };
     public:
         /** Create new object with default properties. */
         Dates();

@@ -16,8 +16,8 @@
 #include <qdebug.h>
 #endif // _DEBUG
 
-PreviewWindow::PreviewWindow(const QListWidget& list, const QSize& size, QWidget *parent)
-    : QDialog(parent), szCalendar(size),ui(std::make_unique<Ui::PreviewWindow>())
+PreviewWindow::PreviewWindow(const QListWidget& list, int year, const QSize& size, QWidget *parent)
+    : QDialog(parent), selectedYear(year), szCalendar(size),ui(std::make_unique<Ui::PreviewWindow>())
 {
     ui->setupUi(this);
     render(list);
@@ -29,11 +29,6 @@ PreviewWindow::~PreviewWindow() noexcept
 {
     if (previewPixmap != nullptr && previewPixmap->parentWidget() != nullptr)
         delete previewPixmap;
-}
-
-void PreviewWindow::setYear(int year)
-{
-    this->selectedYear = year;
 }
 
 void PreviewWindow::showEvent(QShowEvent* ev)

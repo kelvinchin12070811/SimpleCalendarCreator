@@ -87,7 +87,8 @@ void SimpleCalendarCreator::connectObjects()
     });
     connect(ui->btnRemoveObject, &QPushButton::clicked, this, &SimpleCalendarCreator::onRemoveObject);
     connect(ui->btnPreview, &QPushButton::clicked, [this]() {
-        auto previewWindow = std::make_unique<PreviewWindow>(*ui->objectList, properties.szCalendar);
+        auto previewWindow = std::make_unique<PreviewWindow>(*ui->objectList, properties.selectedYear,
+            properties.szCalendar);
         previewWindow->exec();
     });
 }

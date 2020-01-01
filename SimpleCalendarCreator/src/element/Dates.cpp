@@ -5,10 +5,17 @@
 ************************************************************************************************************/
 #include "element/Dates.hpp"
 
+#include <algorithm>
+#include <array>
+
 #include <QDate>
 
 #include "element/CustomListWidgetItem.hpp"
 #include "window/object_editor/EditDates.hpp"
+
+#ifdef _DEBUG
+#include <QDebug>
+#endif // _DEBUG
 
 namespace element
 {
@@ -46,8 +53,12 @@ namespace element
     
     QPixmap Dates::render(const QDate& date)
     {
-        BOOST_ASSERT_MSG(false, "function unimplemented");
-        return QPixmap();
+        QPixmap rendered{ graphic.size() };
+        rendered.fill(Qt::GlobalColor::transparent);
+        QPainter painter{ &rendered };
+        painter.setRenderHint(QPainter::RenderHint::TextAntialiasing);
+        drawLabels(&painter, date);
+        return rendered;
     }
 
     void Dates::edit()
@@ -140,12 +151,67 @@ namespace element
         graphic.fill(Qt::GlobalColor::transparent);
         QPainter painter{ &graphic };
         QDate date{ QDate::currentDate().year(), 1, 1 };
+        painter.fillRect(properties.drawArea, QColor{ Dates::outline_bound_colour });
         drawLabels(&painter, date);
         parent->renderOutline();
     }
     
     void Dates::drawLabels(QPainter* painter, const QDate& date)
     {
-        BOOST_ASSERT_MSG(false, "unimplemented");
+#ifdef _DEBUG
+        qDebug() << date.toString(Qt::DateFormat::ISODate);
+#endif // _DEBUG
+        int8_t weakstart{ 7 };  //Determine start of the weak, 1 as monday -> 7 as sunday.
+        int8_t weakend{ weakstart - 1 };
+        if (weakend <= 0)
+            weakend = 7;
+
+        QPen pen;
+        QDate calendar{ date };
+        int textAlignFlags = Qt::AlignmentFlag::AlignVCenter;
+
+        switch (properties.textAlign)
+        {
+        case 2:
+            textAlignFlags |= Qt::AlignmentFlag::AlignHCenter;
+            break;
+        case 3:
+            textAlignFlags |= Qt::AlignmentFlag::AlignRight;
+            break;
+        default:
+            textAlignFlags |= Qt::AlignmentFlag::AlignLeft;
+            break;
+        }
+
+        painter->setFont(properties.font);
+
+        std::array<int, 7> shifter{ { 0, 1, 2, 3, 4, 5, 6 } };
+        std::rotate(shifter.rbegin(), shifter.rbegin() + (weakstart - 1), shifter.rend());
+        
+        int x{ properties.drawArea.x() };
+        int y{ properties.drawArea.y() };
+        int w{ properties.drawArea.width() / 7 };
+        int h{ properties.drawArea.height() / 5 };
+        while (calendar.month() == date.month())
+        {
+            auto shift = shifter[calendar.dayOfWeek() - 1];
+            if (shift == shifter[weakstart - 1])
+                pen.setColor(properties.weakstartColour);
+            else if (shift == shifter[weakend - 1])
+                pen.setColor(properties.weakendColour);
+            else
+                pen.setColor(properties.weakdayColour);
+
+            painter->setPen(pen);
+            painter->drawText(x + (shift * w), y, w, h, textAlignFlags, QString::number(calendar.day()));
+
+            if (shift == shifter[weakend - 1])  //Determine if weakend
+                y += h;
+
+            if (y + h >= properties.drawArea.y() + properties.drawArea.height())
+                y = properties.drawArea.y();
+
+            calendar = calendar.addDays(1);
+        }
     }
 }

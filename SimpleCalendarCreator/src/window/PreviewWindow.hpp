@@ -27,17 +27,12 @@ public:
     /**
      * Construct new preview window.
      * @param list List of calendar objects to render months' graphics.
+     * @param year Targeted year to generat calendar.
      * @param size Size of the calendar design.
      * @param parent Parent of this dialog.
      */
-    PreviewWindow(const QListWidget& list, const QSize& size, QWidget *parent = Q_NULLPTR);
+    PreviewWindow(const QListWidget& list, int year, const QSize& size, QWidget *parent = Q_NULLPTR);
     ~PreviewWindow() noexcept;
-
-    /**
-     * Set the target year to generate calendar.
-     * @param year target year to generate calendar.
-     */
-    void setYear(int year);
 
 protected:
     /**
