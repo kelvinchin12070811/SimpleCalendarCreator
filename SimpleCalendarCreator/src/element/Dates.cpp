@@ -7,6 +7,8 @@
 
 #include <algorithm>
 #include <array>
+#include <map>
+#include <vector>
 
 #include <QDate>
 
@@ -166,6 +168,23 @@ namespace element
         if (weakend <= 0)
             weakend = 7;
 
+        std::vector<QColor> colours;
+        std::multimap<QDate, int> eventsList;
+
+        colours.reserve(properties.speacialDays.size());
+
+        for (const auto& itr : properties.speacialDays)
+        {
+            using _Members = object_properties::Dates::SpeacialDaysIndex;
+            colours.emplace_back(std::get<_Members::group_colour>(itr));
+            for (const auto& [name, dateStr] : std::get<_Members::group_members>(itr))
+            {
+                QDate eventDate{ QDate::fromString(dateStr, "MM-dd") };
+                eventDate.setDate(date.year(), eventDate.month(), eventDate.day());
+                eventsList.emplace(std::move(eventDate), colours.size() - 1);
+            }
+        }
+
         QPen pen;
         QDate calendar{ date };
         int textAlignFlags = Qt::AlignmentFlag::AlignVCenter;
@@ -201,6 +220,31 @@ namespace element
                 pen.setColor(properties.weakendColour);
             else
                 pen.setColor(properties.weakdayColour);
+
+            auto range = eventsList.equal_range(calendar);
+            int counter{ 0 };
+            int size{ std::distance(range.first, range.second) };
+            qreal markerRadius{ (std::min(w, h) / 2.0) * .8 };
+            int minMarkerWidth{ static_cast<int>((markerRadius * 2) / size) };
+
+            QPoint markerCenter{ x + (shift * w) + (w / 2), y + (h / 2) };
+            QPoint markerPos{ markerCenter
+                - QPoint{ static_cast<int>(markerRadius), static_cast<int>(markerRadius) } };
+            QPainterPath ellipse;
+            ellipse.addEllipse(markerCenter, markerRadius, markerRadius);
+            
+            for (auto itr = range.first; itr != range.second; ++itr)
+            {
+                QPainterPath lhs;
+                QPainterPath rhs;
+
+                lhs.addRect(markerPos.x(), markerPos.y(), minMarkerWidth * counter, 2 * markerRadius);
+                rhs.addRect(markerPos.x() + (minMarkerWidth * (counter + 1)), markerPos.y(),
+                    minMarkerWidth * (size - counter - 1), 2 * markerRadius);
+
+                painter->fillPath(ellipse - lhs - rhs, colours[itr->second]);
+                counter++;
+            }
 
             painter->setPen(pen);
             painter->drawText(x + (shift * w), y, w, h, textAlignFlags, QString::number(calendar.day()));
