@@ -171,6 +171,35 @@ void SimpleCalendarCreator::onAddObject()
     UndoHistory::getInstance()->push(std::make_unique<command::AddObject>(this, ui->objectList));
 }
 
+void SimpleCalendarCreator::onGenerateCalendar()
+{
+    QString path{ QFileDialog::getExistingDirectory(this, "Render Calenders To...") };
+    if (path.isEmpty()) return;
+
+    QPixmap graphic{ properties.szCalendar };
+    QPainter painter;
+    QLocale locale{ QLocale::Language::English, QLocale::Country::UnitedKingdom };
+    QString title{ this->windowTitle() };
+    for (QDate date{ properties.selectedYear, 1, 1 }; date.year() == properties.selectedYear;
+        date = date.addMonths(1))
+    {
+        this->setWindowTitle(QString{ "Generating item %1/12..." }.arg(date.month()));
+        graphic.fill(Qt::GlobalColor::transparent);
+        painter.begin(&graphic);
+        painter.setRenderHint(QPainter::RenderHint::Antialiasing);
+        for (int idx2{ 0 }; idx2 < ui->objectList->count(); idx2++)
+        {
+            auto item = static_cast<CustomListWidgetItem*>(ui->objectList->item(idx2));
+            painter.drawPixmap(QRect{ QPoint{ 0, 0 }, properties.szCalendar },
+                item->getElement()->render(date));
+        }
+        painter.end();
+        graphic.save(QString{ "%1/%2 %3.png" }.arg(path).arg(QString::number(date.month()))
+            .arg(locale.toString(date, "MMMM")), "PNG");
+    }
+    this->setWindowTitle(title);
+}
+
 bool SimpleCalendarCreator::onNewProject()
 {
     if (UndoHistory::getInstance()->hasUnsave())

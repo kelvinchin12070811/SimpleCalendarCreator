@@ -117,6 +117,11 @@ private slots:
     void onAddObject();
     /**
      * @internal
+     * Slot called when tend to generate final calendar design.
+     */
+    void onGenerateCalendar();
+    /**
+     * @internal
      * Slot when user create new project.
      * @return true if proceed.
      */

@@ -267,5 +267,25 @@
  <resources>
   <include location="../../SimpleCalendarCreator.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btnGenerate</sender>
+   <signal>clicked()</signal>
+   <receiver>SimpleCalendarCreatorClass</receiver>
+   <slot>onGenerateCalendar()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>442</x>
+     <y>262</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>550</x>
+     <y>293</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onGenerateCalendar()</slot>
+ </slots>
 </ui>
