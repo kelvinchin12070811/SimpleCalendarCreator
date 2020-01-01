@@ -118,6 +118,10 @@ void SimpleCalendarCreator::saveWorker(const QString& path, const QString& creat
         meta.add("file.created", createdTime.toStdString());
 
     pugi::xml_document document;
+    auto declaration = document.append_child(pugi::xml_node_type::node_declaration);
+    declaration.append_attribute("version").set_value("1.0");
+    declaration.append_attribute("encoding").set_value("utf-8");
+
     auto design = document.append_child("design");
     auto project = design.append_child("project");
     project.append_child("target-year").text().set(properties.selectedYear);
