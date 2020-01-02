@@ -265,7 +265,8 @@ void SimpleCalendarCreator::onOpenProject()
 {
     constexpr std::string_view error_dialog_title{ "Error on Opening File" };
 
-    auto path = QFileDialog::getOpenFileName(this, "Open file...", {}, "Calendar design(*.calendar)");
+    auto path = QFileDialog::getOpenFileName(this, "Open file...", QDir::homePath(),
+        "Calendar design(*.calendar)");
     if (path.isEmpty()) return;
     
     if (!onNewProject()) return;
@@ -447,7 +448,8 @@ void SimpleCalendarCreator::onSaveProject()
 
 void SimpleCalendarCreator::onSaveProjectAs()
 {
-    QString path{ QFileDialog::getSaveFileName(this, "Save as", "", "Calendar design(*.calendar)") };
+    QString path{ QFileDialog::getSaveFileName(this, "Save as", QDir::homePath(),
+        "Calendar design(*.calendar)") };
 #ifdef _DEBUG
     qDebug() << "output path: " << path;
 #endif // _DEBUG
