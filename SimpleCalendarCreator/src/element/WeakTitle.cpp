@@ -59,10 +59,10 @@ namespace element
         return rendered;
     }
     
-    void WeakTitle::edit()
+    void WeakTitle::edit(QWidget* parent)
     {
-        auto dialog = std::make_unique<EditWeakTitle>(&properties);
-        QString title{ dialog->windowTitle().arg(parent->text()) };
+        auto dialog = std::make_unique<EditWeakTitle>(&properties, parent);
+        QString title{ dialog->windowTitle().arg(this->parent->text()) };
         dialog->setWindowTitle(title);
         dialog->forwardConnect(std::bind(&WeakTitle::drawOutline, this));
         dialog->exec();

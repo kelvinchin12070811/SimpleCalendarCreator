@@ -46,8 +46,9 @@ namespace element
         virtual QPixmap render(const QDate& date) = 0;
         /**
          * Allow user to modifide the properties of the element.
+         * @param parent Parent of edit dialog, nullptr for no parent.
          */
-        virtual void edit() = 0;
+        virtual void edit(QWidget* parent = nullptr) = 0;
 
         /**
          * Serialize data for save file feature.

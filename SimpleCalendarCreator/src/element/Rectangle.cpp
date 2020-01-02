@@ -57,11 +57,11 @@ namespace element
         return rendered;
     }
     
-    void Rectangle::edit()
+    void Rectangle::edit(QWidget* parent)
     {
-        auto dialog = std::make_unique<EditRectangle>(&properties);
+        auto dialog = std::make_unique<EditRectangle>(&properties, parent);
         auto dialogTitle = dialog->windowTitle();
-        dialog->setWindowTitle(dialogTitle.arg(parent->text()));
+        dialog->setWindowTitle(dialogTitle.arg(this->parent->text()));
         dialog->forwardConnect(std::bind(&Rectangle::drawRect, this));
         dialog->exec();
     }

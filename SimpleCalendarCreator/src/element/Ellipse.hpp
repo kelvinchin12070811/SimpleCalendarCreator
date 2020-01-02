@@ -62,7 +62,7 @@ namespace element
         void setSize(const QSize& size) override;
         const QPixmap& getRenderedGraphics() override;
         QPixmap render(const QDate& date) override;
-        void edit() override;
+        void edit(QWidget* parent = nullptr) override;
         void serialize(pugi::xml_node* node) override;
         void deserialize(const pugi::xml_node& node) override;
 

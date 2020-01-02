@@ -58,10 +58,10 @@ namespace element
         return rendered;
     }
     
-    void MonthTitle::edit()
+    void MonthTitle::edit(QWidget* parent)
     {
-        auto dialog = std::make_unique<EditMonthTitle>(&properties);
-        QString title{ dialog->windowTitle().arg(parent->text()) };
+        auto dialog = std::make_unique<EditMonthTitle>(&properties, parent);
+        QString title{ dialog->windowTitle().arg(this->parent->text()) };
         dialog->setWindowTitle(title);
         dialog->forwardConnect(std::bind(&MonthTitle::drawOutline, this));
         dialog->exec();

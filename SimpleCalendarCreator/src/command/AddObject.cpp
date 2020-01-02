@@ -12,7 +12,7 @@ namespace command
     AddObject::AddObject(SimpleCalendarCreator* mainWindow, QListWidget* list) :
         list(list)
     {
-        auto creator = std::make_unique<ObjectCreator>();
+        auto creator = std::make_unique<ObjectCreator>(mainWindow);
         creator->exec();
         if (!creator->isAccepted()) return;
         item = new CustomListWidgetItem{ mainWindow, creator->getObjectName(), creator->createElement() };

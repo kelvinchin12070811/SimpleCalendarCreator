@@ -64,8 +64,6 @@ void SimpleCalendarCreator::resizeEvent(QResizeEvent* ev)
 
 void SimpleCalendarCreator::connectObjects()
 {
-    connect(ui->actionAbout, &QAction::triggered,
-        [this]() { QMessageBox::about(this, this->windowTitle(), "Created by Kelvin Chin"); });
     connect(ui->actionAbout_Qt, &QAction::triggered,
         [this]() { QMessageBox::aboutQt(this, this->windowTitle()); });
     connect(ui->actionNew, &QAction::triggered, [this]() { onNewProject(); });
@@ -78,7 +76,7 @@ void SimpleCalendarCreator::connectObjects()
     connect(ui->btnEditObject, &QPushButton::clicked, [this]() {
         auto itm = this->ui->objectList->currentItem();
         if (itm == nullptr) return;
-        static_cast<CustomListWidgetItem*>(itm)->getElement()->edit();
+        static_cast<CustomListWidgetItem*>(itm)->getElement()->edit(this);
     });
     connect(ui->btnEditProps, &QPushButton::clicked, [this]() {
         auto dialogue = std::make_unique<EditProjectInfo>(&properties,
@@ -88,7 +86,7 @@ void SimpleCalendarCreator::connectObjects()
     connect(ui->btnRemoveObject, &QPushButton::clicked, this, &SimpleCalendarCreator::onRemoveObject);
     connect(ui->btnPreview, &QPushButton::clicked, [this]() {
         auto previewWindow = std::make_unique<PreviewWindow>(*ui->objectList, properties.selectedYear,
-            properties.szCalendar);
+            properties.szCalendar, this);
         previewWindow->exec();
     });
 }
@@ -168,6 +166,11 @@ void SimpleCalendarCreator::saveWorker(const QString& path, const QString& creat
     savedPath = path;
     setProjectName(savedPath.completeBaseName());
     UndoHistory::getInstance()->changesSaved();
+}
+
+void SimpleCalendarCreator::onAbout()
+{
+    BOOST_ASSERT_MSG(false, "unimplemented function");
 }
 
 void SimpleCalendarCreator::onAddObject()

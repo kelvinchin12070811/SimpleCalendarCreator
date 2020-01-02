@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>SimpleCalendarCreator</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../SimpleCalendarCreator.qrc">
+    <normaloff>:/resource/icons/icon.svg</normaloff>:/resource/icons/icon.svg</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_5">
     <item>
@@ -284,8 +288,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionAbout</sender>
+   <signal>triggered()</signal>
+   <receiver>SimpleCalendarCreatorClass</receiver>
+   <slot>onAbout()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>278</x>
+     <y>279</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onGenerateCalendar()</slot>
+  <slot>onAbout()</slot>
  </slots>
 </ui>

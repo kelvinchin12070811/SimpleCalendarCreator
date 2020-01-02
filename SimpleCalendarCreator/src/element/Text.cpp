@@ -55,10 +55,10 @@ namespace element
         return rendered;
     }
     
-    void Text::edit()
+    void Text::edit(QWidget* parent)
     {
-        auto dialog = std::make_unique<EditText>(&properties);
-        QString title = dialog->windowTitle().arg(parent->text());
+        auto dialog = std::make_unique<EditText>(&properties, parent);
+        QString title = dialog->windowTitle().arg(this->parent->text());
         dialog->setWindowTitle(title);
         dialog->forwardConnect(std::bind(&Text::drawOutline, this));
         dialog->exec();

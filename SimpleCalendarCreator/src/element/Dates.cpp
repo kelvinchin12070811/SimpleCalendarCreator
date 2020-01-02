@@ -63,10 +63,10 @@ namespace element
         return rendered;
     }
 
-    void Dates::edit()
+    void Dates::edit(QWidget* parent)
     {
-        auto dialog = std::make_unique<EditDates>(&properties);
-        QString title{ dialog->windowTitle().arg(parent->text()) };
+        auto dialog = std::make_unique<EditDates>(&properties, parent);
+        QString title{ dialog->windowTitle().arg(this->parent->text()) };
         dialog->setWindowTitle(title);
         dialog->forwardConnect(std::bind(&Dates::drawOutline, this));
         dialog->exec();

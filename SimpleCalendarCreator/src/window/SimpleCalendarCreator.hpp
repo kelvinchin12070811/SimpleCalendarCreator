@@ -112,6 +112,11 @@ private:
 private slots:
     /**
      * @internal
+     * Slot called when tend to show about dialog box.
+     */
+    void onAbout();
+    /**
+     * @internal
      * Slot when a calendar object is being to add to the design.
      */
     void onAddObject();

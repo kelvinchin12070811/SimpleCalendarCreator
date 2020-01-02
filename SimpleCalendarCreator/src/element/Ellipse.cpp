@@ -62,13 +62,13 @@ namespace element
         return rendered;
     }
     
-    void Ellipse::edit()
+    void Ellipse::edit(QWidget* parent)
     {
-        auto dialog = std::make_unique<EditEllipse>(&properties);
+        auto dialog = std::make_unique<EditEllipse>(&properties, parent);
         dialog->forwardConnect(std::bind(&Ellipse::drawEllipse, this));
         
         QString title{ dialog->windowTitle() };
-        dialog->setWindowTitle(title.arg(parent->text()));
+        dialog->setWindowTitle(title.arg(this->parent->text()));
         dialog->exec();
     }
     
