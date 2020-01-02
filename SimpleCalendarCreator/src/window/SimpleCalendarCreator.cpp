@@ -15,6 +15,7 @@
 
 #include <qdatetime.h>
 #include <qdebug.h>
+#include <QDesktopServices>
 #include <qfiledialog.h>
 #include <qmessagebox.h>
 #include <qpainter.h>
@@ -23,6 +24,7 @@
 #include "command/RemoveObject.hpp"
 #include "command/UndoHistory.hpp"
 #include "element/CalendarObjectFactory.hpp"
+#include "window/About.hpp"
 #include "window/CalendarResizer.hpp"
 #include "window/EditProjectInfo.hpp"
 #include "window/PreviewWindow.hpp"
@@ -52,7 +54,7 @@ QSize SimpleCalendarCreator::getCalendarSize() const noexcept
 void SimpleCalendarCreator::setProjectName(const QString& value) noexcept
 {
     projectName = value;
-    this->setWindowTitle(QString{ SimpleCalendarCreator::window_title.data() }.arg(value));
+    this->setWindowTitle(QString{ SimpleCalendarCreator::window_title }.arg(value));
 }
 
 void SimpleCalendarCreator::resizeEvent(QResizeEvent* ev)
@@ -105,9 +107,9 @@ void SimpleCalendarCreator::saveWorker(const QString& path, const QString& creat
 
     boost::property_tree::ptree meta;
     meta.add("spec.version", "1.0.0");
-    meta.add("app.uid", SimpleCalendarCreator::app_uid.data());
-    meta.add("app.version", SimpleCalendarCreator::app_version.data());
-    meta.add("file.version", SimpleCalendarCreator::file_version.data());
+    meta.add("app.uid", SimpleCalendarCreator::app_uid);
+    meta.add("app.version", SimpleCalendarCreator::app_version);
+    meta.add("file.version", SimpleCalendarCreator::file_version);
     meta.add("file.modified", modTime.toStdString());
 
     if (createdTime.isEmpty())
@@ -170,7 +172,9 @@ void SimpleCalendarCreator::saveWorker(const QString& path, const QString& creat
 
 void SimpleCalendarCreator::onAbout()
 {
-    BOOST_ASSERT_MSG(false, "unimplemented function");
+    auto about = std::make_unique<About>(this);
+    about->setWindowTitle(QString{ "About Simple Calendar Creator v" } +SimpleCalendarCreator::app_version);
+    about->exec();
 }
 
 void SimpleCalendarCreator::onAddObject()
@@ -300,14 +304,14 @@ void SimpleCalendarCreator::onOpenProject()
     auto specVer = QString::fromStdString(metaIni.get<std::string>("spec.version"));
     auto appId = QString::fromStdString(metaIni.get<std::string>("app.uid"));
     auto fileVersion = QString::fromStdString(metaIni.get<std::string>("file.version"));
-    if (appId != SimpleCalendarCreator::app_uid.data())
+    if (appId != SimpleCalendarCreator::app_uid)
     {
         QMessageBox::critical(this, static_cast<std::string>(error_dialog_title).c_str(),
             "Simple Calendar Creator is unable to open this file.");
         return;
     }
 
-    if (specVer > "1.0.0" || fileVersion > SimpleCalendarCreator::file_version.data())
+    if (specVer > "1.0.0" || fileVersion > SimpleCalendarCreator::file_version)
     {
         QMessageBox::critical(this, error_dialog_title.data(),
             "Unable to open file, it's designed for newer program");
@@ -421,7 +425,7 @@ void SimpleCalendarCreator::onSaveProject()
     }
 
     auto appId = QString::fromStdString(metaIni.get<std::string>("app.uid"));
-    if (appId != SimpleCalendarCreator::app_uid.data())
+    if (appId != SimpleCalendarCreator::app_uid)
     {
         QMessageBox::critical(this, "Unsupported File Format",
             "This file is not created for Simple Calendar Creator");
@@ -430,8 +434,8 @@ void SimpleCalendarCreator::onSaveProject()
 
     auto verFile = QString::fromStdString(metaIni.get<std::string>("file.version"));
     auto verApp = QString::fromStdString(metaIni.get<std::string>("app.version"));
-    if (verFile > SimpleCalendarCreator::file_version.data() ||
-        verApp > SimpleCalendarCreator::app_version.data())
+    if (verFile > SimpleCalendarCreator::file_version ||
+        verApp > SimpleCalendarCreator::app_version)
     {
         QMessageBox::critical(this, "Unsupported File Format",
             "This file is created for newer version of Simple Calendar Creator which is not supported.");
@@ -448,4 +452,14 @@ void SimpleCalendarCreator::onSaveProjectAs()
     qDebug() << "output path: " << path;
 #endif // _DEBUG
     saveWorker(path);
+}
+
+void SimpleCalendarCreator::onShowDependencies()
+{
+    QUrl path{ "file:///" + QCoreApplication::applicationDirPath() + "/3rd party notice.zip" };
+    bool result{ QDesktopServices::openUrl(path)};
+    if (!result)
+    {
+        QMessageBox::information(this, "Operation Failed", "Failed to open " + path.toString());
+    }
 }

@@ -25,6 +25,7 @@ HEADERS += ./src/element/Dates.hpp \
     ./src/element/CustomListWidgetItem.hpp \
     ./src/element/Element.hpp \
     ./src/window/SimpleCalendarCreator.hpp \
+    ./src/window/object_editor/EditDates.hpp \
     ./src/window/object_editor/EditWeakTitle.hpp \
     ./src/window/EditProjectInfo.hpp \
     ./src/window/object_editor/EditMonthTitle.hpp \
@@ -37,12 +38,15 @@ HEADERS += ./src/element/Dates.hpp \
     ./src/window/PreviewWindow.hpp \
     ./src/window/CalendarResizer.hpp \
     ./src/window/ObjectCreator.hpp \
-    ./src/window/object_editor/EditDates.hpp
-SOURCES += ./src/element/WeakTitle.cpp \
+    ./resource.h \
+    ./src/window/About.hpp
+SOURCES += ./src/element/Dates.cpp \
+    ./src/element/WeakTitle.cpp \
     ./src/window/EditProjectInfo.cpp \
     ./src/element/MonthTitle.cpp \
     ./src/element/TemplatedText.cpp \
     ./src/element/Text.cpp \
+    ./src/window/object_editor/EditDates.cpp \
     ./src/window/object_editor/EditEllipse.cpp \
     ./src/element/Ellipse.cpp \
     ./src/window/object_editor/EditMonthTitle.cpp \
@@ -65,8 +69,9 @@ SOURCES += ./src/element/WeakTitle.cpp \
     ./src/window/object_editor/EditWeakTitle.cpp \
     ./src/window/PreviewWindow.cpp \
     ./src/window/SimpleCalendarCreator.cpp \
-    ./src/window/object_editor/EditDates.cpp
+    ./src/window/About.cpp
 FORMS += ./src/window/EditProjectInfo.ui \
+    ./src/window/object_editor/EditDates.ui \
     ./src/window/object_editor/EditEllipse.ui \
     ./src/window/object_editor/EditMonthTitle.ui \
     ./src/window/object_editor/EditRectangle.ui \
@@ -78,5 +83,5 @@ FORMS += ./src/window/EditProjectInfo.ui \
     ./src/window/object_editor/EditWeakTitle.ui \
     ./src/window/PreviewWindow.ui \
     ./src/window/SimpleCalendarCreator.ui \
-    ./src/window/object_editor/EditDates.ui
+    ./src/window/About.ui
 RESOURCES += SimpleCalendarCreator.qrc

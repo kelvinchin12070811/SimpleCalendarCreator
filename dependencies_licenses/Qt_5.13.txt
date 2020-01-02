@@ -1,1 +1,1 @@
-Licenses used in Qt 5.13.0https://doc.qt.io/archives/qt-5.13/licenses-used-in-qt.htmlQt 5.13.0 Licensinghttps://doc.qt.io/archives/qt-5.13/licensing.htmlComponent Used:Qt5 CoreQt5 GuiQt5 Widgets
+Licenses used in Qt 5.13.0https://doc.qt.io/archives/qt-5.13/licenses-used-in-qt.htmlQt 5.13.0 Licensinghttps://doc.qt.io/archives/qt-5.13/licensing.htmlComponent Used:Qt5 CoreQt5 GuiQt5 WidgetsNo GPL licensed component is used.

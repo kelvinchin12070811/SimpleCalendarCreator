@@ -123,6 +123,7 @@
   <ItemGroup>
     <ClCompile Include="src\element\Dates.cpp" />
     <ClCompile Include="src\element\WeakTitle.cpp" />
+    <ClCompile Include="src\window\About.cpp" />
     <ClCompile Include="src\window\EditProjectInfo.cpp" />
     <ClCompile Include="src\element\MonthTitle.cpp" />
     <ClCompile Include="src\element\TemplatedText.cpp" />
@@ -155,6 +156,7 @@
     <QtMoc Include="src\window\SimpleCalendarCreator.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="src\window\About.ui" />
     <QtUic Include="src\window\EditProjectInfo.ui" />
     <QtUic Include="src\window\object_editor\EditDates.ui" />
     <QtUic Include="src\window\object_editor\EditEllipse.ui" />
@@ -176,6 +178,10 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\element\Dates.hpp" />
     <ClInclude Include="src\element\WeakTitle.hpp" />
+    <QtMoc Include="src\window\About.hpp">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src;.\src\window\object_editor;.\src</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src;.\src\window\object_editor;.\src</IncludePath>
+    </QtMoc>
     <QtMoc Include="src\window\object_editor\EditDates.hpp">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src;.\src\window\object_editor;.\src</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src\window;$(ProjectDir)\src;.\src\window\object_editor;.\src</IncludePath>

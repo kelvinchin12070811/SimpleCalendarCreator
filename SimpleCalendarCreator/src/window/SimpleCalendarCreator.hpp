@@ -56,13 +56,13 @@ public:
     /** default size of the calendar design. */
     static constexpr QSize default_calender_size{ 783, 709 };
     /** Window title text. */
-    static constexpr std::string_view window_title{ "%1 - Simple Calendar Creator" };
+    static constexpr char* const window_title{ "%1 - Simple Calendar Creator" };
     /** Version num of the app, in major.minor.bugfix format. */
-    static constexpr std::string_view app_version{ "1.0.0" };
+    static constexpr char* const app_version{ "1.0.0" };
     /** Uid of the applab project. */
-    static constexpr std::string_view app_uid{ "io.gitlab.kelvinchin12070811.simplecalendarcreator" };
+    static constexpr char* const app_uid{ "io.gitlab.kelvinchin12070811.simplecalendarcreator" };
     /** Version of the file format, in major.minor.bugfix format.*/
-    static constexpr std::string_view file_version{ "1.0.0" };
+    static constexpr char* const file_version{ "1.0.0" };
 public:
     SimpleCalendarCreator(QWidget *parent = Q_NULLPTR);
     /**
@@ -156,6 +156,11 @@ private slots:
      * Slot when trying to save project as.
      */
     void onSaveProjectAs();
+    /**
+     * @internal
+     * Slot called when tend to open dependencies licenses.
+     */
+    void onShowDependencies();
 
 private:
     /**
