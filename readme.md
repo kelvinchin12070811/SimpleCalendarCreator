@@ -1,3 +1,3 @@
 # Simple Calendar Creator
 
-A little utility that generate calendar with specified year
+A little utility that generate minimalist calendar with specified year.
