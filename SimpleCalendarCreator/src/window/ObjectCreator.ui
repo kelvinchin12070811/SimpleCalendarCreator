@@ -36,7 +36,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lneObjectName"/>
+      <widget class="QLineEdit" name="lneObjectName">
+       <property name="text">
+        <string>Unnamed</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

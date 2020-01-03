@@ -7,6 +7,7 @@
 
 #include <boost/assert.hpp>
 
+#include <QMessageBox>
 #include <qmetaobject.h>
 #include <qstringlist.h>
 
@@ -64,6 +65,11 @@ void ObjectCreator::initUi()
 
 void ObjectCreator::onAccepted()
 {
+    if (ui->lneObjectName->text().isEmpty())
+    {
+        QMessageBox::information(this, "Required Field", "Object name is required.");
+        return;
+    }
     accepted = true;
     this->close();
 }
