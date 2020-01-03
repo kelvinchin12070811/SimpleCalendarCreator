@@ -58,7 +58,7 @@ public:
     /** Window title text. */
     static constexpr char* const window_title{ "%1 - Simple Calendar Creator" };
     /** Version num of the app, in major.minor.bugfix format. */
-    static constexpr char* const app_version{ "1.0.0" };
+    static constexpr char* const app_version{ "1.0.1" };
     /** Uid of the applab project. */
     static constexpr char* const app_uid{ "io.gitlab.kelvinchin12070811.simplecalendarcreator" };
     /** Version of the file format, in major.minor.bugfix format.*/
