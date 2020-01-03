@@ -149,6 +149,7 @@ namespace element
 
     void WeakTitle::drawTitle(QPainter* painter, const QDate& date)
     {
+        if (properties.lables.size() <= 0) return;
         painter->setFont(properties.font);
         QPen pen;
         int idxToDraw{ std::clamp(date.month() - 1, 0, 11) };
