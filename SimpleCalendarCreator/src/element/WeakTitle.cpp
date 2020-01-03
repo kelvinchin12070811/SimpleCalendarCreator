@@ -55,7 +55,7 @@ namespace element
 
         QPainter painter{ &rendered };
         painter.setRenderHint(QPainter::RenderHint::TextAntialiasing);
-        drawTitle(&painter, QDate{ QDate::currentDate().year(), 1, 1 });
+        drawTitle(&painter, date);
         return rendered;
     }
     
