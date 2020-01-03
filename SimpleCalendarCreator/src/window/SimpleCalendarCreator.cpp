@@ -16,6 +16,7 @@
 #include <qdatetime.h>
 #include <qdebug.h>
 #include <QDesktopServices>
+#include <qevent.h>
 #include <qfiledialog.h>
 #include <qmessagebox.h>
 #include <qpainter.h>
@@ -55,6 +56,23 @@ void SimpleCalendarCreator::setProjectName(const QString& value) noexcept
 {
     projectName = value;
     this->setWindowTitle(QString{ SimpleCalendarCreator::window_title }.arg(value));
+}
+
+void SimpleCalendarCreator::closeEvent(QCloseEvent* ev)
+{
+    if (UndoHistory::getInstance()->hasUnsave())
+    {
+        auto rst = QMessageBox::warning(this, "Unsaved Work",
+            "This operation will cause unsaved data lost, are you sure to continue?",
+            QMessageBox::Yes | QMessageBox::No);
+        if (rst != QMessageBox::Yes)
+        {
+            ev->ignore();
+            return;
+        }
+    }
+
+    ev->accept();
 }
 
 void SimpleCalendarCreator::resizeEvent(QResizeEvent* ev)

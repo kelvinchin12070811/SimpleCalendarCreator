@@ -85,6 +85,11 @@ public:  //Setters
 protected:
     /**
      * @internal
+     * Event handeling function when closing the window.
+     */
+    void closeEvent(QCloseEvent* ev) override;
+    /**
+     * @internal
      * Event handeling function when the window is resized.
      */
     void resizeEvent(QResizeEvent* ev) override;
